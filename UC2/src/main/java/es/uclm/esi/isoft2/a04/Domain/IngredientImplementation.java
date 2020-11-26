@@ -1,24 +1,23 @@
 import General.Domain.*;
 
 public class IngredientImplementation implements Ingredient {
+	
+	private static IngredientDAO inegredientDAO;
 
 	private int id;
 	private float amount;
 	private string name;
 
 	public static IngredientImplementation[] readAll() {
-		// TODO - implement IngredientImplementation.readAll
-		throw new UnsupportedOperationException();
+		return ingredientDAO.readAlllIngredients();
 	}
 
 	public void read() {
-		// TODO - implement IngredientImplementation.read
-		throw new UnsupportedOperationException();
+		ingredientDAO.readIngredient(this);
 	}
 
 	public int update() {
-		// TODO - implement IngredientImplementation.update
-		throw new UnsupportedOperationException();
+		return ingredientDAO.updateIngredient(this);
 	}
 
 }

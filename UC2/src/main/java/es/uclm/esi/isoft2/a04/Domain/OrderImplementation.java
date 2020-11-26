@@ -2,11 +2,18 @@ import General.Domain.*;
 
 public class OrderImplementation implements Order {
 
-	private int state;
+	private static OrderDAO orderDAO;
+
 	private static int OPEN = 0;
 	private static int CLOSED = 1;
 	private static int PAYED = 2;
+
+	private int state;
 	private Date datetime;
+	
+	private int id;
+	private Waiter waiter;
+	private Table table;
 
 	/**
 	 * 
@@ -15,8 +22,9 @@ public class OrderImplementation implements Order {
 	 * @param table
 	 */
 	public OrderImplementation(int id, Waiter waiter, Table table) {
-		// TODO - implement OrderImplementation.OrderImplementation
-		throw new UnsupportedOperationException();
+		this.id = id;
+		this.waiter = waiter;
+		this.table = table;
 	}
 
 	/**
@@ -32,23 +40,19 @@ public class OrderImplementation implements Order {
 	}
 
 	public static OrderImplementation[] readAll() {
-		// TODO - implement OrderImplementation.readAll
-		throw new UnsupportedOperationException();
+		return orderDAO.readAllOrders();
 	}
 
 	public void read() {
-		// TODO - implement OrderImplementation.read
-		throw new UnsupportedOperationException();
+		orderDAO.readOrder(this);
 	}
 
 	public int create() {
-		// TODO - implement OrderImplementation.create
-		throw new UnsupportedOperationException();
+		return orderDAO.createOrder(this);
 	}
 
 	public int update() {
-		// TODO - implement OrderImplementation.update
-		throw new UnsupportedOperationException();
+		return orderDAO.updateOrder(this);
 	}
 
 }

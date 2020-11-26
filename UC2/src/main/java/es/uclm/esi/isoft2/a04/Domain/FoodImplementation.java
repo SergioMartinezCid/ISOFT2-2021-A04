@@ -2,9 +2,12 @@ import General.Domain.*;
 
 public abstract class FoodImplementation implements Food {
 
+	private static FoodDAO foodDAO;
+
+	private int type;
 	private int id;
 	private string name;
-	private int ready;
+	private boolean ready;
 
 	/**
 	 * 
@@ -12,8 +15,8 @@ public abstract class FoodImplementation implements Food {
 	 * @param name
 	 */
 	public FoodImplementation(int id, string name) {
-		// TODO - implement FoodImplementation.FoodImplementation
-		throw new UnsupportedOperationException();
+		this.id = id;
+		this.name = name;
 	}
 
 	/**
@@ -25,18 +28,15 @@ public abstract class FoodImplementation implements Food {
 	public abstract int getType();
 
 	public static FoodImplementation[] readAll() {
-		// TODO - implement FoodImplementation.readAll
-		throw new UnsupportedOperationException();
+		return foodDAO.readAllFood();
 	}
 
 	public void read() {
-		// TODO - implement FoodImplementation.read
-		throw new UnsupportedOperationException();
+		foodDAO.readFood(this);
 	}
 
 	public boolean isReady() {
-		// TODO - implement FoodImplementation.isReady
-		throw new UnsupportedOperationException();
+		return this.ready;
 	}
 
 	/**
@@ -44,8 +44,7 @@ public abstract class FoodImplementation implements Food {
 	 * @param ready
 	 */
 	public void setReady(boolean ready) {
-		// TODO - implement FoodImplementation.setReady
-		throw new UnsupportedOperationException();
+		this.ready = ready;
 	}
 
 }

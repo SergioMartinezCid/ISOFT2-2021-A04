@@ -1,6 +1,16 @@
 public class Dish extends FoodImplementation {
 
-	private int type;
+	/**
+	 * 
+	 * @param type
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public int getType() {
+		return this.type;
+	}
 
 	/**
 	 * 
@@ -9,8 +19,8 @@ public class Dish extends FoodImplementation {
 	 * @param type
 	 */
 	public Dish(int id, string name, int type) {
-		// TODO - implement Dish.Dish
-		throw new UnsupportedOperationException();
+		super(id, name);
+		setType(type);
 	}
 
 }
