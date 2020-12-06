@@ -1,24 +1,29 @@
 package com.uclm.esi.isoft2.a04.Persistence;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.naming.spi.Resolver;
+
 import com.uclm.esi.isoft2.a04.Domain.*;
 
-public class WaiterDAO {
-
-	public WaiterImplementation[] readAllWaiters() {
-		// TODO - implement WaiterDAO.readAllWaiters
+public class BookingDAO {
+	
+	
+	public Booking[] readAllBookings() {
+		// TODO - implement BookingDao.readAllBookings
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * 
-	 * @param waiter
+	 * @param booking
 	 */
-	public void readWaiter(WaiterImplementation waiter) {
+	public void readBooking(Booking booking) {
+		
 		
 		try {
 			String url = "jdbc:mysql://172.20.48.70:3306/XXXdbservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -26,39 +31,38 @@ public class WaiterDAO {
 			Statement statement = conn.createStatement();
 			ResultSet resultQuery;
 			
-			resultQuery = statement.executeQuery("SELECT  FROM WHERE ");
+			resultQuery = statement.executeQuery("SELECT booking.getClientID() FROM Booking WHERE id = booking.getClientID()");
 			
 		}
 		catch (Exception e) {
 			System.err.println("An exception has occur");
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 	/**
 	 * 
-	 * @param waiter
+	 * @param booking
 	 */
-	public int createWaiter(WaiterImplementation waiter) {
-		// TODO - implement WaiterDAO.createWaiter
+	public int createBooking(Booking booking) {
+		// TODO - implement BookingDao.createBooking
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * 
-	 * @param waiter
+	 * @param booking
 	 */
-	public int updateWaiter(WaiterImplementation waiter) {
-		// TODO - implement WaiterDAO.updateWaiter
+	public int updateBooking(Booking booking) {
+		// TODO - implement BookingDao.updateBooking
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * 
-	 * @param waiter
+	 * @param booking
 	 */
-	public int deleteWaiter(WaiterImplementation waiter) {
+	public int deleteBooking(Booking booking) {
 		
 		try {
 			String url = "jdbc:mysql://172.20.48.70:3306/XXXdbservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -66,7 +70,7 @@ public class WaiterDAO {
 			Statement statement = conn.createStatement();
 			ResultSet resultQuery;
 			
-			resultQuery = statement.executeQuery("DELETE FROM  WHERE id = ");
+			resultQuery = statement.executeQuery("DELETE FROM Booking WHERE id = booking.getClientID()");
 			
 			return resultQuery.getType();
 			
@@ -76,6 +80,7 @@ public class WaiterDAO {
 			System.out.println(e.getMessage());
 		}
 		return -1;
+		
 	}
 
 }

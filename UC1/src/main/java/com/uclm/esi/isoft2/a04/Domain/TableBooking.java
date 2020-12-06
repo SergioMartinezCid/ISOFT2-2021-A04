@@ -1,4 +1,6 @@
-package Domain;
+package com.uclm.esi.isoft2.a04.Domain;
+
+import java.util.Date;
 
 public class TableBooking {
 
@@ -8,7 +10,7 @@ public class TableBooking {
 	 * @param guests
 	 * @param clientID
 	 */
-	public boolean bookTable(Date turn, int guests, string clientID) {
+	public boolean bookTable(Date turn, int guests, String clientID) {
 		// TODO - implement TableBooking.bookTable
 		throw new UnsupportedOperationException();
 	}

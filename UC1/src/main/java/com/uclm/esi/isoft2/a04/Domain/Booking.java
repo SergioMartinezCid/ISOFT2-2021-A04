@@ -1,4 +1,5 @@
-package Domain;
+package com.uclm.esi.isoft2.a04.Domain;
+import java.util.Date;
 
 public class Booking {
 
@@ -6,7 +7,7 @@ public class Booking {
 	 * Date and time of the booking
 	 */
 	private Date Turn;
-	private string clientID;
+	private String clientID;
 	private int tableID;
 
 	/**
@@ -15,12 +16,12 @@ public class Booking {
 	 * @param tableID
 	 * @param date
 	 */
-	public void Booking(string clientID, int tableID, Date date) {
+	public void Booking(String clientID, int tableID, Date date) {
 		// TODO - implement Booking.Booking
 		throw new UnsupportedOperationException();
 	}
 
-	public string getClientID() {
+	public String getClientID() {
 		return this.clientID;
 	}
 
