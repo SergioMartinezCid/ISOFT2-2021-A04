@@ -7,8 +7,11 @@
   </parent>
   <artifactId>UC2</artifactId>
   <name>UC2</name>
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
+  <dependencies>
+  	<dependency>
+  		<groupId>es.uclm.esi.isoft2.a04</groupId>
+  		<artifactId>General</artifactId>
+  		<version>[0.0.0,)</version>
+  	</dependency>
+  </dependencies>
 </project>
