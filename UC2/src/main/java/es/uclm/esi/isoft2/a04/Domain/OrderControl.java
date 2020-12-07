@@ -6,6 +6,29 @@ public class OrderControl implements Subject {
 
 	/**
 	 * 
+	 * @param o
+	 */
+	public void attach(Observer o) {
+		// TODO - implement
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
+	 * @param o
+	 */
+	public void detach(Observer o) {
+		// TODO - implement
+		throw new UnsupportedOperationException();
+	}
+
+	public void notifySubject() {
+		// TODO - implement
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
 	 * @param id
 	 * @param waiter
 	 * @param table

@@ -28,6 +28,30 @@ public class OrderImplementation implements Order {
 		this.table = table;
 	}
 
+	public int getID() {
+		// TODO - implement
+		throw new UnsupportedOperationException();
+	}
+
+	public Food[] getFood() {
+		// TODO - implement
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
+	 * @param food
+	 */
+	public void setFood(Food[] food) {
+		// TODO - implement
+		throw new UnsupportedOperationException();
+	}
+
+	public float getCost() {
+		// TODO - implement
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * 
 	 * @param state
