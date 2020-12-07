@@ -6,7 +6,7 @@ public abstract class FoodImplementation implements Food {
 
 	private int type;
 	private int id;
-	private string name;
+	private String name;
 	private boolean ready;
 
 	/**
@@ -14,7 +14,7 @@ public abstract class FoodImplementation implements Food {
 	 * @param id
 	 * @param name
 	 */
-	public FoodImplementation(int id, string name) {
+	public FoodImplementation(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}

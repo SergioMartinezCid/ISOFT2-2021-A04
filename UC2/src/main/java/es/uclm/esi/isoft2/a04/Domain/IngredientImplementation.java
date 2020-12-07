@@ -6,7 +6,7 @@ public class IngredientImplementation implements Ingredient {
 
 	private int id;
 	private float amount;
-	private string name;
+	private String name;
 
 	public static IngredientImplementation[] readAll() {
 		return ingredientDAO.readAlllIngredients();
