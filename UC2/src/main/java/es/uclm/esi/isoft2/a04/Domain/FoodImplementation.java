@@ -8,6 +8,8 @@ public abstract class FoodImplementation implements Food {
 	private int id;
 	private String name;
 	private boolean ready;
+	private float cost;
+	private Ingredient[] ingredients;
 
 	/**
 	 * 
@@ -47,44 +49,42 @@ public abstract class FoodImplementation implements Food {
 		this.ready = ready;
 	}
 
-	public boolean isAvaible() {
-		// TODO - implement
+	public boolean isAvailable() {
+		// TODO - this method is a stub, replace with better implementation
 		throw new UnsupportedOperationException();
+		/*for (Ingredient i : this.ingredients) {
+			if (i.getAmount() <= 0.0)
+				return false;
+		}
+		return true;*/
 	}
 
 	public int getID() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		return this.id;
 	}
 
 	public void setName(String name) {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		this.name = name;
 	}
 
 	public String getName() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		return this.name;
 	}
 	
 	public Ingredient[] getIngredients() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		return this.ingredients;
 	}
 
 	public void setIngredients(Ingredient[] ingredients) {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		this.ingredients = ingredients;
 	}
 
 	public float getCost() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		return this.cost;
 	}
 	
 	public void setCost(float cost) {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		this.cost = cost;
 	}
 
 }
