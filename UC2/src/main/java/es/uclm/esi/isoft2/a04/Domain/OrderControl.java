@@ -34,8 +34,7 @@ public class OrderControl implements Subject {
 	 * @param table
 	 */
 	public OrderImplementation createOrder(int id, Waiter waiter, Table table) {
-		// TODO - implement OrderControl.createOrder
-		throw new UnsupportedOperationException();
+		return new OrderImplementation(id, waiter, table);
 	}
 
 	/**
@@ -44,8 +43,7 @@ public class OrderControl implements Subject {
 	 * @param state
 	 */
 	public void setState(OrderImplementation order, int state) {
-		// TODO - implement OrderControl.setState
-		throw new UnsupportedOperationException();
+		order.setState(state);
 	}
 
 	/**
@@ -54,8 +52,11 @@ public class OrderControl implements Subject {
 	 * @param food
 	 */
 	public void setReady(OrderImplementation order, FoodImplementation food) {
-		// TODO - implement OrderControl.setReady
-		throw new UnsupportedOperationException();
+		Food[] fs = order.getFood();
+		for (Food f : fs) {
+			if (food == f)
+				((FoodImplementation)f).setReady(food.isReady());
+		}
 	}
 
 }
