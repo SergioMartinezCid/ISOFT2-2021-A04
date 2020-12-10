@@ -5,9 +5,9 @@ public class OrderImplementation implements Order {
 
 	private static OrderDAO orderDAO;
 
-	private static int OPEN = 0;
-	private static int CLOSED = 1;
-	private static int PAYED = 2;
+	private static final int OPEN = 0;
+	private static final int CLOSED = 1;
+	private static final int PAYED = 2;
 
 	private int state;
 	private Date datetime;
@@ -15,6 +15,8 @@ public class OrderImplementation implements Order {
 	private int id;
 	private Waiter waiter;
 	private Table table;
+	
+	private Food[] food;
 
 	/**
 	 * 
@@ -29,13 +31,11 @@ public class OrderImplementation implements Order {
 	}
 
 	public int getID() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		return this.id;
 	}
 
 	public Food[] getFood() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		return this.food;
 	}
 
 	/**
@@ -43,13 +43,15 @@ public class OrderImplementation implements Order {
 	 * @param food
 	 */
 	public void setFood(Food[] food) {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		this.food = food;
 	}
 
 	public float getCost() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		float cost = 0.0f;
+		for (Food f : this.food) {
+			cost += f.getCost();
+		}
+		return cost;
 	}
 
 	/**

@@ -16,7 +16,7 @@ public interface Food {
 
 	int getType();
 
-	boolean isAvaible();
+	boolean isAvailable();
 
 	int getID();
 

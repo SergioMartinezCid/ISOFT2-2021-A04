@@ -21,13 +21,11 @@ public class IngredientImplementation implements Ingredient {
 	}
 
 	public int getID() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		return this.id;
 	}
 
 	public float getAmount() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		return this.amount;
 	}
 
 	/**
@@ -35,13 +33,11 @@ public class IngredientImplementation implements Ingredient {
 	 * @param amount
 	 */
 	public void setAmount(float amount) {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		this.amount = amount;
 	}
 
 	public String getName() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		return this.name;
 	}
 
 	/**
@@ -49,8 +45,7 @@ public class IngredientImplementation implements Ingredient {
 	 * @param name
 	 */
 	public void setName(String name) {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		this.name = name;
 	}
 
 }
