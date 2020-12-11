@@ -1,6 +1,6 @@
-package Persistance;
+package es.uclm.esi.isoft2.a04.Persistance;
 
-import Domain.*;
+import es.uclm.esi.isoft2.a04.Domain.*;
 
 public class FoodDAO {
 

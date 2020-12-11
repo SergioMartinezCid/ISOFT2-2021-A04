@@ -1,7 +1,7 @@
-package Domain;
+package es.uclm.esi.isoft2.a04.Domain;
 
-import General.Domain.*;
-import Persistance.OrderDAO;
+import es.uclm.esi.isoft2.a04.General.Domain.*;
+import es.uclm.esi.isoft2.a04.Persistance.OrderDAO;
 import java.util.Date;
 
 public class OrderImplementation implements Order {

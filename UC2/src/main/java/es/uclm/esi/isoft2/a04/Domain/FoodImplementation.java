@@ -1,7 +1,7 @@
-package Domain;
+package es.uclm.esi.isoft2.a04.Domain;
 
-import General.Domain.*;
-import Persistance.FoodDAO;
+import es.uclm.esi.isoft2.a04.General.Domain.*;
+import es.uclm.esi.isoft2.a04.Persistance.FoodDAO;
 
 public abstract class FoodImplementation implements Food {
 

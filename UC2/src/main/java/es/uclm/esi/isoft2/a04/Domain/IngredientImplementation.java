@@ -1,7 +1,7 @@
-package Domain;
+package es.uclm.esi.isoft2.a04.Domain;
 
-import General.Domain.*;
-import Persistance.IngredientDAO;
+import es.uclm.esi.isoft2.a04.General.Domain.*;
+import es.uclm.esi.isoft2.a04.Persistance.IngredientDAO;
 
 public class IngredientImplementation implements Ingredient {
 	

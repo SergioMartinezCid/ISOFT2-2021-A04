@@ -1,4 +1,4 @@
-package Domain;
+package es.uclm.esi.isoft2.a04.Domain;
 
 public class Beverage extends FoodImplementation {
 

@@ -1,6 +1,6 @@
-package Domain;
+package es.uclm.esi.isoft2.a04.Domain;
 
-import General.Domain.*;
+import es.uclm.esi.isoft2.a04.General.Domain.*;
 
 public class OrderControl implements Subject {
 

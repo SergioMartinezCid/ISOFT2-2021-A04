@@ -1,4 +1,4 @@
-package Application.Presentation;
+package es.uclm.esi.isoft2.a04.Application.Presentation;
 
 public class JApplication extends JApplicationWindow {
 }
