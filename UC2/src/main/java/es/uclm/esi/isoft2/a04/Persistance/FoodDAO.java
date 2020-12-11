@@ -1,3 +1,7 @@
+package Persistance;
+
+import Domain.*;
+
 public class FoodDAO {
 
 	public FoodImplementation[] readAllFood() {

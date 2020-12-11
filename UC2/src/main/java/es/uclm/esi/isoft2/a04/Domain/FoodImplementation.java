@@ -1,4 +1,7 @@
+package Domain;
+
 import General.Domain.*;
+import Persistance.FoodDAO;
 
 public abstract class FoodImplementation implements Food {
 

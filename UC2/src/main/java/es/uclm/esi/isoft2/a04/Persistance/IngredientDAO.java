@@ -1,3 +1,7 @@
+package Persistance;
+
+import Domain.*;
+
 public class IngredientDAO {
 
 	public IngredientImplementation[] readAlllIngredients() {

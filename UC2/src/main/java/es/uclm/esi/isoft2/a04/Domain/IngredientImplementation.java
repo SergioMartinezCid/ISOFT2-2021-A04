@@ -1,4 +1,7 @@
+package Domain;
+
 import General.Domain.*;
+import Persistance.IngredientDAO;
 
 public class IngredientImplementation implements Ingredient {
 	

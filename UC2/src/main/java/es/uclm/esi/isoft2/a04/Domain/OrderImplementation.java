@@ -1,4 +1,7 @@
+package Domain;
+
 import General.Domain.*;
+import Persistance.OrderDAO;
 import java.util.Date;
 
 public class OrderImplementation implements Order {

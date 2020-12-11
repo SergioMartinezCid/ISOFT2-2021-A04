@@ -1,3 +1,7 @@
+package Persistance;
+
+import Domain.*;
+
 public class OrderDAO {
 
 	public OrderImplementation[] readAllOrders() {
