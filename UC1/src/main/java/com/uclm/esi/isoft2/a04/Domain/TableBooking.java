@@ -1,4 +1,6 @@
-package Domain;
+package com.uclm.esi.isoft2.a04.Domain;
+
+import java.util.Date;
 
 public class TableBooking {
 
@@ -8,9 +10,17 @@ public class TableBooking {
 	 * @param guests
 	 * @param clientID
 	 */
-	public boolean bookTable(Date turn, int guests, string clientID) {
-		// TODO - implement TableBooking.bookTable
-		throw new UnsupportedOperationException();
+	public boolean bookTable(Date turn, int guests, String clientID) {
+		int tableID;
+		//First check if there is a free table for the Date of booking with the proper number of seats
+		tableID = findTable(guests, turn);
+		if(tableID != -1){
+			//assignWaiter(tableID); //If the client arrives on time
+			return true;
+		}else {
+			return false;
+		}
+		
 	}
 
 	/**
@@ -19,8 +29,10 @@ public class TableBooking {
 	 * @param Turn
 	 */
 	public int findTable(int seats, Date Turn) {
-		// TODO - implement TableBooking.findTable
-		throw new UnsupportedOperationException();
+		TableImplementation table = new TableImplementation();
+		
+		return table.checkAvailability(Turn, seats);
+		
 	}
 
 	/**
@@ -28,8 +40,16 @@ public class TableBooking {
 	 * @param tableID
 	 */
 	public int assignWaiter(int tableID) {
-		// TODO - implement TableBooking.assignWaiter
-		throw new UnsupportedOperationException();
+		WaiterImplementation waiter = new WaiterImplementation();
+		waiter.readAll();
+		WaiterImplementation[] waiters = waiter.getWaiterDAO().readAllWaiters();
+		for(int i=0; i<waiters.length; i++) {
+			if(waiters[i].getAssignedTables().size() < waiter.getAssignedTables().size()) {	//Get the waiter with less assigned tables
+				waiter = waiters[i];
+			}
+		}
+		waiter.assignTable(tableID);
+		return waiter.getID();
 	}
 
 }

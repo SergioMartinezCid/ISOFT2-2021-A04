@@ -1,6 +1,6 @@
-package Persistence;
+package com.uclm.esi.isoft2.a04.Persistence;
 
-import Domain.*;
+import com.uclm.esi.isoft2.a04.Domain.TableImplementation;
 
 public class TableDAO {
 
