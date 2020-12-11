@@ -1,3 +1,4 @@
 *.vpp.bak_*
 *.vpp.lck
 /bin/
+.classpath
