@@ -1,25 +1,29 @@
 package com.uclm.esi.isoft2.a04.Persistence;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.naming.spi.Resolver;
+
 import com.uclm.esi.isoft2.a04.Domain.*;
 
-
-public class TableDAO {
-
-	public TableImplementation[] readAllTables() {
-		// TODO - implement TableDAO.readAllTables
+public class BookingDAO {
+	
+	
+	public Booking[] readAllBookings() {
+		// TODO - implement BookingDao.readAllBookings
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * 
-	 * @param table
+	 * @param booking
 	 */
-	public void readTable(TableImplementation table) {
+	public void readBooking(Booking booking) {
+		
 		
 		try {
 			String url = "jdbc:mysql://172.20.48.70:3306/XXXdbservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -27,7 +31,7 @@ public class TableDAO {
 			Statement statement = conn.createStatement();
 			ResultSet resultQuery;
 			
-			resultQuery = statement.executeQuery("SELECT  FROM Booking WHERE ");
+			resultQuery = statement.executeQuery("SELECT booking.getClientID() FROM Booking WHERE id = booking.getClientID()");
 			
 		}
 		catch (Exception e) {
@@ -38,9 +42,27 @@ public class TableDAO {
 
 	/**
 	 * 
-	 * @param table
+	 * @param booking
 	 */
-	public int createTable(TableImplementation table) {
+	public int createBooking(Booking booking) {
+		// TODO - implement BookingDao.createBooking
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
+	 * @param booking
+	 */
+	public int updateBooking(Booking booking) {
+		// TODO - implement BookingDao.updateBooking
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
+	 * @param booking
+	 */
+	public int deleteBooking(Booking booking) {
 		
 		try {
 			String url = "jdbc:mysql://172.20.48.70:3306/XXXdbservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -48,7 +70,7 @@ public class TableDAO {
 			Statement statement = conn.createStatement();
 			ResultSet resultQuery;
 			
-			resultQuery = statement.executeQuery("DELETE FROM  WHERE id = ");
+			resultQuery = statement.executeQuery("DELETE FROM Booking WHERE id = booking.getClientID()");
 			
 			return resultQuery.getType();
 			
@@ -59,25 +81,6 @@ public class TableDAO {
 		}
 		return -1;
 		
-	}
-		
-
-	/**
-	 * 
-	 * @param table
-	 */
-	public int updateTable(TableImplementation table) {
-		// TODO - implement TableDAO.updateTable
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param table
-	 */
-	public int deleteOrder(TableImplementation table) {
-		// TODO - implement TableDAO.deleteOrder
-		throw new UnsupportedOperationException();
 	}
 
 }

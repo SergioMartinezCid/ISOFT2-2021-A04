@@ -20,7 +20,7 @@ public class Booking {
 	 * @param tableID
 	 * @param date
 	 */
-	public void Booking(String clientID, int tableID, Date date) {
+	public Booking(String clientID, int tableID, Date date) {
 		this.clientID = clientID;
 		this.tableID = tableID;
 		this.Turn = date;

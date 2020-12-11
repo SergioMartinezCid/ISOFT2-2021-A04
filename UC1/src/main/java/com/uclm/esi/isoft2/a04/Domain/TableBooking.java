@@ -20,7 +20,6 @@ public class TableBooking {
 		}else {
 			return false;
 		}
-		
 	}
 
 	/**

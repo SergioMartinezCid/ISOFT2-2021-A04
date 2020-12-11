@@ -1,6 +1,12 @@
 package com.uclm.esi.isoft2.a04.Persistence;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import com.uclm.esi.isoft2.a04.Domain.WaiterImplementation;
+
 
 public class WaiterDAO {
 
@@ -14,8 +20,21 @@ public class WaiterDAO {
 	 * @param waiter
 	 */
 	public void readWaiter(WaiterImplementation waiter) {
-		// TODO - implement WaiterDAO.readWaiter
-		throw new UnsupportedOperationException();
+		
+		try {
+			String url = "jdbc:mysql://172.20.48.70:3306/XXXdbservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+			Connection conn = DriverManager.getConnection(url,"","");
+			Statement statement = conn.createStatement();
+			ResultSet resultQuery;
+			
+			resultQuery = statement.executeQuery("SELECT  FROM WHERE ");
+			
+		}
+		catch (Exception e) {
+			System.err.println("An exception has occur");
+			System.out.println(e.getMessage());
+		}
+		
 	}
 
 	/**
@@ -41,8 +60,23 @@ public class WaiterDAO {
 	 * @param waiter
 	 */
 	public int deleteWaiter(WaiterImplementation waiter) {
-		// TODO - implement WaiterDAO.deleteWaiter
-		throw new UnsupportedOperationException();
+		
+		try {
+			String url = "jdbc:mysql://172.20.48.70:3306/XXXdbservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+			Connection conn = DriverManager.getConnection(url,"","");
+			Statement statement = conn.createStatement();
+			ResultSet resultQuery;
+			
+			resultQuery = statement.executeQuery("DELETE FROM  WHERE id = ");
+			
+			return resultQuery.getType();
+			
+		}
+		catch (Exception e) {
+			System.err.println("An exception has occur");
+			System.out.println(e.getMessage());
+		}
+		return -1;
 	}
 
 }
