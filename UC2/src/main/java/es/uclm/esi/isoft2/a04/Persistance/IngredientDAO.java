@@ -1,3 +1,7 @@
+package es.uclm.esi.isoft2.a04.Persistance;
+
+import es.uclm.esi.isoft2.a04.Domain.*;
+
 public class IngredientDAO {
 
 	public IngredientImplementation[] readAlllIngredients() {

@@ -1,8 +1,33 @@
-import General.Domain.*;
+package es.uclm.esi.isoft2.a04.Domain;
+
+import es.uclm.esi.isoft2.a04.General.Domain.*;
 
 public class OrderControl implements Subject {
 
 	private static OrderImplementation[] orders;
+
+	/**
+	 * 
+	 * @param o
+	 */
+	public void attach(Observer o) {
+		// TODO - implement
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * 
+	 * @param o
+	 */
+	public void detach(Observer o) {
+		// TODO - implement
+		throw new UnsupportedOperationException();
+	}
+
+	public void notifySubject() {
+		// TODO - implement
+		throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * 
@@ -11,8 +36,7 @@ public class OrderControl implements Subject {
 	 * @param table
 	 */
 	public OrderImplementation createOrder(int id, Waiter waiter, Table table) {
-		// TODO - implement OrderControl.createOrder
-		throw new UnsupportedOperationException();
+		return new OrderImplementation(id, waiter, table);
 	}
 
 	/**
@@ -21,8 +45,7 @@ public class OrderControl implements Subject {
 	 * @param state
 	 */
 	public void setState(OrderImplementation order, int state) {
-		// TODO - implement OrderControl.setState
-		throw new UnsupportedOperationException();
+		order.setState(state);
 	}
 
 	/**
@@ -31,8 +54,11 @@ public class OrderControl implements Subject {
 	 * @param food
 	 */
 	public void setReady(OrderImplementation order, FoodImplementation food) {
-		// TODO - implement OrderControl.setReady
-		throw new UnsupportedOperationException();
+		Food[] fs = order.getFood();
+		for (Food f : fs) {
+			if (food == f)
+				((FoodImplementation)f).setReady(food.isReady());
+		}
 	}
 
 }

@@ -1,20 +1,25 @@
-import General.Domain.*;
+package es.uclm.esi.isoft2.a04.Domain;
+
+import es.uclm.esi.isoft2.a04.General.Domain.*;
+import es.uclm.esi.isoft2.a04.Persistance.FoodDAO;
 
 public abstract class FoodImplementation implements Food {
 
 	private static FoodDAO foodDAO;
 
-	private int type;
+	protected int type;
 	private int id;
-	private string name;
+	private String name;
 	private boolean ready;
+	private float cost;
+	private Ingredient[] ingredients;
 
 	/**
 	 * 
 	 * @param id
 	 * @param name
 	 */
-	public FoodImplementation(int id, string name) {
+	public FoodImplementation(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -45,6 +50,44 @@ public abstract class FoodImplementation implements Food {
 	 */
 	public void setReady(boolean ready) {
 		this.ready = ready;
+	}
+
+	public boolean isAvailable() {
+		// TODO - this method is a stub, replace with better implementation
+		throw new UnsupportedOperationException();
+		/*for (Ingredient i : this.ingredients) {
+			if (i.getAmount() <= 0.0)
+				return false;
+		}
+		return true;*/
+	}
+
+	public int getID() {
+		return this.id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+	
+	public Ingredient[] getIngredients() {
+		return this.ingredients;
+	}
+
+	public void setIngredients(Ingredient[] ingredients) {
+		this.ingredients = ingredients;
+	}
+
+	public float getCost() {
+		return this.cost;
+	}
+	
+	public void setCost(float cost) {
+		this.cost = cost;
 	}
 
 }

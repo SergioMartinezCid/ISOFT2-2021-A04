@@ -1,12 +1,15 @@
-import General.Domain.*;
+package es.uclm.esi.isoft2.a04.Domain;
+
+import es.uclm.esi.isoft2.a04.General.Domain.*;
+import es.uclm.esi.isoft2.a04.Persistance.IngredientDAO;
 
 public class IngredientImplementation implements Ingredient {
 	
-	private static IngredientDAO inegredientDAO;
+	private static IngredientDAO ingredientDAO;
 
 	private int id;
 	private float amount;
-	private string name;
+	private String name;
 
 	public static IngredientImplementation[] readAll() {
 		return ingredientDAO.readAlllIngredients();
@@ -18,6 +21,34 @@ public class IngredientImplementation implements Ingredient {
 
 	public int update() {
 		return ingredientDAO.updateIngredient(this);
+	}
+
+	public int getID() {
+		return this.id;
+	}
+
+	public float getAmount() {
+		return this.amount;
+	}
+
+	/**
+	 * 
+	 * @param amount
+	 */
+	public void setAmount(float amount) {
+		this.amount = amount;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * 
+	 * @param name
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

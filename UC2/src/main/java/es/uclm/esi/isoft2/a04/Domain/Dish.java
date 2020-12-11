@@ -1,3 +1,5 @@
+package es.uclm.esi.isoft2.a04.Domain;
+
 public class Dish extends FoodImplementation {
 
 	/**
@@ -18,7 +20,7 @@ public class Dish extends FoodImplementation {
 	 * @param name
 	 * @param type
 	 */
-	public Dish(int id, string name, int type) {
+	public Dish(int id, String name, int type) {
 		super(id, name);
 		setType(type);
 	}
