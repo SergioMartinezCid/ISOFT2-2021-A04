@@ -25,4 +25,10 @@ public class Dish extends FoodImplementation {
 		setType(type);
 	}
 
+	@Override
+	public boolean isAvaible() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -2,11 +2,11 @@ package es.uclm.esi.isoft2.a04.Presentation;
 
 import es.uclm.esi.isoft2.a04.Domain.*;
 
-public class JPanelFood implements Observer {
+public class JPanelIngredients implements Observer{
 
+	@Override
 	public void update() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		// TODO Auto-generated method stub
+		
 	}
-
 }

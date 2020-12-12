@@ -24,4 +24,10 @@ public class Beverage extends FoodImplementation {
 		this.type = 0;
 	}
 
+	@Override
+	public boolean isAvaible() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

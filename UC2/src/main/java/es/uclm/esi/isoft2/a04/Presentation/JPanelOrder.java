@@ -1,6 +1,6 @@
 package es.uclm.esi.isoft2.a04.Presentation;
 
-import es.uclm.esi.isoft2.a04.General.Domain.*;
+import es.uclm.esi.isoft2.a04.Domain.*;
 
 public class JPanelOrder implements Observer {
 
