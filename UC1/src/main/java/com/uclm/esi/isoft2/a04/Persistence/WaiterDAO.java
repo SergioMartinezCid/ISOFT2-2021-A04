@@ -5,7 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import com.uclm.esi.isoft2.a04.Domain.*;
+import com.uclm.esi.isoft2.a04.Domain.WaiterImplementation;
+
 
 public class WaiterDAO {
 
