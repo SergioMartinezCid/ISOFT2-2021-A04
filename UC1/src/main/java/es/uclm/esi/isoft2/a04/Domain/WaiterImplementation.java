@@ -71,4 +71,10 @@ public class WaiterImplementation implements Waiter{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public int create() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

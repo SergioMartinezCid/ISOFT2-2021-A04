@@ -20,4 +20,13 @@ public interface Ingredient {
 	 */
 	void setName(String name);
 
+	void readAll();
+
+	int read();
+
+	int create();
+
+	int update();
+
+	int delete();
 }

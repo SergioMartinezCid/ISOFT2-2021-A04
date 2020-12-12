@@ -32,14 +32,6 @@ public abstract class FoodImplementation implements Food {
 
 	public abstract int getType();
 
-	public static FoodImplementation[] readAll() {
-		return foodDAO.readAllFood();
-	}
-
-	public void read() {
-		foodDAO.readFood(this);
-	}
-
 	public boolean isReady() {
 		return this.ready;
 	}
