@@ -1,82 +1,84 @@
 package es.uclm.esi.isoft2.a04.Persistence;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+
+
+import java.sql.SQLException;
+import java.util.Vector;
 
 import es.uclm.esi.isoft2.a04.Domain.WaiterImplementation;
+import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
 
 public class WaiterDAO {
 
 	public WaiterImplementation[] readAllWaiters() {
-		// TODO - implement WaiterDAO.readAllWaiters
-		throw new UnsupportedOperationException();
+		
+		Vector<Vector<Object>> result = new Vector<Vector<Object>>();
+		WaiterImplementation[] waiters;
+		
+		String sql = "SELECT * FROM Bookings"; //Sql sentence
+		
+		return null;
 	}
 
 	/**
 	 * 
 	 * @param waiter
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	public void readWaiter(WaiterImplementation waiter) {
+	public void readWaiter(WaiterImplementation waiter) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
-		try {
-			String url = "jdbc:mysql://172.20.48.70:3306/XXXdbservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-			Connection conn = DriverManager.getConnection(url,"","");
-			Statement statement = conn.createStatement();
-			ResultSet resultQuery;
-			
-			resultQuery = statement.executeQuery("SELECT  FROM WHERE ");
-			
-		}
-		catch (Exception e) {
-			System.err.println("An exception has occur");
-			System.out.println(e.getMessage());
-		}
+		String sql = "SELECT * FROM Waiters WHERE WaiterID ="+ waiter.getID(); //Sql sentence
+		Broker.getBroker().read(sql);
 		
 	}
 
 	/**
 	 * 
 	 * @param waiter
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	public int createWaiter(WaiterImplementation waiter) {
-		// TODO - implement WaiterDAO.createWaiter
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param waiter
-	 */
-	public int updateWaiter(WaiterImplementation waiter) {
-		// TODO - implement WaiterDAO.updateWaiter
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param waiter
-	 */
-	public int deleteWaiter(WaiterImplementation waiter) {
+	public int createWaiter(WaiterImplementation waiter) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
-		try {
-			String url = "jdbc:mysql://172.20.48.70:3306/XXXdbservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-			Connection conn = DriverManager.getConnection(url,"","");
-			Statement statement = conn.createStatement();
-			ResultSet resultQuery;
-			
-			resultQuery = statement.executeQuery("DELETE FROM  WHERE id = ");
-			
-			return resultQuery.getType();
-			
-		}
-		catch (Exception e) {
-			System.err.println("An exception has occur");
-			System.out.println(e.getMessage());
-		}
-		return -1;
+		String sql = "INSERT INTO Waiters VALUES ("+ waiter.getID()+", "+waiter.getAssignedTables()+")"; //Sql sentence
+		return Broker.getBroker().update(sql);
+		
+	}
+
+	/**
+	 * 
+	 * @param waiter
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 */
+	public int updateWaiter(WaiterImplementation waiter) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		
+		String sql = "UPDATE Waiters WHERE WaiterID ="+waiter.getID(); //Sql sentence
+		return Broker.getBroker().update(sql);
+		
+	}
+
+	/**
+	 * 
+	 * @param waiter
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 */
+	public int deleteWaiter(WaiterImplementation waiter) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		
+		String sql = "DELETE FROM Waiters WHERE WaiterID ="+waiter.getID(); //Sql sentence
+		return Broker.getBroker().update(sql);
+		
 	}
 
 }
