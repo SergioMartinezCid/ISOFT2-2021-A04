@@ -4,4 +4,13 @@ public interface Waiter extends Subject {
 
 	int getID();
 
+	void readAll();
+
+	int read();
+
+	int create();
+
+	int update();
+
+	int delete();
 }
