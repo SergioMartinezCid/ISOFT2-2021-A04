@@ -5,6 +5,8 @@ package es.uclm.esi.isoft2.a04.Persistence;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import es.uclm.esi.isoft2.a04.Domain.Table;
+import es.uclm.esi.isoft2.a04.Domain.TableImplementation;
 import es.uclm.esi.isoft2.a04.Domain.WaiterImplementation;
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
@@ -13,12 +15,35 @@ public class WaiterDAO {
 
 	public WaiterImplementation[] readAllWaiters() {
 		
-		Vector<Vector<Object>> result = new Vector<Vector<Object>>();
-		WaiterImplementation[] waiters;
+		Vector<Vector<Object>> sql_result = new Vector<Vector<Object>>();
+		Vector<WaiterImplementation> result = new Vector<>();
+
+		WaiterImplementation[] waiters_implementation;
 		
-		String sql = "SELECT * FROM Bookings"; //Sql sentence
+		String sql = "SELECT * FROM Waiters"; //Sql sentence
+
+		sql_result  = Broker.getBroker().read(sql);
 		
-		return null;
+		if(sql_result.size() > 0) {
+			
+			for(Vector<Object> waiter : sql_result) {
+				
+				result.add(new WaiterImplementation(Integer.parseInt(waiter.get(0).toString())));
+				
+			}
+		
+		}
+		
+		waiters_implementation = new WaiterImplementation [result.size()];
+		
+		for (int i = 0; i<waiters_implementation.length; i++) {
+			
+			waiters_implementation[i] = result.remove(i); 
+			
+		}
+
+		return waiters_implementation;
+		
 	}
 
 	/**

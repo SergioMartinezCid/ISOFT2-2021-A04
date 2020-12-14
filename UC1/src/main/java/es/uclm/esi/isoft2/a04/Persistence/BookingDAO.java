@@ -1,6 +1,7 @@
 package es.uclm.esi.isoft2.a04.Persistence;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Vector;
 
 
@@ -12,12 +13,34 @@ public class BookingDAO {
 	
 	public Booking[] readAllBookings() {
 		
-		Vector<Vector<Object>> result = new Vector<Vector<Object>>();
+		Vector<Vector<Object>> sql_result = new Vector<Vector<Object>>();
+		Vector<Booking> result = new Vector<>();
+		
 		Booking[] bookings;
 		
 		String sql = "SELECT * FROM Bookings"; //Sql sentence
 		
-		return null;
+		sql_result = Broker.getBroker().read(sql);
+		
+		if(sql_result.size() > 0) {
+			
+			for(Vector<Object> booking : sql_result) {
+				
+				result.add(new Booking(booking.get(1).toString(), Integer.parseInt(booking.get(2).toString()), new Date()));
+				
+			}
+		
+		}
+		
+		bookings = new Booking [result.size()];
+		
+		for (int i = 0; i<bookings.length; i++) {
+			
+			bookings [i] = result.remove(i); 
+			
+		}
+
+		return bookings;
 		
 	}
 	

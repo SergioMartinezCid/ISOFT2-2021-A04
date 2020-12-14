@@ -1,6 +1,7 @@
 package es.uclm.esi.isoft2.a04.Persistence;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Vector;
 
 import es.uclm.esi.isoft2.a04.Domain.*;
@@ -10,12 +11,36 @@ public class TableDAO {
 
 	public TableImplementation[] readAllTables() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
-		Vector<Vector<Object>> result = new Vector<Vector<Object>>();
+	
+		Vector<Vector<Object>> sql_result = new Vector<Vector<Object>>();
+		Vector<TableImplementation> result = new Vector<>();
+		
 		TableImplementation[] table_implementation;
 		
 		String sql = "SELECT * FROM Tables"; //Sql sentence
 		
-		return null;
+		sql_result  = Broker.getBroker().read(sql);
+		
+		if(sql_result.size() > 0) {
+			
+			for(Vector<Object> table : sql_result ) {
+				
+				result.add(new TableImplementation(Integer.parseInt(table.get(0).toString()), Integer.parseInt(table.get(0).toString())));
+				
+			}
+		
+		}
+		
+		table_implementation = new TableImplementation [result.size()];
+		
+		for (int i = 0; i<table_implementation.length; i++) {
+			
+			table_implementation[i] = result.remove(i); 
+			
+		}
+
+		return table_implementation;
+
 	}
 
 	/**
