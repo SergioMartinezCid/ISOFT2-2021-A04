@@ -71,7 +71,7 @@ public class WaiterDAO {
 	 */
 	public int createWaiter(WaiterImplementation waiter) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
-		String sql = "INSERT INTO Waiters VALUES ("+ waiter.getID()+", "+waiter.getAssignedTables()+")"; //Sql sentence
+		String sql = "INSERT INTO Waiters VALUES ("+ waiter.getID()+")"; //Sql sentence
 		return Broker.getBroker().update(sql);
 		
 	}
