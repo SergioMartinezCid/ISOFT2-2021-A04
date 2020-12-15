@@ -12,7 +12,7 @@ public class Booking {
 	private Date Turn;
 	private String clientID;
 	private int tableID;
-	private BookingDAO bookingDAO;
+	public static BookingDAO bookingDAO;
 
 	/**
 	 * 
@@ -68,17 +68,14 @@ public class Booking {
 	}
 	
 	public int insert() {
-		this.bookingDAO.createBooking(this);
-		return 0;
+		return this.bookingDAO.createBooking(this);
 	}
 
 	public int update() {
-		this.bookingDAO.updateBooking(this);
-		return 0;
+		return this.bookingDAO.updateBooking(this);
 	}
 
 	public int delete() {
-		this.bookingDAO.deleteBooking(this);
-		return 0;
+		return this.bookingDAO.deleteBooking(this);
 	}
 }

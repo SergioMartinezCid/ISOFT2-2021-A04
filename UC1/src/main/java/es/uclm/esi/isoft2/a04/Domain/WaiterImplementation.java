@@ -42,18 +42,15 @@ public class WaiterImplementation implements Waiter{
 	}
 	
 	public int insert() {
-		this.waiterDAO.createWaiter(this);
-		return 0;
+		return this.waiterDAO.createWaiter(this);
 	}
 
 	public int update() {
-		this.waiterDAO.updateWaiter(this);
-		return 0;
+		return this.waiterDAO.updateWaiter(this);
 	}
 
 	public int delete() {
-		this.waiterDAO.deleteWaiter(this);
-		return 0;
+		return this.waiterDAO.deleteWaiter(this);
 	}
 
 	public void attach(Observer o) {
