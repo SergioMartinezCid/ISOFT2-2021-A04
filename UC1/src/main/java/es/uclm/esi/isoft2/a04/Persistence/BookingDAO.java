@@ -69,7 +69,7 @@ public class BookingDAO {
 	 */
 	public int createBooking(Booking booking) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
-		String sql = "INSERT INTO Bookings VALUES ("+ booking.getTableID()+", "+ booking.getClientID()+")"; //Sql sentence
+		String sql = "INSERT INTO Bookings VALUES ("+ booking.getClientID()+", "+ booking.getTableID()+ ","+booking.getTurn()+")"; //Sql sentence
 		return Broker.getBroker().update(sql);
 		
 	}
