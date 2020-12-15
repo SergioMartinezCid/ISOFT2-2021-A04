@@ -68,7 +68,7 @@ public class TableDAO {
 	 */
 	public int createTable(TableImplementation table) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
-		String sql = "INSERT INTO Tables VALUES ("+ table.getID()+", "+table.getSeats()+","+table.getSeatsNumber()+","+table.getState()+")"; //Sql sentence
+		String sql = "INSERT INTO Tables VALUES ("+ table.getID()+","+table.getSeatsNumber()+","+table.getState()+null+")"; //Sql sentence
 		return Broker.getBroker().update(sql);
 		
 	}
