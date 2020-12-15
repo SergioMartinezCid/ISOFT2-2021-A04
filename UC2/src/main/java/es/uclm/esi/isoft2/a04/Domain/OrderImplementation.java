@@ -79,20 +79,18 @@ public class OrderImplementation implements Order {
 
 	@Override
 	public void readAll() {
-		// TODO Auto-generated method stub
-		
+		orderDAO.readAllOrders();
 	}
 
 	@Override
 	public int read() {
-		// TODO Auto-generated method stub
+		orderDAO.readOrder(this);;
 		return 0;
 	}
 
 	@Override
 	public int delete() {
-		// TODO Auto-generated method stub
-		return 0;
+		return orderDAO.deleteOrder(this);
 	}
 
 }

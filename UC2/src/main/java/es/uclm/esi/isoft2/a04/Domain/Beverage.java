@@ -1,5 +1,7 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import es.uclm.esi.isoft2.a04.Persistance.FoodDAO;
+
 public class Beverage extends FoodImplementation {
 
 	/**
@@ -32,7 +34,6 @@ public class Beverage extends FoodImplementation {
 
 	@Override
 	public void readAll() {
-		// TODO Auto-generated method stub
 		
 	}
 

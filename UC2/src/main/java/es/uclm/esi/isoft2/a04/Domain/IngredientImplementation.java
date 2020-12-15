@@ -44,27 +44,24 @@ public class IngredientImplementation implements Ingredient {
 	}
 
 	@Override
-	public void readAll() {
-		// TODO Auto-generated method stub
-		
+	public void readAllIngredients() {
+		IngredientDAO.readAll();
 	}
 
 	@Override
 	public int read() {
-		// TODO Auto-generated method stub
+		IngredientDAO.readIngredient(this);
 		return 0;
 	}
 
 	@Override
 	public int create() {
-		// TODO Auto-generated method stub
-		return 0;
+		return IngredientDAO.createIngredient(this);
 	}
 
 	@Override
 	public int delete() {
-		// TODO Auto-generated method stub
-		return 0;
+		return IngredientDAO.deleteIngredient(this);
 	}
 
 }
