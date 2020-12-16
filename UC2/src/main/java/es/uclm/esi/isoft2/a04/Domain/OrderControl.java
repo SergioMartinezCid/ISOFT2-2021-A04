@@ -61,4 +61,10 @@ public class OrderControl implements Subject {
 		}
 	}
 
+	@Override
+	public void notifyMe() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

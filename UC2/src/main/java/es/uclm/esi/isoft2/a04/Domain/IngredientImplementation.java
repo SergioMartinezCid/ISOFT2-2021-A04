@@ -11,14 +11,6 @@ public class IngredientImplementation implements Ingredient {
 	private float amount;
 	private String name;
 
-	public static IngredientImplementation[] readAll() {
-		return ingredientDAO.readAlllIngredients();
-	}
-
-	public void read() {
-		ingredientDAO.readIngredient(this);
-	}
-
 	public int update() {
 		return ingredientDAO.updateIngredient(this);
 	}
@@ -49,6 +41,30 @@ public class IngredientImplementation implements Ingredient {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public void readAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int read() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int create() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int delete() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

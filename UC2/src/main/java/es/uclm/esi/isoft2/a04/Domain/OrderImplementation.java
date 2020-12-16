@@ -69,20 +69,30 @@ public class OrderImplementation implements Order {
 		return this.state;
 	}
 
-	public static OrderImplementation[] readAll() {
-		return orderDAO.readAllOrders();
-	}
-
-	public void read() {
-		orderDAO.readOrder(this);
-	}
-
 	public int create() {
 		return orderDAO.createOrder(this);
 	}
 
 	public int update() {
 		return orderDAO.updateOrder(this);
+	}
+
+	@Override
+	public void readAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int read() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int delete() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
