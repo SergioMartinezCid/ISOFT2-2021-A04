@@ -1,15 +1,21 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.util.Date;
+
 public interface Order {
 
 	int getID();
 
+	Date getDatetime();
+
+	void setDatetime(Date datetime);
+
+	Waiter getWaiter();
+
+	Table getTable();
+
 	Food[] getFood();
 
-	/**
-	 * 
-	 * @param food
-	 */
 	void setFood(Food[] food);
 
 	float getCost();
@@ -23,4 +29,5 @@ public interface Order {
 	int update();
 
 	int delete();
+
 }
