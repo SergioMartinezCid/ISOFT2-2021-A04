@@ -1,7 +1,10 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
-import es.uclm.esi.isoft2.a04.Persistance.FoodDAO;
-
+/**
+ * Beverage type of Food class
+ *
+ * @version 0.0.1
+ */
 public class Beverage extends FoodImplementation {
 
 	/**
@@ -27,14 +30,8 @@ public class Beverage extends FoodImplementation {
 	}
 
 	@Override
-	public boolean isAvaible() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void readAll() {
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override

@@ -2,6 +2,11 @@ package es.uclm.esi.isoft2.a04.Domain;
 
 import es.uclm.esi.isoft2.a04.Persistance.IngredientDAO;
 
+/**
+ * Ingredient interface implementation
+ *
+ * @version 0.0.1
+ */
 public class IngredientImplementation implements Ingredient {
 	
 	private static IngredientDAO ingredientDAO;
@@ -11,7 +16,13 @@ public class IngredientImplementation implements Ingredient {
 	private String name;
 
 	public int update() {
-		return ingredientDAO.updateIngredient(this);
+		try {
+			return ingredientDAO.updateIngredient(this);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
 	}
 
 	public int getID() {
@@ -44,12 +55,23 @@ public class IngredientImplementation implements Ingredient {
 
 	@Override
 	public void readAll() {
-		ingredientDAO.readAlllIngredients();
+		try {
+			ingredientDAO.readAlllIngredients();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public int read() {
-		ingredientDAO.readIngredient(this);
+		try {
+			ingredientDAO.readIngredient(this);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
 		return 0;
 	}
 

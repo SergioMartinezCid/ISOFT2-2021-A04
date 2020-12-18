@@ -1,11 +1,15 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
-import es.uclm.esi.isoft2.a04.Domain.*;
 import es.uclm.esi.isoft2.a04.Persistance.FoodDAO;
 
+/**
+ * Food interface implementation
+ *
+ * @version 0.0.1
+ */
 public abstract class FoodImplementation implements Food {
 
-	private static FoodDAO foodDAO;
+	protected static FoodDAO foodDAO;
 
 	protected int type;
 	private int id;
@@ -44,14 +48,13 @@ public abstract class FoodImplementation implements Food {
 		this.ready = ready;
 	}
 
-	public boolean isAvailable() {
-		// TODO - this method is a stub, replace with better implementation
-		throw new UnsupportedOperationException();
-		/*for (Ingredient i : this.ingredients) {
-			if (i.getAmount() <= 0.0)
+	@Override
+	public boolean isAvaible() {
+		for (Ingredient i : this.ingredients) {
+			if (!(i.getAmount() > 0.0f))
 				return false;
 		}
-		return true;*/
+		return true;
 	}
 
 	public int getID() {
