@@ -43,5 +43,15 @@ public interface Food {
 	void setCost(float cost);
 
 	float getCost();
+	
+	void readAll();
+	
+	int read();
+	
+	int create();
+	
+	int update();
+	
+	int delete();
 
 }

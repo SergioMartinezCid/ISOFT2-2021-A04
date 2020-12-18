@@ -15,6 +15,6 @@ public interface Subject {
 	void detach(Observer o);
 
 	
-	//void notify();
+	void notifyMe();
 
 }

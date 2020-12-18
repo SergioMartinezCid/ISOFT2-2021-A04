@@ -14,4 +14,13 @@ public interface Order {
 
 	float getCost();
 
+	void readAll();
+
+	int read();
+
+	int create();
+
+	int update();
+
+	int delete();
 }

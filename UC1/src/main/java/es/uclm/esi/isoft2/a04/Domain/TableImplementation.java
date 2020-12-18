@@ -86,4 +86,9 @@ public class TableImplementation implements Table{
 	public int getID() {
 		return id;
 	}
+	@Override
+	public int create() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

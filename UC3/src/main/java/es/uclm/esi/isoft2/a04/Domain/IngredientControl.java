@@ -1,16 +1,21 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
-import java.sql.SQLException;
-import java.util.Vector;
-
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
-public class IngredientControl {
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.Arrays;
+
+/**
+ * Ingredient Control implementation to allow managing of ingredients in the database
+ * @version 0.0.1
+ */
+public class IngredientControl implements Subject {
 	
 
 	/**
-	 * 
-	 * @param id
+	 * Get Ingredient at given index
+	 * @param id database array index
 	 */
 	public Ingredient getIngredient(int id) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
@@ -61,19 +66,36 @@ public class IngredientControl {
 			ingredients[i] = ingredients_list.remove(0);
 			
 		}
-		return ingredients;
-	}
+  }
 		
 
 	/**
-	 * 
-	 * @param ingredient
-	 * @param ammount
+	 * Set new amount on existing ingredient
+	 * @param ingredient Ingredient reference to find
+	 * @param amount New amount of desired ingredient
 	 */
 	public void updateIngredientAmount(Ingredient ingredient, float ammount) {
 		
 		ingredient.setAmount(ammount);
 		
+	}
+
+	@Override
+	public void attach(Observer o) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void detach(Observer o) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void notifyMe() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 	}
 
 }
