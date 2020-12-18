@@ -41,6 +41,7 @@ public class OrderImplementation implements Order {
 	/**
 	 * @return the datetime
 	 */
+	@Override
 	public Date getDatetime() {
 		return datetime;
 	}
@@ -48,6 +49,7 @@ public class OrderImplementation implements Order {
 	/**
 	 * @param datetime the datetime to set
 	 */
+	@Override
 	public void setDatetime(Date datetime) {
 		this.datetime = datetime;
 	}
@@ -55,6 +57,7 @@ public class OrderImplementation implements Order {
 	/**
 	 * @return the waiter
 	 */
+	@Override
 	public Waiter getWaiter() {
 		return waiter;
 	}
@@ -69,6 +72,7 @@ public class OrderImplementation implements Order {
 	/**
 	 * @return the table
 	 */
+	@Override
 	public Table getTable() {
 		return table;
 	}
@@ -80,10 +84,12 @@ public class OrderImplementation implements Order {
 		this.table = table;
 	}
 
+	@Override
 	public int getID() {
 		return this.id;
 	}
 
+	@Override
 	public Food[] getFood() {
 		return this.food;
 	}
@@ -92,10 +98,12 @@ public class OrderImplementation implements Order {
 	 * 
 	 * @param food
 	 */
+	@Override
 	public void setFood(Food[] food) {
 		this.food = food;
 	}
 
+	@Override
 	public float getCost() {
 		float cost = 0.0f;
 		for (Food f : this.food) {
@@ -108,14 +116,17 @@ public class OrderImplementation implements Order {
 	 * 
 	 * @param state
 	 */
+	@Override
 	public void setState(int state) {
 		this.state = state;
 	}
 
+	@Override
 	public int getState() {
 		return this.state;
 	}
 
+	@Override
 	public int create() {
 		try {
 			return orderDAO.createOrder(this);
@@ -125,6 +136,7 @@ public class OrderImplementation implements Order {
 		}
 	}
 
+	@Override
 	public int update() {
 		try {
 			return orderDAO.updateOrder(this);

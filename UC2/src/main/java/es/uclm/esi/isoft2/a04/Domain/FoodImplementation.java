@@ -12,11 +12,11 @@ public abstract class FoodImplementation implements Food {
 	protected static FoodDAO foodDAO;
 
 	protected int type;
-	private int id;
-	private String name;
-	private boolean ready;
-	private float cost;
-	private Ingredient[] ingredients;
+	protected int id;
+	protected String name;
+	protected boolean ready;
+	protected float cost;
+	protected Ingredient[] ingredients;
 
 	/**
 	 * 
@@ -36,6 +36,7 @@ public abstract class FoodImplementation implements Food {
 
 	public abstract int getType();
 
+	@Override
 	public boolean isReady() {
 		return this.ready;
 	}
@@ -44,6 +45,7 @@ public abstract class FoodImplementation implements Food {
 	 * 
 	 * @param ready
 	 */
+	@Override
 	public void setReady(boolean ready) {
 		this.ready = ready;
 	}
@@ -57,32 +59,74 @@ public abstract class FoodImplementation implements Food {
 		return true;
 	}
 
+	@Override
 	public int getID() {
 		return this.id;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public String getName() {
 		return this.name;
 	}
 	
+	@Override
 	public Ingredient[] getIngredients() {
 		return this.ingredients;
 	}
 
+	@Override
 	public void setIngredients(Ingredient[] ingredients) {
 		this.ingredients = ingredients;
 	}
 
+	@Override
 	public float getCost() {
 		return this.cost;
 	}
 	
+	@Override
 	public void setCost(float cost) {
 		this.cost = cost;
+	}
+
+	@Override
+	public void readAll() {
+		try {
+			foodDAO.readAllFood();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public int read() {
+		try {
+			foodDAO.readFood(this);
+			return 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	@Override
+	public int create() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public int update() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public int delete() {
+		throw new UnsupportedOperationException();
 	}
 
 }

@@ -20,6 +20,10 @@ public interface Order {
 
 	float getCost();
 
+	int getState();
+
+	void setState(int state);
+
 	void readAll();
 
 	int read();
