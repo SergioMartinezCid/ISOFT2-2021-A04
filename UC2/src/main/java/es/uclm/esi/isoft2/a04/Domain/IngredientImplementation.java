@@ -1,6 +1,5 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
-import es.uclm.esi.isoft2.a04.Domain.*;
 import es.uclm.esi.isoft2.a04.Persistance.IngredientDAO;
 
 public class IngredientImplementation implements Ingredient {
@@ -44,24 +43,14 @@ public class IngredientImplementation implements Ingredient {
 	}
 
 	@Override
-	public void readAllIngredients() {
-		IngredientDAO.readAll();
+	public void readAll() {
+		ingredientDAO.readAlllIngredients();
 	}
 
 	@Override
 	public int read() {
-		IngredientDAO.readIngredient(this);
+		ingredientDAO.readIngredient(this);
 		return 0;
-	}
-
-	@Override
-	public int create() {
-		return IngredientDAO.createIngredient(this);
-	}
-
-	@Override
-	public int delete() {
-		return IngredientDAO.deleteIngredient(this);
 	}
 
 }
