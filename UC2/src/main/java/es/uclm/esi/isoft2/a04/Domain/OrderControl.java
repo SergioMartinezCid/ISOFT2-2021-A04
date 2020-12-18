@@ -43,7 +43,10 @@ public class OrderControl implements Subject {
 	 * @param table
 	 */
 	public OrderImplementation createOrder(int id, Waiter waiter, Table table) {
-		// TODO use database?
+		// TODO create new order in database using Broker?
+		/*String query = "INSERT INTO ";
+		int result = Broker.getBroker().update(query);
+		*/
 		return new OrderImplementation(id, waiter, table);
 	}
 

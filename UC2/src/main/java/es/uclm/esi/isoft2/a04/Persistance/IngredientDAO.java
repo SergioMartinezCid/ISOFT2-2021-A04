@@ -13,10 +13,7 @@ public class IngredientDAO {
 		IngredientImplementation[] ingredients = new IngredientImplementation[cols.size()];
 		IngredientImplementation ingredient;
 		for(Vector<Object> row: cols) {
-			ingredient = new IngredientImplementation();
-			//TODO set id, or implement id in constructor
-			ingredient.setName((String)row.get(1));
-			ingredient.setAmount((float)row.get(2));
+			ingredient = new IngredientImplementation((int)row.get(0), (String)row.get(1), (float)row.get(2));
 			ingredient.read();
 		}
 		return ingredients;
@@ -33,11 +30,9 @@ public class IngredientDAO {
 	public void readIngredient(IngredientImplementation ingredient) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Vector<Vector<Object>> col;
 		IngredientImplementation[] ingredients;
-		col = Broker.getBroker().read("SELECT * FROM ingredients WHERE IngredientId = " + ingredient.getID()+";");
+		col = Broker.getBroker().read("SELECT * FROM Ingredients WHERE IngredientId = " + ingredient.getID()+";");
 		Vector<Object> row = col.get(0);
-		ingredient = new IngredientImplementation();
-		ingredient.setName((String)row.get(1));
-		ingredient.setAmount((float) row.get(2));
+		ingredient = new IngredientImplementation((int)row.get(0), (String)row.get(1), (float)row.get(2));
 		ingredient.read();
 	}
 
@@ -50,7 +45,7 @@ public class IngredientDAO {
 	 * @throws InstantiationException 
 	 */
 	public int updateIngredient(IngredientImplementation ingredient) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		return  Broker.getBroker().update("UPDATE Ingredients SET Amount="+ingredient.getAmount() + ", "
+		return  Broker.getBroker().update("UPDATE Ingredients SET Quantity="+ingredient.getAmount() + ", "
 				+ "Name=" + ingredient.getName() +" WHERE IngredientId = " +ingredient.getID()+";");
 	}
 

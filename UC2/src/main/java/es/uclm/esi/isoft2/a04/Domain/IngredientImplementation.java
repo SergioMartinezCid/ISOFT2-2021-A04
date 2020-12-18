@@ -14,15 +14,11 @@ public class IngredientImplementation implements Ingredient {
 	private int id;
 	private float amount;
 	private String name;
-
-	public int update() {
-		try {
-			return ingredientDAO.updateIngredient(this);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
+	
+	public IngredientImplementation(int id, String name, float amount) {
+		this.id = id;
+		this.setName(name);
+		this.setAmount(amount);
 	}
 
 	public int getID() {
@@ -51,6 +47,17 @@ public class IngredientImplementation implements Ingredient {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public int update() {
+		try {
+			return ingredientDAO.updateIngredient(this);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
 	}
 
 	@Override
