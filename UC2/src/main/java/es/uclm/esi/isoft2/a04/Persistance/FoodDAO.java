@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import es.uclm.esi.isoft2.a04.Domain.*;
-import jdk.internal.joptsimple.internal.Rows;
-
 
 public class FoodDAO {
 

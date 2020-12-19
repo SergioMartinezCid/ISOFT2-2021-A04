@@ -1,18 +1,24 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
-import es.uclm.esi.isoft2.a04.Domain.*;
+import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
+import java.util.ArrayList;
+
+/**
+ * UI Order controller implementation
+ *
+ * @version 0.0.1
+ */
 public class OrderControl implements Subject {
 
-	private static OrderImplementation[] orders;
+	private ArrayList<Observer> observers = new ArrayList<>();
 
 	/**
 	 * 
 	 * @param o
 	 */
 	public void attach(Observer o) {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		observers.add(o);
 	}
 
 	/**
@@ -20,13 +26,14 @@ public class OrderControl implements Subject {
 	 * @param o
 	 */
 	public void detach(Observer o) {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		observers.remove(o);
 	}
 
 	public void notifySubject() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		// TODO notify all?
+		for (Observer o : observers) {
+			o.update();
+		}
 	}
 
 	/**
@@ -36,6 +43,10 @@ public class OrderControl implements Subject {
 	 * @param table
 	 */
 	public OrderImplementation createOrder(int id, Waiter waiter, Table table) {
+		// TODO create new order in database using Broker?
+		/*String query = "INSERT INTO ";
+		int result = Broker.getBroker().update(query);
+		*/
 		return new OrderImplementation(id, waiter, table);
 	}
 
@@ -63,8 +74,7 @@ public class OrderControl implements Subject {
 
 	@Override
 	public void notifyMe() {
-		// TODO Auto-generated method stub
-		
+		notifySubject();
 	}
 
 }

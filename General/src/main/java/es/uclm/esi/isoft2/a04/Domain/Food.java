@@ -16,6 +16,10 @@ public interface Food {
 
 	int getType();
 
+	boolean isReady();
+
+	void setReady(boolean ready);
+
 	boolean isAvaible();
 
 	int getID();
