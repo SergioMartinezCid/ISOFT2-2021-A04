@@ -24,6 +24,10 @@ public interface Ingredient {
 
 	int read();
 
+
+	int create();
+
 	int update();
 
+	int delete();
 }

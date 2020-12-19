@@ -23,7 +23,7 @@ public interface Order {
 	int getState();
 
 	void setState(int state);
-
+  
 	void readAll();
 
 	int read();
@@ -33,5 +33,4 @@ public interface Order {
 	int update();
 
 	int delete();
-
 }

@@ -1,6 +1,9 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.util.Arrays;
 import java.util.Date;
+
+import sun.awt.AWTIcon32_security_icon_bw24_png;
 
 public class TableBooking {
 
@@ -15,9 +18,9 @@ public class TableBooking {
 		//First check if there is a free table for the Date of booking with the proper number of seats
 		tableID = findTable(guests, turn);
 		if(tableID != -1){
-			//assignWaiter(tableID); //If the client arrives on time
+			assignWaiter(tableID); //If the client arrives on time
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
@@ -42,11 +45,11 @@ public class TableBooking {
 		WaiterImplementation waiter = new WaiterImplementation();
 		waiter.readAll();
 		WaiterImplementation[] waiters = waiter.getWaiterDAO().readAllWaiters();
-		for(int i=0; i<waiters.length; i++) {
-			if(waiters[i].getAssignedTables().size() < waiter.getAssignedTables().size()) {	//Get the waiter with less assigned tables
-				waiter = waiters[i];
-			}
-		}
+		waiter = Arrays.stream(waiters) //Get the waiter with less assigned tables
+				.reduce((w1, w2) -> w1.getAssignedTables().size() < w2.getAssignedTables().size()
+									? w1 : w2)
+				.get();
+		
 		waiter.assignTable(tableID);
 		return waiter.getID();
 	}

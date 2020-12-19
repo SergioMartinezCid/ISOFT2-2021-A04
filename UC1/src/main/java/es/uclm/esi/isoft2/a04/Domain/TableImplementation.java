@@ -1,8 +1,10 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.util.Arrays;
 import java.sql.SQLException;
 import java.util.Date;
 
+import es.uclm.esi.isoft2.a04.Persistance.Broker;
 import es.uclm.esi.isoft2.a04.Persistence.TableDAO;
 
 
@@ -47,8 +49,16 @@ public class TableImplementation implements Table{
 	}
 	
 	public int checkAvailability(Date turn, int seats) {
+		if (seats > seatsNumber)
+			return 0;
+		
+		boolean exists = Arrays.stream(Booking.bookingDAO.readAllBookings())
+			.filter(b -> b.getTableID() == getId())
+			.anyMatch(b -> b.getTurn().equals(turn));
+		
+		return exists == true ? 1 : 0;
 		//this.tableDAO.checkAvailability(turn, seats);
-		return 0;
+		//return 0;
 	}
 
 	public void readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
@@ -74,13 +84,7 @@ public class TableImplementation implements Table{
 		this.tableDAO.deleteOrder(this);
 		return 0;
 	}
-	public void setState() {
-		// TODO Auto-generated method stub
-		
-	}
-	public void setSeats() {
-		//TODO
-	}
+	
 	public int getSeats() {
 		return seatsNumber;
 	}
@@ -91,5 +95,10 @@ public class TableImplementation implements Table{
 	public int create() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+  
+	@Override
+	public void setSeats(int seats) {
+		seatsNumber = seats;
 	}
 }

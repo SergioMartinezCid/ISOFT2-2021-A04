@@ -41,20 +41,17 @@ public class WaiterImplementation implements Waiter{
 		this.waiterDAO.readWaiter(this);
 		return 0;
 	}
-	
+
 	public int insert() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.waiterDAO.createWaiter(this);
-		return 0;
+		return this.waiterDAO.createWaiter(this);
 	}
 
 	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.waiterDAO.updateWaiter(this);
-		return 0;
+		return this.waiterDAO.updateWaiter(this);
 	}
 
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.waiterDAO.deleteWaiter(this);
-		return 0;
+		return this.waiterDAO.deleteWaiter(this);
 	}
 
 	public void attach(Observer o) {

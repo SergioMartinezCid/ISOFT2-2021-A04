@@ -13,7 +13,7 @@ public class Booking {
 	private Date Turn;
 	private String clientID;
 	private int tableID;
-	private BookingDAO bookingDAO;
+	public static BookingDAO bookingDAO;
 
 	/**
 	 * 
@@ -69,17 +69,14 @@ public class Booking {
 	}
 	
 	public int insert() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.bookingDAO.createBooking(this);
-		return 0;
+		return this.bookingDAO.createBooking(this);
 	}
 
 	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.bookingDAO.updateBooking(this);
-		return 0;
+		return this.bookingDAO.updateBooking(this);
 	}
 
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.bookingDAO.deleteBooking(this);
-		return 0;
+		return this.bookingDAO.deleteBooking(this);
 	}
 }

@@ -14,12 +14,15 @@ public class IngredientImplementation implements Ingredient {
 	private int id;
 	private float amount;
 	private String name;
-	
+  
 	public IngredientImplementation(int id, String name, float amount) {
 		this.id = id;
 		this.setName(name);
 		this.setAmount(amount);
 	}
+  public int update() {
+		return ingredientDAO.updateIngredient(this);
+  }
 
 	public int getID() {
 		return this.id;
@@ -50,6 +53,16 @@ public class IngredientImplementation implements Ingredient {
 	}
 
 	@Override
+
+	@Override
+	public int create() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int delete() {
+		// TODO Auto-generated method stub
 	public int update() {
 		try {
 			return ingredientDAO.updateIngredient(this);
