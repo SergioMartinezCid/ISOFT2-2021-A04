@@ -1,6 +1,7 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
 import java.util.Arrays;
+import java.sql.SQLException;
 import java.util.Date;
 
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
@@ -60,11 +61,11 @@ public class TableImplementation implements Table{
 		//return 0;
 	}
 
-	public void readAll() {
+	public void readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.tableDAO.readAllTables();
 	}
 	
-	public int read() {
+	public int read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.tableDAO.readTable(this);
 		return 0;
 	}
@@ -74,12 +75,12 @@ public class TableImplementation implements Table{
 		return 0;
 	}
 
-	public int update() {
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.tableDAO.updateTable(this);
 		return 0;
 	}
 
-	public int delete() {
+	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.tableDAO.deleteOrder(this);
 		return 0;
 	}
@@ -95,6 +96,7 @@ public class TableImplementation implements Table{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+  
 	@Override
 	public void setSeats(int seats) {
 		seatsNumber = seats;

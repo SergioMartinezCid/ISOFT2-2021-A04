@@ -1,5 +1,10 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+/**
+ * Dish type of Food class
+ *
+ * @version 0.0.1
+ */
 public class Dish extends FoodImplementation {
 
 	/**
@@ -59,6 +64,5 @@ public class Dish extends FoodImplementation {
 	public int delete() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
+  }
 }

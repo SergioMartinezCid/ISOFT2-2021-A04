@@ -1,5 +1,10 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+/**
+ * Beverage type of Food class
+ *
+ * @version 0.0.1
+ */
 public class Beverage extends FoodImplementation {
 
 	/**
@@ -59,5 +64,4 @@ public class Beverage extends FoodImplementation {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

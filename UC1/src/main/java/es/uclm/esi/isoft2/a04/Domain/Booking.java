@@ -1,5 +1,6 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.sql.SQLException;
 import java.util.Date;
 import es.uclm.esi.isoft2.a04.Persistence.BookingDAO;
 
@@ -62,20 +63,20 @@ public class Booking {
 		this.bookingDAO.readAllBookings();
 	}
 	
-	public int read() {
+	public int read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.bookingDAO.readBooking(this);
 		return 0;
 	}
 	
-	public int insert() {
+	public int insert() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.bookingDAO.createBooking(this);
 	}
 
-	public int update() {
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.bookingDAO.updateBooking(this);
 	}
 
-	public int delete() {
+	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.bookingDAO.deleteBooking(this);
 	}
 }
