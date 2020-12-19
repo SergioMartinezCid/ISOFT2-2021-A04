@@ -22,7 +22,7 @@ public interface Table {
 
 	int getID();
 
-	void readAll();
+	Table[] readAll();
 
 	int read();
 

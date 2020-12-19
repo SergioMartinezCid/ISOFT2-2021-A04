@@ -7,4 +7,5 @@
   </parent>
   <artifactId>General</artifactId>
   <name>General</name>
+  <version>0.1.0</version>
 </project>
