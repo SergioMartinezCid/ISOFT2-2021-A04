@@ -1,5 +1,6 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import es.uclm.esi.isoft2.a04.Persistence.WaiterDAO;
 
@@ -36,22 +37,22 @@ public class WaiterImplementation implements Waiter{
 		this.waiterDAO.readAllWaiters();
 	}
 	
-	public int read() {
+	public int read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.waiterDAO.readWaiter(this);
 		return 0;
 	}
 	
-	public int insert() {
+	public int insert() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.waiterDAO.createWaiter(this);
 		return 0;
 	}
 
-	public int update() {
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.waiterDAO.updateWaiter(this);
 		return 0;
 	}
 
-	public int delete() {
+	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.waiterDAO.deleteWaiter(this);
 		return 0;
 	}
