@@ -3,6 +3,10 @@ package es.uclm.esi.isoft2.a04.Persistance;
 import java.sql.*;
 import java.util.Vector;
 
+/**
+ * @version 0.1.0
+ *
+ */
 public class Broker {
 	
 	final static String DBUSER = "A04dbservice";
@@ -43,7 +47,7 @@ public class Broker {
 
 	/**
 	 * 
-	 * @param sql
+	 * @param sql The sql sentence for reading from the database
 	 * @throws SQLException 
 	 */
 	public Vector<Vector<Object>> read(String sql) throws SQLException {
@@ -72,7 +76,7 @@ public class Broker {
 
 	/**
 	 * The return value is the number of modified rows
-	 * @param sql
+	 * @param sql The sql instance for modifying the database
 	 * @throws SQLException 
 	 */
 	public int update(String sql) throws SQLException {
