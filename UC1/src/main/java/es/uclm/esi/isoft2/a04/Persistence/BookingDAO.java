@@ -1,85 +1,106 @@
 package es.uclm.esi.isoft2.a04.Persistence;
 
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.Vector;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-import javax.naming.spi.Resolver;
 
 import es.uclm.esi.isoft2.a04.Domain.*;
+import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
 public class BookingDAO {
 	
 	
 	public Booking[] readAllBookings() {
-		// TODO - implement BookingDao.readAllBookings
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param booking
-	 */
-	public void readBooking(Booking booking) {
 		
+		Vector<Vector<Object>> sql_result = new Vector<Vector<Object>>();
+		Vector<Booking> result = new Vector<>();
 		
-		try {
-			String url = "jdbc:mysql://172.20.48.70:3306/XXXdbservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-			Connection conn = DriverManager.getConnection(url,"","");
-			Statement statement = conn.createStatement();
-			ResultSet resultQuery;
-			
-			resultQuery = statement.executeQuery("SELECT booking.getClientID() FROM Booking WHERE id = booking.getClientID()");
-			
-		}
-		catch (Exception e) {
-			System.err.println("An exception has occur");
-			System.out.println(e.getMessage());
-		}
-	}
-
-	/**
-	 * 
-	 * @param booking
-	 */
-	public int createBooking(Booking booking) {
-		// TODO - implement BookingDao.createBooking
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param booking
-	 */
-	public int updateBooking(Booking booking) {
-		// TODO - implement BookingDao.updateBooking
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param booking
-	 */
-	public int deleteBooking(Booking booking) {
+		Booking[] bookings;
 		
-		try {
-			String url = "jdbc:mysql://172.20.48.70:3306/XXXdbservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-			Connection conn = DriverManager.getConnection(url,"","");
-			Statement statement = conn.createStatement();
-			ResultSet resultQuery;
+		String sql = "SELECT * FROM Bookings"; //Sql sentence
+		
+		sql_result = Broker.getBroker().read(sql);
+		
+		if(sql_result.size() > 0) {
 			
-			resultQuery = statement.executeQuery("DELETE FROM Booking WHERE id = booking.getClientID()");
+			for(Vector<Object> booking : sql_result) {
+				
+				result.add(new Booking(booking.get(1).toString(), Integer.parseInt(booking.get(2).toString()), new Date()));
+				
+			}
+		
+		}
+		
+		bookings = new Booking [result.size()];
+		
+		for (int i = 0; i<bookings.length; i++) {
 			
-			return resultQuery.getType();
+			bookings [i] = result.remove(i); 
 			
 		}
-		catch (Exception e) {
-			System.err.println("An exception has occur");
-			System.out.println(e.getMessage());
-		}
-		return -1;
+
+		return bookings;
+		
+	}
+	
+	/**
+	 * 
+	 * @param booking
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws SQLException 
+	 */
+	public void readBooking(Booking booking) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+
+		String sql = "SELECT * FROM Bookings WHERE BookingID ="+ booking.getTableID(); //Sql sentence
+		Broker.getBroker().read(sql);
+		
+	}
+
+	/**
+	 * 
+	 * @param booking
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws SQLException 
+	 */
+	public int createBooking(Booking booking) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		
+		String sql = "INSERT INTO Bookings VALUES ("+ booking.getClientID()+", "+ booking.getTableID()+ ","+booking.getTurn()+")"; //Sql sentence
+		return Broker.getBroker().update(sql);
+		
+	}
+
+	/**
+	 * 
+	 * @param booking
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws SQLException 
+	 */
+	public int updateBooking(Booking booking) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		
+		String sql = "UPDATE Bookings WHERE BookingID ="+booking.getTableID();  //Sql sentence
+		return Broker.getBroker().update(sql);
+		
+	}
+
+	/**
+	 * 
+	 * @param booking
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws SQLException 
+	 */
+	public int deleteBooking(Booking booking) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		
+		String sql = "DELETE FROM Bookings WHERE BookingID = "+ booking.getTableID(); //Sql sentence
+		return Broker.getBroker().update(sql);
 		
 	}
 
