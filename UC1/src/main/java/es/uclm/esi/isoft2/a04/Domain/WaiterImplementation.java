@@ -4,75 +4,122 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import es.uclm.esi.isoft2.a04.Persistence.WaiterDAO;
 
-public class WaiterImplementation implements Waiter{
+/**
+ * @version 0.1.0
+ *
+ */
+public class WaiterImplementation implements Waiter {
 
 	private int id;
-	private ArrayList<Integer> assignedTables;
+	private String name;
+	private ArrayList<TableImplementation> assignedTables;
 	private WaiterDAO waiterDAO;
+	private ArrayList<Observer> observers;
 
+	/**
+	 * 
+	 */
 	public WaiterImplementation() {
 		this.waiterDAO = new WaiterDAO();
+		this.observers = new ArrayList<>();
 	}
 
+	/**
+	 * @param id The id of the Waiter in the database
+	 */
 	public WaiterImplementation(int id) {
+		this();
 		this.id = id;
-		this.waiterDAO = new WaiterDAO();
+		this.assignedTables = new ArrayList<>();
 	}
-	
+
+	@Override
 	public int getID() {
 		return this.id;
 	}
-	public ArrayList<Integer> getAssignedTables(){
+
+	/**
+	 * @param id The id of the Waiter in the database
+	 */
+	public void setID(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the full name of the waiter
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * @param name The full name of the waiter
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return The list of tables currently assigned to the waiter
+	 */
+	public ArrayList<TableImplementation> getAssignedTables() {
 		return this.assignedTables;
 	}
-	public WaiterDAO getWaiterDAO() {
-		return this.waiterDAO;
-	}
-		
-	public void assignTable(int tableID) {
-		this.assignedTables.add(tableID);
+
+	/**
+	 * 
+	 */
+	public void clearTables() {
+		this.assignedTables = new ArrayList<>();
 	}
 
-	public void readAll() {
-		this.waiterDAO.readAllWaiters();
+	/**
+	 * @param table The new table to be assigned to this waiter
+	 */
+	public void assignTable(TableImplementation table) {
+		this.assignedTables.add(table);
 	}
-	
-	public int read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+
+	@Override
+	public Waiter[] readAll() throws NumberFormatException, InstantiationException, IllegalAccessException,
+			ClassNotFoundException, SQLException {
+		return this.waiterDAO.readAllWaiters();
+	}
+
+	@Override
+	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.waiterDAO.readWaiter(this);
-		return 0;
 	}
 
-	public int insert() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	@Override
+	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.waiterDAO.createWaiter(this);
 	}
 
+	@Override
 	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.waiterDAO.updateWaiter(this);
 	}
 
+	@Override
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.waiterDAO.deleteWaiter(this);
 	}
 
+	@Override
 	public void attach(Observer o) {
-		// TODO Auto-generated method stub
-		
+		this.observers.add(o);
 	}
 
+	@Override
 	public void detach(Observer o) {
-		// TODO Auto-generated method stub
-		
+		this.observers.remove(o);
 	}
 
 	@Override
 	public void notifyMe() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int create() {
-		// TODO Auto-generated method stub
-		return 0;
+		for(Observer o: this.observers) {
+			o.notify();
+		}
 	}
 }

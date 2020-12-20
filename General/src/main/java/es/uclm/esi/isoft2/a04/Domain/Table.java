@@ -1,5 +1,11 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.sql.SQLException;
+
+/**
+ * @version 0.1.0
+ *
+ */
 public interface Table {
 
 	static int FREE = 0;
@@ -12,23 +18,27 @@ public interface Table {
 	static int PAYING = 7;
 	static int IN_PREPARATION = 8;
 
-	void setState();
+	void setState(int state);
 
 	int getState();
 
-	void setSeats();
+	void setSeats(int seatsNumber);
 
 	int getSeats();
 
 	int getID();
+	
+	int getRestaurantID();
+	
+	String getCity();
 
-	Table[] readAll();
+	Table[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
-	int read();
+	void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
-	int create();
+	int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
-	int update();
+	int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
-	int delete();
+	int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 }

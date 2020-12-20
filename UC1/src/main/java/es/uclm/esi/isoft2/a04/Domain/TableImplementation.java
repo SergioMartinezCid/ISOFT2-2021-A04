@@ -3,102 +3,116 @@ package es.uclm.esi.isoft2.a04.Domain;
 import java.util.Arrays;
 import java.sql.SQLException;
 import java.util.Date;
-
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 import es.uclm.esi.isoft2.a04.Persistence.TableDAO;
 
-
-public class TableImplementation implements Table{
+/**
+ * @version 0.1.0
+ *
+ */
+public class TableImplementation implements Table {
 
 	private int id;
 	private int seatsNumber;
-	private int state = FREE;
+	private int state;
+	private int restaurantID;
+	private String city;
 	private TableDAO tableDAO;
 
+	/**
+	 * 
+	 */
 	public TableImplementation() {
 		this.tableDAO = new TableDAO();
 	}
+
 	/**
-	 * 
-	 * @param seatsNumber
+	 * @param id The id of the table in the database
 	 */
-	public TableImplementation(int id, int seatsNumber) {
+	public TableImplementation(int id) {
+		this();
 		this.id = id;
-		this.seatsNumber = seatsNumber;
-		this.tableDAO = new TableDAO();
-	}
-	
-	public int getId() {
-		return this.id;
 	}
 
-	public int getSeatsNumber() {
-		return this.seatsNumber;
-	}
-
+	@Override
 	public void setState(int state) {
 		this.state = state;
 	}
 
+	@Override
 	public int getState() {
 		return this.state;
 	}
-	
-	public TableDAO getTableDAO() {
-		return this.tableDAO;
-	}
-	
-	public int checkAvailability(Date turn, int seats) {
-		if (seats > seatsNumber)
-			return 0;
-		
-		boolean exists = Arrays.stream(Booking.bookingDAO.readAllBookings())
-			.filter(b -> b.getTableID() == getId())
-			.anyMatch(b -> b.getTurn().equals(turn));
-		
-		return exists == true ? 1 : 0;
-		//this.tableDAO.checkAvailability(turn, seats);
-		//return 0;
+
+	@Override
+	public void setSeats(int seatsNumber) {
+		this.seatsNumber = seatsNumber;
 	}
 
-	public void readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.tableDAO.readAllTables();
-	}
-	
-	public int read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.tableDAO.readTable(this);
-		return 0;
-	}
-	
-	public int insert() {
-		//this.tableDAO.insert(this);
-		return 0;
-	}
-
-	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.tableDAO.updateTable(this);
-		return 0;
-	}
-
-	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.tableDAO.deleteOrder(this);
-		return 0;
-	}
-	
+	@Override
 	public int getSeats() {
-		return seatsNumber;
+		return this.seatsNumber;
 	}
+
+	@Override
 	public int getID() {
-		return id;
+		return this.id;
 	}
-	@Override
-	public int create() {
-		// TODO Auto-generated method stub
-		return 0;
+
+	/**
+	 * @param id The id of this new instance
+	 */
+	public void setID(int id) {
+		this.id = id;
 	}
-  
+
 	@Override
-	public void setSeats(int seats) {
-		seatsNumber = seats;
+	public int getRestaurantID() {
+		return this.restaurantID;
+	}
+
+	/**
+	 * @param restaurantID The new restaurantID of this table
+	 */
+	public void setRestaurantID(int restaurantID) {
+		this.restaurantID = restaurantID;
+	}
+
+	@Override
+	public String getCity() {
+		return this.city;
+	}
+
+	/**
+	 * @param city The name of the city the restaurant is in
+	 */
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	@Override
+	public Table[] readAll()
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.tableDAO.readAllTables();
+	}
+
+	@Override
+	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		this.tableDAO.readTable(this);
+	}
+
+	@Override
+	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.tableDAO.createTable(this);
+	}
+
+	@Override
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.tableDAO.updateTable(this);
+	}
+
+	@Override
+	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.tableDAO.deleteOrder(this);
 	}
 }

@@ -1,106 +1,165 @@
 package es.uclm.esi.isoft2.a04.Persistence;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Vector;
 
 import es.uclm.esi.isoft2.a04.Domain.*;
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
+/**
+ * @version 0.1.0
+ *
+ */
 public class TableDAO {
 
-	public TableImplementation[] readAllTables() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		
-	
-		Vector<Vector<Object>> sql_result = new Vector<Vector<Object>>();
-		Vector<TableImplementation> result = new Vector<>();
-		
-		TableImplementation[] table_implementation;
-		
-		String sql = "SELECT * FROM Tables"; //Sql sentence
-		
-		sql_result  = Broker.getBroker().read(sql);
-		
-		if(sql_result.size() > 0) {
-			
-			for(Vector<Object> table : sql_result ) {
-				
-				result.add(new TableImplementation(Integer.parseInt(table.get(0).toString()), Integer.parseInt(table.get(0).toString())));
-				
+	/**
+	 * @return All the tables in the database
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public TableImplementation[] readAllTables()
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		Vector<Vector<Object>> query_result = new Vector<Vector<Object>>();
+
+		TableImplementation[] tables;
+
+		String sql = "SELECT TableId FROM Table;";
+
+		query_result = Broker.getBroker().read(sql);
+
+		tables = new TableImplementation[query_result.size()];
+
+		for (int i = 0; i < query_result.size(); i++) {
+			tables[i] = new TableImplementation(Integer.valueOf(query_result.get(i).get(0).toString()));
+			tables[i].read();
+		}
+		return tables;
+	}
+
+	/**
+	 * @param table The TableImplementation instance to be read
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void readTable(TableImplementation table)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		Vector<Vector<Object>> query_result_table, query_result_state;
+		String sql_table = "SELECT t.TableId, t.RestaurantId, t.Seats, r.City FROM Table AS t, Restaurant AS r WHERE t.TableID ="
+				+ table.getID() + " AND t.RestaurantId = r.RestaurantId;";
+		String sql_state = "SELECT State FROM StateTimes WHERE TableId = " + table.getID()
+				+ " ORDER BY StartTime DESC LIMIT 1;";
+		query_result_table = Broker.getBroker().read(sql_table);
+		query_result_state = Broker.getBroker().read(sql_state);
+
+		for (int i = 0; i < query_result_table.size(); i++) {
+			table.setSeats(Integer.valueOf(query_result_table.get(i).get(2).toString()));
+			table.setRestaurantID(Integer.valueOf(query_result_table.get(i).get(1).toString()));
+			table.setCity(query_result_table.get(i).get(3).toString());
+		}
+
+		for (int i = 0; i < query_result_state.size(); i++) {
+			switch (query_result_state.get(i).get(0).toString()) {
+			case "FREE":
+				table.setState(Table.FREE);
+				break;
+			case "RESERVED":
+				table.setState(Table.RESERVED);
+				break;
+			case "BUSY":
+				table.setState(Table.BUSY);
+				break;
+			case "ASKING":
+				table.setState(Table.ASKING);
+				break;
+			case "WAITING_FOR_FOOD":
+				table.setState(Table.WAITING_FOR_FOOD);
+				break;
+			case "SERVED":
+				table.setState(Table.SERVED);
+				break;
+			case "WAITING_FOR_BILL":
+				table.setState(Table.WAITING_FOR_BILL);
+				break;
+			case "PAYING":
+				table.setState(Table.PAYING);
+				break;
+			case "IN_PREPARATION":
+				table.setState(Table.IN_PREPARATION);
+				break;
 			}
-		
 		}
-		
-		table_implementation = new TableImplementation [result.size()];
-		
-		for (int i = 0; i<table_implementation.length; i++) {
-			
-			table_implementation[i] = result.remove(i); 
-			
+	}
+
+	/**
+	 * @param table The TableImplementation instance to be created
+	 * @return The number of modified columns
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public int createTable(TableImplementation table)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+
+		Vector<Vector<Object>> query_result_id;
+		String sql_table = "INSERT INTO Table (RestaurantId, Seats) VALUES (" + table.getRestaurantID() + ", "
+				+ table.getSeats() + ")";
+		String sql_state = "INSERT INTO StartTimes VALUES (NOW(), " + table.getID() + ", '" + table.getState() + "');";
+		String sql_getId = "SELECT LAST_INSERT_ID();";
+
+		int modifiedRows = Broker.getBroker().update(sql_table) + Broker.getBroker().update(sql_state);
+		query_result_id = Broker.getBroker().read(sql_getId);
+		for (int i = 0; i < query_result_id.size(); i++) {
+			table.setID(Integer.valueOf(query_result_id.get(i).get(0).toString()));
 		}
-
-		return table_implementation;
-
+		return modifiedRows;
 	}
 
 	/**
-	 * 
-	 * @param table
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
+	 * @param table The {@link TableImplementation} instance to be updated
+	 * @return The number of modified columns
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
 	 */
-	public void readTable(TableImplementation table) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		
-		String sql = "SELECT * FROM Tables WHERE TableID ="+table.getID(); //Sql sentence
-		Broker.getBroker().read(sql);
-		
+	public int updateTable(TableImplementation table)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+
+		String sql_table = "UPDATE Table SET RestaurantId = " + table.getRestaurantID() + ", Seats = "
+				+ table.getSeats() + " WHERE TableId = " + table.getID() + ";";
+		String sql_state = "INSERT INTO StartTimes VALUES ('"
+				+ DateTimeFormatter.ISO_DATE_TIME.format(OffsetDateTime.now()) + "', " + table.getID() + ", '"
+				+ table.getState() + "');";
+		return Broker.getBroker().update(sql_table) + Broker.getBroker().update(sql_state);
 	}
 
 	/**
-	 * 
-	 * @param table
-	 * @throws ClassNotFoundException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 * @throws SQLException 
+	 * @param table The {@link TableImplementation} instance to be deleted
+	 * @return The number of modified columns
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
 	 */
-	public int createTable(TableImplementation table) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		
-		String sql = "INSERT INTO Tables VALUES ("+ table.getID()+","+table.getSeatsNumber()+","+table.getState()+null+")"; //Sql sentence
-		return Broker.getBroker().update(sql);
-		
-	}
-		
-	/**
-	 * 
-	 * @param table
-	 * @throws ClassNotFoundException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 * @throws SQLException 
-	 */
-	public int updateTable(TableImplementation table) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		
-		String sql = "UPDATE Tables WHERE TableID ="+table.getID(); //Sql sentence
-		return Broker.getBroker().update(sql);
-		
-	}
+	public int deleteOrder(TableImplementation table)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
-	/**
-	 * 
-	 * @param table
-	 * @throws ClassNotFoundException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 * @throws SQLException 
-	 */
-	public int deleteOrder(TableImplementation table) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		
-		String sql = "DELETE FROM Tables WHERE TableID ="+table.getID(); //Sql sentence
-		return Broker.getBroker().update(sql);
-		
+		String sql_orders = "DELETE FROM Order WHERE TableId = " + table.getID() + ";";
+		String sql_state = "DELETE FROM StateTimes WHERE TableId = " + table.getID() + ";";
+		String sql_booking = "DELETE FROM Booking WHERE TableId = " + table.getID() + ";";
+		String sql_table = "DELETE FROM Table WHERE TableId =" + table.getID() + ";";
+		return Broker.getBroker().update(sql_orders) + Broker.getBroker().update(sql_state) + Broker.getBroker().update(sql_booking) + Broker.getBroker().update(sql_table);
+
 	}
 
 }

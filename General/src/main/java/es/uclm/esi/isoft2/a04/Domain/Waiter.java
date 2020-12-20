@@ -1,7 +1,9 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.sql.SQLException;
+
 /**
- * @version 0.1.0
+ * @version 0.2.0
  *
  */
 public interface Waiter extends Subject {
@@ -13,26 +15,48 @@ public interface Waiter extends Subject {
 
 	/**
 	 * @return All the waiters from the database
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws NumberFormatException
 	 */
-	Waiter[] readAll();
+	Waiter[] readAll() throws NumberFormatException, InstantiationException, IllegalAccessException,
+			ClassNotFoundException, SQLException;
 
 	/**
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 * 
 	 */
-	void read();
+	void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
 	/**
 	 * @return Number of modified lines in the database
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	int create();
+	int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
 	/**
 	 * @return Number of modified lines in the database
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	int update();
+	int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
 	/**
 	 * @return Number of modified lines in the database
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	int delete();
+	int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 }
