@@ -4,16 +4,18 @@ import java.sql.*;
 import java.util.Vector;
 
 /**
- * @version 0.1.1
+ * @version 0.1.2
  *
  */
 public class Broker {
 
-	final static String DBUSER = "A04dbservice";
+	final static String DBSCHEMA = "A04dbservice";
+	final static String DBUSER = "A04";
 	final static String DBPASS = "@ISoft2.2020#";
 
-	private static final String unformatedString = "jdbc:mysql://172.20.48.70:3306/" + DBUSER
-			+ "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private static final String unformatedString = "jdbc:mysql://172.20.48.70:3306/" + DBSCHEMA
+			+ "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC?user="
+			+ DBUSER + "&password=" + DBPASS;
 	protected static Connection connection;
 	protected static Broker instance;
 
