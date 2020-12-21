@@ -1,92 +1,45 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 
 public class WaiterImplementationTest {
 
+	WaiterImplementation tester = new WaiterImplementation(5);
+	
 	@Test
-	public void testWaiterImplementation() throws Exception {
-		throw new RuntimeException("not yet implemented");
+	public void testID() {
+		int id = 8;
+		tester.setID(id);
+		assertEquals(id, tester.getID());
 	}
 
 	@Test
-	public void testWaiterImplementationInt() throws Exception {
-		throw new RuntimeException("not yet implemented");
+	public void testName() {
+		String name = "Francisco";
+		tester.setName(name);
+		assertEquals(name, tester.getName());
 	}
 
-	@Test
-	public void testGetID() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
 
 	@Test
-	public void testSetID() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testGetName() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testSetName() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testGetAssignedTables() throws Exception {
-		throw new RuntimeException("not yet implemented");
+	public void testAssignedTables()  {
+		assertNotNull(tester.getAssignedTables());
+		TableImplementation table = new TableImplementation();
+		
+		tester.assignTable(table);
+		assertEquals(table, tester.getAssignedTables().get(0));
 	}
 
 	@Test
 	public void testClearTables() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testAssignTable() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testReadAll() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testRead() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testCreate() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testUpdate() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testDelete() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testAttach() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testDetach() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testNotifyMe() throws Exception {
-		throw new RuntimeException("not yet implemented");
+		for(int i = 0; i < 10; i++)
+			tester.assignTable(new TableImplementation(i));
+		tester.clearTables();
+		assertEquals(0, tester.getAssignedTables().size());
 	}
 
 }

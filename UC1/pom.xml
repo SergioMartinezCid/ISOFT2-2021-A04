@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>UC1</artifactId>
 	<name>UC1</name>
-	<version>0.2.1</version>
+	<version>0.2.2</version>
 	<dependencies>
 		<dependency>
 			<groupId>es.uclm.esi.isoft2.a04</groupId>

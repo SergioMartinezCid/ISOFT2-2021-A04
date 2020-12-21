@@ -1,92 +1,49 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Test;
 
 public class TableImplementationTest {
 
+	TableImplementation tester = new TableImplementation(0);
+	
+
 	@Test
-	public void testTableImplementation() throws Exception {
-		throw new RuntimeException("not yet implemented");
+	public void testState() {
+		tester.setState(TableImplementation.SERVED);
+		assertEquals(TableImplementation.SERVED, tester.getState());
+		assertNotEquals(TableImplementation.BUSY, tester.getState());
+		
 	}
 
 	@Test
-	public void testTableImplementationInt() throws Exception {
-		throw new RuntimeException("not yet implemented");
+	public void testSeats() {
+		tester.setSeats(4);
+		assertEquals(4, tester.getSeats());
+		assertNotEquals(2, tester.getSeats());
 	}
 
 	@Test
-	public void testSetState() throws Exception {
-		throw new RuntimeException("not yet implemented");
+	public void testID(){
+		int id = 5;
+		tester.setID(id);
+		assertEquals(id, tester.getID());
 	}
+
 
 	@Test
-	public void testGetState() throws Exception {
-		throw new RuntimeException("not yet implemented");
+	public void testRestaurantID() {
+		int id = 5;
+		tester.setRestaurantID(id);
+		assertEquals(id, tester.getRestaurantID());
 	}
-
+	
 	@Test
-	public void testSetSeats() throws Exception {
-		throw new RuntimeException("not yet implemented");
+	public void testGetCity() {
+		String name = "Cádiz";
+		tester.setCity(name);
+		assertEquals(name, tester.getCity());
 	}
-
-	@Test
-	public void testGetSeats() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testGetID() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testSetID() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testGetRestaurantID() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testSetRestaurantID() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testGetCity() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testSetCity() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testReadAll() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testRead() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testCreate() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testUpdate() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
-	@Test
-	public void testDelete() throws Exception {
-		throw new RuntimeException("not yet implemented");
-	}
-
 }
