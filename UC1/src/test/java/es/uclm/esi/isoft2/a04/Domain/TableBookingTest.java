@@ -37,16 +37,16 @@ public class TableBookingTest {
 	}
 
 	@Test
-	public void testAssignWaiter() throws Exception {
-		TableImplementation table = new TableImplementation();
-		assertThrows(Exception.class, () -> tester.assignWaiter(table));
+	public void testAssignWaiter() {
+		//TableImplementation table = new TableImplementation();
+		//assertThrows(Exception.class, () -> tester.assignWaiter(table));
+		throw new RuntimeException("not yet implemented");
 	}
 
 	@Test
-	public void testCancelBooking() throws Exception {
+	public void testCancelBooking() {
 		//tester.bookTable(date, turn, 4, clientID);
-		
-		
+		throw new RuntimeException("not yet implemented");
 	}
 
 }
