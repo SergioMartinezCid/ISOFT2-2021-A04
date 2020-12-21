@@ -59,7 +59,7 @@ public class TableBooking {
 		TableImplementation foundTable = null;
 		int i = 0, j;
 		boolean isValid;
-		while (foundTable != null && i < tables.length) {
+		while (foundTable == null && i < tables.length) {
 			if (tables[i].getSeats() != seats)
 				continue;
 			if (tables[i].getState() != Table.FREE) {
