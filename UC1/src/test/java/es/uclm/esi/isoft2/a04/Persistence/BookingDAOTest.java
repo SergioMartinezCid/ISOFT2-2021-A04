@@ -3,6 +3,7 @@ package es.uclm.esi.isoft2.a04.Persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 import org.junit.Test;
@@ -20,29 +21,37 @@ public class BookingDAOTest {
 			);
 	
 	@Test
-	public void testReadAllBookings() throws Exception {
-		assertEquals(Booking[].class, tester.readAllBookings());
-		
+	public void testReadAllBookings() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		assertEquals(Booking.class, tester.readAllBookings().getClass());
 	}
 
 	@Test
-	public void testReadBooking() throws Exception {
-		throw new RuntimeException("not yet implemented");
+	public void testReadBooking() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		/*
+		Booking booking = new Booking(
+				new TableImplementation(1),
+				new Date(2021, 3, 2), 
+				Booking.TURN.D1
+				);
+		*/
+		String previous = booking.getClientID();
+		tester.readBooking(booking);
+		assertEquals(previous, booking.getClientID());
 	}
 
 	@Test
 	public void testCreateBooking() throws Exception {
-		throw new RuntimeException("not yet implemented");
+		assertEquals(1, tester.createBooking(booking));
 	}
 
 	@Test
 	public void testUpdateBooking() throws Exception {
-		throw new RuntimeException("not yet implemented");
+		assertEquals(1, tester.updateBooking(booking));
 	}
 
 	@Test
 	public void testDeleteBooking() throws Exception {
-		throw new RuntimeException("not yet implemented");
+		assertEquals(1, tester.deleteBooking(booking));
 	}
 
 }

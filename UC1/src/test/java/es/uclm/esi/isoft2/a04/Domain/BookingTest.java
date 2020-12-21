@@ -14,7 +14,7 @@ public class BookingTest {
 	private Booking bookingTester = new Booking(
 			new TableImplementation(), 
 			new Date(2021, 5, 2),
-			TURN.L1); 
+			TURN.L1);
 	
 	@Test
 	public void testBooking() {

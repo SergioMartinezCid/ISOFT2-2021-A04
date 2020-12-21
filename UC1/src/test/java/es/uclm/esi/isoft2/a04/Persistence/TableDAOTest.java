@@ -1,32 +1,49 @@
 package es.uclm.esi.isoft2.a04.Persistence;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Test;
+
+import es.uclm.esi.isoft2.a04.Domain.Booking;
+import es.uclm.esi.isoft2.a04.Domain.TableImplementation;
 
 public class TableDAOTest {
 
+	TableDAO tester = new TableDAO();
+	TableImplementation table = new TableImplementation();
+	
 	@Test
 	public void testReadAllTables() throws Exception {
-		throw new RuntimeException("not yet implemented");
+		assertEquals(Booking.class, tester.readAllTables().getClass());
 	}
 
 	@Test
 	public void testReadTable() throws Exception {
-		throw new RuntimeException("not yet implemented");
+		int seats = table.getSeats();
+		int state = table.getState();
+		int id = table.getID();
+		
+		tester.readTable(table);
+		
+		assertNotEquals(seats, table.getSeats());
+		assertNotEquals(state, table.getState());
+		assertNotEquals(id, table.getID());
 	}
 
 	@Test
 	public void testCreateTable() throws Exception {
-		throw new RuntimeException("not yet implemented");
+		assertEquals(1, tester.createTable(table));
 	}
 
 	@Test
 	public void testUpdateTable() throws Exception {
-		throw new RuntimeException("not yet implemented");
+		assertEquals(1, tester.updateTable(table));
 	}
 
 	@Test
 	public void testDeleteOrder() throws Exception {
-		throw new RuntimeException("not yet implemented");
+		assertEquals(1, tester.deleteOrder(table));
 	}
 
 }
