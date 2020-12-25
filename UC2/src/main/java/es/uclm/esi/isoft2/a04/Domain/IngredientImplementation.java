@@ -1,98 +1,123 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.sql.SQLException;
+
 import es.uclm.esi.isoft2.a04.Persistance.IngredientDAO;
 
 /**
- * Ingredient interface implementation
+ * @version 0.1.0
  *
- * @version 0.0.1
  */
 public class IngredientImplementation implements Ingredient {
-	
-	private static IngredientDAO ingredientDAO;
 
 	private int id;
 	private float amount;
+	private float quantityRequired;
 	private String name;
-  
-	public IngredientImplementation(int id, String name, float amount) {
-		this.id = id;
-		this.setName(name);
-		this.setAmount(amount);
-	}
-  public int update() {
-		return ingredientDAO.updateIngredient(this);
-  }
 
+	private IngredientDAO ingredientDAO;
+	private Dish dish;
+
+	/**
+	 * 
+	 */
+	public IngredientImplementation() {
+		this.ingredientDAO = new IngredientDAO();
+	}
+
+	/**
+	 * @param id The id of the ingredient in the database
+	 */
+	public IngredientImplementation(int id) {
+		this();
+		setID(id);
+	}
+
+	public IngredientImplementation(int id, Dish dish) {
+		this(id);
+		this.dish = dish;
+	}
+
+	@Override
 	public int getID() {
 		return this.id;
 	}
 
+	public void setID(int id) {
+		this.id = id;
+	}
+
+	@Override
 	public float getAmount() {
 		return this.amount;
 	}
 
-	/**
-	 * 
-	 * @param amount
-	 */
+	@Override
 	public void setAmount(float amount) {
 		this.amount = amount;
 	}
 
+	@Override
 	public String getName() {
 		return this.name;
 	}
 
-	/**
-	 * 
-	 * @param name
-	 */
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	@Override
+	/**
+	 * @return The quantity required of this ingredient for a dish
+	 */
+	public float getQuantityRequired() {
+		return this.quantityRequired;
+	}
 
-	@Override
-	public int create() {
-		// TODO Auto-generated method stub
-		return 0;
+	/**
+	 * @param quantityRequired The quantity required of this ingredient for a dish
+	 */
+	public void setQuantityRequired(float quantityRequired) {
+		this.quantityRequired = quantityRequired;
+	}
+
+	/**
+	 * @return The dish that requires this ingredient
+	 */
+	public Dish getDish() {
+		return dish;
+	}
+
+	/**
+	 * @param dish The dish that requires this ingredient
+	 */
+	public void setDish(Dish dish) {
+		this.dish = dish;
 	}
 
 	@Override
-	public int delete() {
-		// TODO Auto-generated method stub
-	public int update() {
-		try {
-			return ingredientDAO.updateIngredient(this);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
+	public Ingredient[] readAll()
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.ingredientDAO.readAllIngredients();
 	}
 
 	@Override
-	public void readAll() {
-		try {
-			ingredientDAO.readAlllIngredients();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		this.ingredientDAO.readIngredient(this);
 	}
 
 	@Override
-	public int read() {
-		try {
-			ingredientDAO.readIngredient(this);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
-		return 0;
+	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.ingredientDAO.createIngredient(this);
 	}
 
+	@Override
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.ingredientDAO.updateIngredient(this);
+	}
+
+	@Override
+	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.ingredientDAO.deleteIngredient(this);
+	}
 }

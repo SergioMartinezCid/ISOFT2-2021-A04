@@ -1,67 +1,108 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.sql.SQLException;
+import java.text.ParseException;
+
+import es.uclm.esi.isoft2.a04.Persistance.BeverageDAO;
+
 /**
- * Beverage type of Food class
+ * @version 0.1.0
  *
- * @version 0.0.1
  */
 public class Beverage extends FoodImplementation {
 
+	private float amount;
+
+	private BeverageDAO beverageDAO;
+
 	/**
 	 * 
-	 * @param type
 	 */
-	public void setType(int type) {
-		// does not allow type change
+	public Beverage() {
+		this.beverageDAO = new BeverageDAO();
 	}
 
+	/**
+	 * @param id The id of the beverage in the database
+	 */
+	public Beverage(int id) {
+		super(id);
+		this.beverageDAO = new BeverageDAO();
+	}
+
+	/**
+	 * @param id    The id of the beverage in the database
+	 * @param order The order in the database that has this beverage
+	 */
+	public Beverage(int id, OrderImplementation order) {
+		this(id);
+		this.setOrder(order);
+	}
+
+	@Override
+	public void setType(int type) throws InvalidTypeException {
+		// Empty method; the type cannot be changed
+	}
+
+	@Override
 	public int getType() {
-		return this.type;
+		return Food.DRINK;
+	}
+
+	@Override
+	public int getMaximumAvailable() {
+		return (int) getAmount();
+	}
+
+	@Override
+	public Ingredient[] getIngredients() {
+		// Empty method; it has no ingredients
+		return null;
+	}
+
+	@Override
+	public void setIngredients(Ingredient[] ingredients) {
+		// Empty method; it has no ingredients
 	}
 
 	/**
-	 * 
-	 * @param id
-	 * @param name
+	 * @return The amount stored in the warehouse of this drink
 	 */
-	public Beverage(int id, String name) {
-		super(id, name);
-		this.type = 0;
+	public float getAmount() {
+		return amount;
+	}
+
+	/**
+	 * @param amount The amount stored in the warehouse
+	 */
+	public void setAmount(float amount) {
+		this.amount = amount;
 	}
 
 	@Override
-	public boolean isAvaible() {
-		// TODO Auto-generated method stub
-		return false;
+	public Food[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			InvalidTypeException, ParseException {
+		return this.beverageDAO.readAllBeverages();
 	}
 
 	@Override
-	public void readAll() {
-		// TODO Auto-generated method stub
-		
+	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			InvalidTypeException, ParseException {
+		this.beverageDAO.readBeverage(this);
 	}
 
 	@Override
-	public int read() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.beverageDAO.createBeverage(this);
 	}
 
 	@Override
-	public int create() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.beverageDAO.updateBeverage(this);
 	}
 
 	@Override
-	public int update() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int delete() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return this.beverageDAO.deleteBeverage(this);
 	}
 }
