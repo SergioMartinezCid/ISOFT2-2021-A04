@@ -1,6 +1,7 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 import es.uclm.esi.isoft2.a04.Persistence.BookingDAO;
 
@@ -101,9 +102,11 @@ public class Booking {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ParseException
+	 * @throws NumberFormatException
 	 */
-	public Booking[] readAll()
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	public Booking[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
+			SQLException, NumberFormatException, ParseException {
 		return this.bookingDAO.readAllBookings();
 	}
 
@@ -118,7 +121,7 @@ public class Booking {
 	}
 
 	/**
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -129,7 +132,7 @@ public class Booking {
 	}
 
 	/**
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -140,7 +143,7 @@ public class Booking {
 	}
 
 	/**
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
