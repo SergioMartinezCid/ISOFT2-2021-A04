@@ -75,7 +75,7 @@ public class Broker {
 
 	/**
 	 * @param sql The sql instance for modifying the database
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws SQLException
 	 */
 	public int update(String sql) throws SQLException {

@@ -1,5 +1,8 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.sql.SQLException;
+import java.text.ParseException;
+
 /**
  * @version 0.1.0
  *
@@ -14,8 +17,9 @@ public interface Food {
 
 	/**
 	 * @param type the type of the food
+	 * @throws InvalidTypeException 
 	 */
-	void setType(int type);
+	void setType(int type) throws InvalidTypeException;
 
 	/**
 	 * @return the type of the food
@@ -23,9 +27,9 @@ public interface Food {
 	int getType();
 
 	/**
-	 * @return true if this food is available
+	 * @return the number of times this food can be ordered before running out
 	 */
-	boolean isAvaible();
+	int getMaximumAvailable();
 
 	/**
 	 * @return the id of the food
@@ -63,38 +67,52 @@ public interface Food {
 	float getCost();
 
 	/**
-	 * @return whether it is ready from the kitchen
-	 */
-	boolean isReady();
-
-	/**
-	 * @param ready whether it is ready from the kitchen
-	 */
-	void setReady(boolean ready);
-
-	/**
 	 * @return All the foods in the database
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws ParseException
+	 * @throws InvalidTypeException
 	 */
-	Food[] readAll();
+	Food[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException;
 
 	/**
+	 * @throws ParseException 
+	 * @throws InvalidTypeException 
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 * 
 	 */
-	void read();
+	void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException;
 
 	/**
 	 * @return Number of modified lines in the database
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	int create();
+	int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
 	/**
 	 * @return Number of modified lines in the database
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	int update();
+	int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
 	/**
 	 * @return Number of modified lines in the database
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	int delete();
+	int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
 }
