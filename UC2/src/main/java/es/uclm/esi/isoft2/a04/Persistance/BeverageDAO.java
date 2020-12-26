@@ -24,13 +24,13 @@ public class BeverageDAO {
 	 * @throws InvalidTypeException
 	 * @throws ParseException
 	 */
-	public Beverage[] readAllBeverages() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
+	public BeverageImplementation[] readAllBeverages() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
 			SQLException, InvalidTypeException, ParseException {
 		Vector<Vector<Object>> query_result;
 		query_result = Broker.getBroker().read("SELECT FoodId FROM Drink;");
-		Beverage[] beverages = new Beverage[query_result.size()];
+		BeverageImplementation[] beverages = new BeverageImplementation[query_result.size()];
 		for (int i = 0; i < query_result.size(); i++) {
-			beverages[i] = new Beverage(Integer.valueOf(query_result.get(i).get(0).toString()));
+			beverages[i] = new BeverageImplementation(Integer.valueOf(query_result.get(i).get(0).toString()));
 			beverages[i].read();
 		}
 		return beverages;
@@ -44,7 +44,7 @@ public class BeverageDAO {
 	 * @throws SQLException
 	 * @throws ParseException
 	 */
-	public void readBeverage(Beverage beverage) throws InstantiationException, IllegalAccessException,
+	public void readBeverage(BeverageImplementation beverage) throws InstantiationException, IllegalAccessException,
 			ClassNotFoundException, SQLException, ParseException {
 		Vector<Vector<Object>> query_result_food = Broker.getBroker()
 				.read("SELECT Name, Cost FROM Food WHERE FoodId = " + beverage.getID() + ";");
@@ -83,7 +83,7 @@ public class BeverageDAO {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public int createBeverage(Beverage beverage)
+	public int createBeverage(BeverageImplementation beverage)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		int modifiedRows = Broker.getBroker().update("INSERT INTO Food (Name, Type, Cost) VALUES ('"
 				+ beverage.getName() + "', 'DRINKS', " + beverage.getCost() + ");");
@@ -104,7 +104,7 @@ public class BeverageDAO {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public int updateBeverage(Beverage beverage)
+	public int updateBeverage(BeverageImplementation beverage)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		int modifiedRows = Broker.getBroker().update("UPDATE Food SET Name='" + beverage.getName() + ", Cost="
 				+ beverage.getCost() + " WHERE FoodId = " + beverage.getID() + ";");
@@ -130,7 +130,7 @@ public class BeverageDAO {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public int deleteBeverage(Beverage beverage)
+	public int deleteBeverage(BeverageImplementation beverage)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		int modifiedRows = Broker.getBroker().update("DELETE FROM Drink WHERE FoodId = " + beverage.getID() + ";");
 		modifiedRows += Broker.getBroker().update("DELETE FROM Food WHERE FoodId = " + beverage.getID() + ";");

@@ -9,7 +9,7 @@ import es.uclm.esi.isoft2.a04.Persistance.BeverageDAO;
  * @version 0.1.0
  *
  */
-public class Beverage extends FoodImplementation {
+public class BeverageImplementation extends FoodImplementation implements Beverage {
 
 	private float amount;
 
@@ -18,14 +18,14 @@ public class Beverage extends FoodImplementation {
 	/**
 	 * 
 	 */
-	public Beverage() {
+	public BeverageImplementation() {
 		this.beverageDAO = new BeverageDAO();
 	}
 
 	/**
 	 * @param id The id of the beverage in the database
 	 */
-	public Beverage(int id) {
+	public BeverageImplementation(int id) {
 		super(id);
 		this.beverageDAO = new BeverageDAO();
 	}
@@ -34,7 +34,7 @@ public class Beverage extends FoodImplementation {
 	 * @param id    The id of the beverage in the database
 	 * @param order The order in the database that has this beverage
 	 */
-	public Beverage(int id, OrderImplementation order) {
+	public BeverageImplementation(int id, OrderImplementation order) {
 		this(id);
 		this.setOrder(order);
 	}
@@ -65,16 +65,12 @@ public class Beverage extends FoodImplementation {
 		// Empty method; it has no ingredients
 	}
 
-	/**
-	 * @return The amount stored in the warehouse of this drink
-	 */
+	@Override
 	public float getAmount() {
 		return amount;
 	}
 
-	/**
-	 * @param amount The amount stored in the warehouse
-	 */
+	@Override
 	public void setAmount(float amount) {
 		this.amount = amount;
 	}

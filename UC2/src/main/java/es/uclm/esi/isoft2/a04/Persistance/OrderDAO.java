@@ -102,7 +102,7 @@ public class OrderDAO {
 		ArrayList<Food> food = new ArrayList<>();
 		for (int i = 0; i < query_result_food.size(); i++) {
 			if (query_result_food.get(i).get(1).toString().equals("DRINKS")) {
-				auxFood = new Beverage(Integer.valueOf(query_result_food.get(i).get(0).toString()), order);
+				auxFood = new BeverageImplementation(Integer.valueOf(query_result_food.get(i).get(0).toString()), order);
 			} else {
 				auxFood = new Dish(Integer.valueOf(query_result_food.get(i).get(0).toString()), order);
 			}
