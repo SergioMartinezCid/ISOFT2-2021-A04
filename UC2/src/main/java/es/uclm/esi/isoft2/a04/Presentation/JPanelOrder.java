@@ -10,6 +10,8 @@ import java.awt.GridBagConstraints;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JPanelOrder extends JPanel implements Observer {
 	
@@ -19,7 +21,6 @@ public class JPanelOrder extends JPanel implements Observer {
 	private JPanel panel;
 	private JButton btnFood;
 	private JButton btnBeverage;
-	private JScrollPane scrollPane;
 	
 	/**
 	 * Create the panel.
@@ -36,12 +37,22 @@ public class JPanelOrder extends JPanel implements Observer {
 		add(panel, BorderLayout.NORTH);
 		
 		btnFood = new JButton("Add food");
+		btnFood.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel.add(new FoodItem());
+			}
+		});
 		panel.add(btnFood);
 		
 		btnBeverage = new JButton("Add beverage");
+		btnBeverage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel.add(new FoodItem(Food.DRINK));
+			}
+		});
 		panel.add(btnBeverage);
 		
-		scrollPane = new JScrollPane();
+		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(new TitledBorder(null, "Order contents", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(scrollPane, BorderLayout.CENTER);
 	}

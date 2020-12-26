@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.TabExpander;
 
 public class JPanelFood extends JPanel implements Observer {
 	
@@ -27,9 +28,20 @@ public class JPanelFood extends JPanel implements Observer {
 		scrollPane.setBorder(new TitledBorder(null, "Order contents", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(scrollPane, BorderLayout.CENTER);
 		
+		
 		btnReady = new JButton("Ready");
 		add(btnReady, BorderLayout.EAST);
+		
+		displayOrder();
 	}
+	
+	private void displayOrder() {
+		OrderImplementation order = new OrderImplementation(waiter, table);
+		for(Food food: order.getFood())
+			scrollPane.add(new FoodItem(food));
+	}
+	
+	
 	
 	public void update() {
 		// TODO - implement
