@@ -20,6 +20,7 @@ import javax.swing.JRadioButton;
 import java.awt.Choice;
 import java.awt.Button;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
@@ -27,6 +28,9 @@ import java.awt.event.FocusEvent;
 import java.sql.SQLException;
 
 import javax.swing.ButtonGroup;
+import java.awt.BorderLayout;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class IU_Booking extends JPanel {
 	private JPanel contentPane;
@@ -41,28 +45,29 @@ public class IU_Booking extends JPanel {
 	private JRadioButton rdbtn5;
 	private JRadioButton rdbtn3;
 	private JRadioButton rdbtn6;
-	private JLabel lblNewLabel;
-	private Choice chSeats;
+	private JLabel lblSeats;
 	private Button btnConfirm;
 	private JLabel lblInfo;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private Date date;
+	private Date date, aux = new Date();
 	private Booking.TURN turn;
 	private TableBooking tB = new TableBooking();
+	private JComboBox cbSeats;
 	// private Booking booking = new Booking();
 
 	/**
 	 * Create the panel.
 	 */
 	public IU_Booking() {
+		setLayout(new BorderLayout(0, 0));
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[] { 86, 156, 139, 0, 0 };
+		gbl_contentPane.columnWidths = new int[] { 32, 156, 139, 29, 0 };
 		gbl_contentPane.rowHeights = new int[] { 54, 40, 24, 0, 0, 44, 68, 46, 0, 0 };
-		gbl_contentPane.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
 
@@ -169,26 +174,26 @@ public class IU_Booking extends JPanel {
 		gbc_rdbtn6.gridy = 4;
 		contentPane.add(rdbtn6, gbc_rdbtn6);
 
-		lblNewLabel = new JLabel("Seats:");
-		lblNewLabel.setForeground(Color.BLUE);
-		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 11));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 5;
-		contentPane.add(lblNewLabel, gbc_lblNewLabel);
-
-		chSeats = new Choice();
-		GridBagConstraints gbc_chSeats = new GridBagConstraints();
-		gbc_chSeats.anchor = GridBagConstraints.SOUTH;
-		gbc_chSeats.insets = new Insets(0, 0, 5, 5);
-		gbc_chSeats.gridx = 1;
-		gbc_chSeats.gridy = 5;
-		contentPane.add(chSeats, gbc_chSeats);
+		lblSeats = new JLabel("Seats:");
+		lblSeats.setForeground(Color.BLUE);
+		lblSeats.setFont(new Font("Arial Black", Font.BOLD, 11));
+		GridBagConstraints gbc_lblSeats = new GridBagConstraints();
+		gbc_lblSeats.anchor = GridBagConstraints.EAST;
+		gbc_lblSeats.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSeats.gridx = 0;
+		gbc_lblSeats.gridy = 5;
+		contentPane.add(lblSeats, gbc_lblSeats);
 
 		btnConfirm = new Button("Confirm");
 		btnConfirm.addActionListener(new BtnConfirmActionListener());
+		
+		cbSeats = new JComboBox();
+		cbSeats.setModel(new DefaultComboBoxModel(new String[] {"2", "4", "6"}));
+		GridBagConstraints gbc_cbSeats = new GridBagConstraints();
+		gbc_cbSeats.insets = new Insets(0, 0, 5, 5);
+		gbc_cbSeats.gridx = 1;
+		gbc_cbSeats.gridy = 5;
+		contentPane.add(cbSeats, gbc_cbSeats);
 		btnConfirm.setForeground(Color.BLACK);
 		GridBagConstraints gbc_btnConfirm = new GridBagConstraints();
 		gbc_btnConfirm.fill = GridBagConstraints.BOTH;
@@ -200,7 +205,6 @@ public class IU_Booking extends JPanel {
 
 		lblInfo = new JLabel("Information...");
 		GridBagConstraints gbc_lblInfo = new GridBagConstraints();
-		gbc_lblInfo.insets = new Insets(0, 0, 0, 5);
 		gbc_lblInfo.anchor = GridBagConstraints.WEST;
 		gbc_lblInfo.gridwidth = 4;
 		gbc_lblInfo.gridx = 0;
@@ -211,26 +215,43 @@ public class IU_Booking extends JPanel {
 
 	private class RdbtnActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			lblTurn.setForeground(Color.BLUE);
+			date = new Date();
+			aux.setSeconds(0);
 			switch(e.getActionCommand()) {
 			case "13:00":
 				turn = Booking.TURN.L1;
+				aux.setHours(13);
+				aux.setMinutes(0);
 				break;
 			case "14:00":
 				turn = Booking.TURN.L2;
+				aux.setHours(14);
+				aux.setMinutes(0);
 				break;
 			case "15:00":
 				turn = Booking.TURN.L3;
+				aux.setHours(15);
+				aux.setMinutes(0);
 				break;
 			case "20:30":
 				turn = Booking.TURN.D1;
+				aux.setHours(20);
+				aux.setMinutes(30);
 				break;
 			case "21:30":
 				turn = Booking.TURN.D2;
+				aux.setHours(21);
+				aux.setMinutes(30);
 				break;
 			case "22:30":
 				turn = Booking.TURN.D3;
+				//aux.setHours(22);
+				//aux.setMinutes(30);
+				aux.setHours(23);
+				aux.setMinutes(59);
 				break;
-			}
+			}			
 		}
 	}
 
@@ -238,6 +259,7 @@ public class IU_Booking extends JPanel {
 		@Override
 		public void focusGained(FocusEvent e) {
 			txtClient.setBackground(Color.WHITE);
+			lblClient.setForeground(Color.BLUE);
 		}
 	}
 
@@ -246,20 +268,25 @@ public class IU_Booking extends JPanel {
 			if (!txtClient.getText().equals("")) {
 				if (buttonGroup.getSelection() != null) {
 					try {
-						switch (chSeats.getSelectedItem()) {
+						if(date.after(aux)) {
+							date = changeToTomorrow(date);
+						}
+						
+						switch ("ll") {
 						case "2":
-							tB.bookTable(date, turn, 2,txtClient.getText());
+							tB.bookTable(date, turn, 2, txtClient.getText());
 							break;
 						case "4":
-							tB.bookTable(date, turn, 4,txtClient.getText());
+							tB.bookTable(date, turn, 4, txtClient.getText());
 							break;
 						case "6":
 							tB.bookTable(date, turn, 6, txtClient.getText());
 							break;
 						default:
-							System.out.println(chSeats.getSelectedItem());
 						}
-						System.out.println(turn);
+						JOptionPane.showMessageDialog(null, "Booking data:\n-Cliente: " + txtClient.getText() +"\n-Date: " + date+"\n-Turn: " + turn+"\n-Seats: " + cbSeats.getSelectedItem(), "Booking completed",
+								JOptionPane.INFORMATION_MESSAGE);
+						
 					//To do: Set the proper error messages for each exception
 					}catch (TableNotFoundException tnf) {
 						JOptionPane.showMessageDialog(null, "There is no available table for the selected turn and guests", "Booking Error",
@@ -279,11 +306,27 @@ public class IU_Booking extends JPanel {
 					}
 				} else {
 					lblInfo.setText("Turn not selected");
+					lblTurn.setForeground(Color.RED);
 				}
 			} else {
 				txtClient.setBackground(Color.RED);
+				lblClient.setForeground(Color.RED);
 				lblInfo.setText("Client identification not introduced");
 			}
 		}
+	}
+	
+	/*******************
+	 * Change the current date to the next day
+	 * @param date
+	 */
+	public Date changeToTomorrow(Date date) {
+        System.out.println("Today:    "+date);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, 1);
+        date = c.getTime();
+        System.out.println("Tomorrow: "+date);
+        return date;
 	}
 }

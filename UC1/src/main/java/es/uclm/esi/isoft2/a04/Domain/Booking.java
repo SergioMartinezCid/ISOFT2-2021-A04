@@ -149,4 +149,8 @@ public class Booking {
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.bookingDAO.deleteBooking(this);
 	}
+	
+	public String toString() {
+		return "Table: " + this.getTable().getID() + "/ Turn: " + this.getTurn() + "/ Date: " + date + "/ Client: " + this.getClientID();
+	}
 }
