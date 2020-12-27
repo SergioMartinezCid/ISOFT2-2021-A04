@@ -94,10 +94,13 @@ public class TableBooking {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 * @throws ParseException
+	 * @throws InvalidStateException
 	 */
-	public WaiterImplementation assignWaiter(TableImplementation table) throws NumberFormatException,
-			InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ParseException {
-
+	public WaiterImplementation assignWaiter(TableImplementation table)
+			throws NumberFormatException, InstantiationException, IllegalAccessException, ClassNotFoundException,
+			SQLException, ParseException, InvalidStateException {
+		if (table.getState() != Table.RESERVED)
+			throw new InvalidStateException();
 		WaiterImplementation waiter = new WaiterImplementation();
 		waiter = Arrays.stream((WaiterImplementation[]) waiter.readAll()) // Get the waiter with less assigned tables
 				.reduce((w1, w2) -> w1.getAssignedTables().size() < w2.getAssignedTables().size() ? w1 : w2).get();
@@ -121,9 +124,13 @@ public class TableBooking {
 	 * @throws SQLException
 	 * @throws ParseException
 	 * @throws NumberFormatException
+	 * @throws InvalidStateException
 	 */
-	public void cancelBooking(Booking booking) throws InsuficientTimeElapsedException, InstantiationException,
-			IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+	public void cancelBooking(Booking booking)
+			throws InsuficientTimeElapsedException, InstantiationException, IllegalAccessException,
+			ClassNotFoundException, SQLException, NumberFormatException, ParseException, InvalidStateException {
+		if (booking.getTable().getState() != Table.RESERVED)
+			throw new InvalidStateException();
 		if (((new Date()).getTime() - booking.getDate().getTime()) < 20 * 60 * 1000)
 			throw new InsuficientTimeElapsedException();
 		booking.delete();

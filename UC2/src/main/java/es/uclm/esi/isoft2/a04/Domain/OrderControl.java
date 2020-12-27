@@ -32,6 +32,8 @@ public class OrderControl implements Subject {
 		order.update();
 		notifyMe();
 	}
+	
+	
 
 	@Override
 	public void attach(Observer o) {
