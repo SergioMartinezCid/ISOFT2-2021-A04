@@ -26,6 +26,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.ButtonGroup;
 import java.awt.BorderLayout;
@@ -271,22 +273,27 @@ public class IU_Booking extends JPanel {
 						if(date.after(aux)) {
 							date = changeToTomorrow(date);
 						}
-						
-						switch ("ll") {
-						case "2":
-							tB.bookTable(date, turn, 2, txtClient.getText());
-							break;
-						case "4":
-							tB.bookTable(date, turn, 4, txtClient.getText());
-							break;
-						case "6":
-							tB.bookTable(date, turn, 6, txtClient.getText());
-							break;
-						default:
-						}
-						JOptionPane.showMessageDialog(null, "Booking data:\n-Cliente: " + txtClient.getText() +"\n-Date: " + date+"\n-Turn: " + turn+"\n-Seats: " + cbSeats.getSelectedItem(), "Booking completed",
-								JOptionPane.INFORMATION_MESSAGE);
-						
+						DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+						String strDate = dateFormat.format(date); 
+						int resp = JOptionPane.showConfirmDialog(null, "The next Booking will be created\n-Client: " + txtClient.getText() +"\n-Date: " + strDate+"\n-Turn: " + turn+"\n-Seats: " + cbSeats.getSelectedItem()+"\nIs it correct?",
+					            "Carefull!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+						if (resp == JOptionPane.YES_OPTION) {
+							switch ("ll") {
+							case "2":
+								tB.bookTable(date, turn, 2, txtClient.getText());
+								break;
+							case "4":
+								tB.bookTable(date, turn, 4, txtClient.getText());
+								break;
+							case "6":
+								tB.bookTable(date, turn, 6, txtClient.getText());
+								break;
+							default:
+							}
+							txtClient.setText("");
+							buttonGroup.clearSelection();
+							cbSeats.setSelectedIndex(0);
+							}
 					//To do: Set the proper error messages for each exception
 					}catch (TableNotFoundException tnf) {
 						JOptionPane.showMessageDialog(null, "There is no available table for the selected turn and guests", "Booking Error",
@@ -321,12 +328,10 @@ public class IU_Booking extends JPanel {
 	 * @param date
 	 */
 	public Date changeToTomorrow(Date date) {
-        System.out.println("Today:    "+date);
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.DATE, 1);
         date = c.getTime();
-        System.out.println("Tomorrow: "+date);
         return date;
 	}
 }

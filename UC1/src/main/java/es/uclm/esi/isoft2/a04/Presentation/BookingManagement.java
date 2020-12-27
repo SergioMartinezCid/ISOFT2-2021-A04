@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.BevelBorder;
 
 public class BookingManagement {
 
@@ -58,6 +59,7 @@ public class BookingManagement {
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		pnlCard = new JPanel();
+		pnlCard.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		frame.getContentPane().add(pnlCard);
 		pnlCard.setLayout(new CardLayout(0, 0));
 		
