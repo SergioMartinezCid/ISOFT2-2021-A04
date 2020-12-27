@@ -12,7 +12,13 @@ import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
+/**
+ * JPanel for Waiter
+ * 
+ * @version 0.0.1
+ */
 public class JPanelOrder extends JPanel implements Observer {
 	
 	private Table table;
@@ -21,6 +27,7 @@ public class JPanelOrder extends JPanel implements Observer {
 	private JPanel panel;
 	private JButton btnFood;
 	private JButton btnBeverage;
+	private JLabel lblStatus;
 	
 	/**
 	 * Create the panel.
@@ -31,6 +38,10 @@ public class JPanelOrder extends JPanel implements Observer {
 		setLayout(new BorderLayout(0, 0));
 		
 		btnCloseOrder = new JButton("Close order");
+		btnCloseOrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		add(btnCloseOrder, BorderLayout.SOUTH);
 		
 		panel = new JPanel();
@@ -51,6 +62,9 @@ public class JPanelOrder extends JPanel implements Observer {
 			}
 		});
 		panel.add(btnBeverage);
+		
+		lblStatus = new JLabel("Status:");
+		panel.add(lblStatus);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(new TitledBorder(null, "Order contents", TitledBorder.LEADING, TitledBorder.TOP, null, null));
