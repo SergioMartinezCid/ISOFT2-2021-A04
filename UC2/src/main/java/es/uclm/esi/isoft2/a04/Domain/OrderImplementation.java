@@ -12,13 +12,10 @@ import java.util.Date;
  */
 public class OrderImplementation implements Order {
 
-	public static final int OPEN = 0;
-	public static final int CLOSED = 1;
-	public static final int PAYED = 2;
-
 	private int id;
 	private int state;
 	private Date datetime;
+	private String paymentMethod;
 	private Waiter waiter;
 	private Table table;
 	private FoodImplementation[] food;
@@ -116,6 +113,16 @@ public class OrderImplementation implements Order {
 	 */
 	public void setTable(Table table) {
 		this.table = table;
+	}
+	
+	@Override
+	public String getPaymentMethod() {
+		return this.paymentMethod;
+	}
+	
+	@Override
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 	@Override
