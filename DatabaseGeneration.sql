@@ -1,5 +1,21 @@
--- Version 2.0.0
+-- Version 2.1.0
 -- ***************************************************;
+
+-- ************************************** DROPS
+
+DROP TABLE OrderContent;
+DROP TABLE OrderRestaurant;
+DROP TABLE DishIngredients;
+DROP TABLE Booking;
+DROP TABLE User;
+DROP TABLE Waiter;
+DROP TABLE Ingredient;
+DROP TABLE Drink;
+DROP TABLE Dish;
+DROP TABLE Food;
+DROP TABLE StateTimes;
+DROP TABLE TableRestaurant;
+DROP TABLE Restaurant;
 
 
 -- ************************************** Waiter
@@ -188,17 +204,18 @@ CREATE TABLE OrderRestaurant (
 	TableId int NOT NULL ,
 	State enum('open', 'closed', 'payed') NOT NULL ,
 	Datetime datetime NOT NULL ,
+    PaymentMethod varchar(45) NULL ,
 	PRIMARY KEY (OrderId),
     FOREIGN KEY (WaiterId) REFERENCES Waiter(WaiterId),
     FOREIGN KEY (TableId) REFERENCES TableRestaurant(TableId)
 );
 
-INSERT INTO OrderRestaurant (OrderId, WaiterId, TableId, State, Datetime) VALUES (1, 2, 1, 'open','2020-12-14 13:15:11');
-INSERT INTO OrderRestaurant (OrderId, WaiterId, TableId, State, Datetime) VALUES (2, 2, 2, 'closed','2020-12-16 21:45:14');
-INSERT INTO OrderRestaurant (OrderId, WaiterId, TableId, State, Datetime) VALUES (3, 1, 3, 'closed','2020-12-11 22:15:52');
-INSERT INTO OrderRestaurant (OrderId, WaiterId, TableId, State, Datetime) VALUES (4, 4, 4, 'closed','2020-12-14 22:36:17');
-INSERT INTO OrderRestaurant (OrderId, WaiterId, TableId, State, Datetime) VALUES (5, 4, 5, 'closed','2020-12-20 22:36:55');
 
+INSERT INTO OrderRestaurant (OrderId, WaiterId, TableId, State, Datetime, PaymentMethod) VALUES (1, 2, 1, 'open','2020-12-14 13:15:11', 'cash');
+INSERT INTO OrderRestaurant (OrderId, WaiterId, TableId, State, Datetime, PaymentMethod) VALUES (2, 2, 2, 'closed','2020-12-16 21:45:14', 'credit card');
+INSERT INTO OrderRestaurant (OrderId, WaiterId, TableId, State, Datetime, PaymentMethod) VALUES (3, 1, 3, 'closed','2020-12-11 22:15:52', 'credit card');
+INSERT INTO OrderRestaurant (OrderId, WaiterId, TableId, State, Datetime, PaymentMethod) VALUES (4, 4, 4, 'closed','2020-12-14 22:36:17', 'credit car');
+INSERT INTO OrderRestaurant (OrderId, WaiterId, TableId, State, Datetime, PaymentMethod) VALUES (5, 4, 5, 'closed','2020-12-20 22:36:55', 'cash');
 
 -- ************************************** OrderContent
 
@@ -218,22 +235,3 @@ INSERT INTO OrderContent (OrderId, FoodId, Quantity, TimeReady, TimeDelivered) V
 INSERT INTO OrderContent (OrderId, FoodId, Quantity, TimeReady, TimeDelivered) VALUES (3, 1, 2, '2020-12-11 22:21:42','2020-12-11 22:33:26');
 INSERT INTO OrderContent (OrderId, FoodId, Quantity, TimeReady, TimeDelivered) VALUES (4, 5, 2, '2020-12-14 22:42:45','2020-12-14 22:55:01');
 INSERT INTO OrderContent (OrderId, FoodId, Quantity, TimeReady, TimeDelivered) VALUES (5, 4, 1, '2020-12-20 22:50:16','2020-12-20 23:06:04');
-
-
-
-
--- ************************************** DROPS
-
-DROP TABLE OrderContent;
-DROP TABLE OrderRestaurant;
-DROP TABLE DishIngredients;
-DROP TABLE Booking;
-DROP TABLE User;
-DROP TABLE Waiter;
-DROP TABLE Ingredient;
-DROP TABLE Drink;
-DROP TABLE Dish;
-DROP TABLE Food;
-DROP TABLE StateTimes;
-DROP TABLE TableRestaurant;
-DROP TABLE Restaurant;
