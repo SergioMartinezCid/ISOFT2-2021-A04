@@ -85,6 +85,7 @@ public class OrderDAO {
 			order.setWaiter(waiter);
 			order.setTable(table);
 			order.setDatetime(OrderDAO.mysqlDateSDF.parse(query_result_order.get(i).get(4).toString()));
+			order.setPaymentMethod(query_result_order.get(i).get(5).toString());
 			switch (state) {
 			case "OPEN":
 				order.setState(OrderImplementation.OPEN);
@@ -102,7 +103,8 @@ public class OrderDAO {
 		ArrayList<Food> food = new ArrayList<>();
 		for (int i = 0; i < query_result_food.size(); i++) {
 			if (query_result_food.get(i).get(1).toString().equals("DRINKS")) {
-				auxFood = new Beverage(Integer.valueOf(query_result_food.get(i).get(0).toString()), order);
+				auxFood = new BeverageImplementation(Integer.valueOf(query_result_food.get(i).get(0).toString()),
+						order);
 			} else {
 				auxFood = new Dish(Integer.valueOf(query_result_food.get(i).get(0).toString()), order);
 			}
@@ -139,8 +141,9 @@ public class OrderDAO {
 	public int createOrder(OrderImplementation order)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Vector<Vector<Object>> query_result_id;
-		String sql_order = "INSERT INTO Order (WaiterId, TableId, State, Datetime) VALUES (" + order.getWaiter().getID()
-				+ ", " + order.getTable().getID() + ", '" + getStateStringRepresentation(order) + "', NOW());";
+		String sql_order = "INSERT INTO Order (WaiterId, TableId, State, Datetime, PaymentMethod) VALUES ("
+				+ order.getWaiter().getID() + ", " + order.getTable().getID() + ", '"
+				+ getStateStringRepresentation(order) + "', NOW(), " + order.getPaymentMethod() + ");";
 		String sql_getId = "SELECT LAST_INSERT_ID();";
 
 		int modifiedRows = Broker.getBroker().update(sql_order);
@@ -173,7 +176,8 @@ public class OrderDAO {
 		int modifiedRows;
 		String sql_order = "UPDATE Order SET WaiterId = " + order.getWaiter().getID() + ", TableId = "
 				+ order.getTable().getID() + ", State = '" + getStateStringRepresentation(order) + "', Datetime = '"
-				+ mysqlDateSDF.format(order.getDatetime()) + "' WHERE OrderId = " + order.getID() + ";";
+				+ mysqlDateSDF.format(order.getDatetime()) + "', PaymentMethod='" + order.getPaymentMethod()
+				+ "' WHERE OrderId = " + order.getID() + ";";
 		String sql_check_food = "SELECT FoodId FROM OrderContent WHERE OrderId = " + order.getID() + ";";
 		modifiedRows = Broker.getBroker().update(sql_order);
 

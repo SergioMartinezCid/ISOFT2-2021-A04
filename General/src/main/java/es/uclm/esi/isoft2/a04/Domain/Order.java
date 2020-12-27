@@ -5,10 +5,14 @@ import java.text.ParseException;
 import java.util.Date;
 
 /**
- * @version 0.1.0
+ * @version 0.2.0
  *
  */
 public interface Order {
+
+	public static final int OPEN = 0;
+	public static final int CLOSED = 1;
+	public static final int PAYED = 2;
 
 	/**
 	 * @return The id of the order
@@ -50,6 +54,16 @@ public interface Order {
 	 * @param datetime The new time of the order
 	 */
 	void setDatetime(Date datetime);
+	
+	/**
+	 * @return The payment method (either "CASH" or the name of the credit card used
+	 */
+	String getPaymentMethod();
+	
+	/**
+	 * @param paymentMethod The payment method (either "CASH" or the name of the credit card used
+	 */
+	void setPaymentMethod(String paymentMethod);
 
 	/**
 	 * @return The waiter attending this order

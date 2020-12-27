@@ -1,101 +1,84 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
-import es.uclm.esi.isoft2.a04.Persistance.Broker;
-
 import java.sql.SQLException;
-import java.util.Vector;
+import java.text.ParseException;
 import java.util.Arrays;
 
 /**
- * Ingredient Control implementation to allow managing of ingredients in the database
- * @version 0.0.1
+ * @version 0.1.0
+ *
  */
-public class IngredientControl implements Subject {
-	
+public class IngredientControl {
 
 	/**
-	 * Get Ingredient at given index
-	 * @param id database array index
+	 * Method used for updating the number of ingredients in the database from the
+	 * forecast
+	 * 
+	 * @param ingredientList The list of ingredients to be updated
+	 * @param amount         The amount that was added to the warehouse of each
+	 *                       ingredient
+	 * @return The number of modified rows
+	 * @throws NotMatchingLenghtsException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
 	 */
-	public Ingredient getIngredient(int id) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		
-		int id_result = -1;
-		String name_result = null;
-		float amount_result = -1;
-		
-		Ingredient ingredient;
-		
-		String sql = "SELECT * FROM Ingredients WHERE IngredientId="+id; //Sql sentence
-		
-		Vector<Vector<Object>> result_query = Broker.getBroker().read(sql);
-		
-		if(result_query.size() == 1) {
-			
-			id_result = (int)(result_query.get(0).get(0));
-			name_result = (result_query.get(0).get(1)).toString();
-			amount_result = (float)(result_query.get(0).get(2));
-			
+	public int updateIngredientsFromForecast(Ingredient[] ingredientList, float[] amount)
+			throws NotMatchingLenghtsException, InstantiationException, IllegalAccessException, ClassNotFoundException,
+			SQLException {
+		int modifiedRows = 0;
+		if (ingredientList.length != amount.length)
+			throw new NotMatchingLenghtsException();
+		for (int i = 0; i < amount.length; i++) {
+			ingredientList[i].setAmount(ingredientList[i].getAmount() + amount[i]);
+			modifiedRows += ingredientList[i].update();
 		}
-		
-		ingredient = new Ingredient (id_result, name_result, amount_result);
-		
-		return ingredient;
+		return modifiedRows;
 	}
-
-	public Ingredient[] getAllIngredients() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		
-		Vector<Ingredient> ingredients_list = new Vector<>();
-		
-		String sql = "SELECT * FROM Ingredients"; //Sql sentence
-		
-		Vector<Vector<Object>> result_query = Broker.getBroker().read(sql);
-		
-		if(result_query.size() > 0) {
-			
-			for(Vector<Object> ingredient: result_query) {
-				
-				ingredients_list.add(new Ingredient((int)(result_query.get(0).get(0)), (result_query.get(0).get(1)).toString(), (float)(result_query.get(0).get(2))));
-			
-			}
-		}
-			
-		Ingredient [] ingredients = new Ingredient [ingredients_list.size()];
-		
-		for(int i = 0; i<ingredients.length; i++) {
-			
-			ingredients[i] = ingredients_list.remove(0);
-			
-		}
-  }
-		
 
 	/**
-	 * Set new amount on existing ingredient
-	 * @param ingredient Ingredient reference to find
-	 * @param amount New amount of desired ingredient
+	 * Method used for updating the number of beverages in the database from the
+	 * forecast
+	 * 
+	 * @param beverageList The list of beverages to be updated
+	 * @param amount       The number that was added to the warehouse of each
+	 *                     beverage
+	 * @return The number of modified rows
+	 * @throws NotMatchingLenghtsException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
 	 */
-	public void updateIngredientAmount(Ingredient ingredient, float ammount) {
-		
-		ingredient.setAmount(ammount);
-		
+	public int updateBeveragesFromForecast(Beverage[] beverageList, int[] amount) throws NotMatchingLenghtsException,
+			InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		int modifiedRows = 0;
+		if (beverageList.length != amount.length)
+			throw new NotMatchingLenghtsException();
+		for (int i = 0; i < amount.length; i++) {
+			beverageList[i].setAmount(beverageList[i].getAmount() + amount[i]);
+			modifiedRows += beverageList[i].update();
+		}
+		return modifiedRows;
 	}
 
-	@Override
-	public void attach(Observer o) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+	/**
+	 * @param ingredientdb An instance of Ingredient to be used for reading from the
+	 *                     database
+	 * @param threshold    The quality threshold
+	 * @return An array containing all ingredients below the provided threshold
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws InvalidTypeException
+	 * @throws ParseException
+	 */
+	public Ingredient[] getIngredientsBelowThreshold(Ingredient ingredientdb, int threshold)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			InvalidTypeException, ParseException {
+		return (Ingredient[]) Arrays.stream(ingredientdb.readAll())
+				.filter(ingredient -> ingredient.getAmount() < threshold).toArray();
 	}
-
-	@Override
-	public void detach(Observer o) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void notifyMe() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
-
 }
