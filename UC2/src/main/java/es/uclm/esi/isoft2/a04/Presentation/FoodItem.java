@@ -6,17 +6,27 @@ import es.uclm.esi.isoft2.a04.Domain.BeverageImplementation;
 import es.uclm.esi.isoft2.a04.Domain.Dish;
 import es.uclm.esi.isoft2.a04.Domain.Food;
 import es.uclm.esi.isoft2.a04.Domain.FoodImplementation;
+import es.uclm.esi.isoft2.a04.Domain.InvalidTypeException;
+import es.uclm.esi.isoft2.a04.Persistance.BeverageDAO;
+import es.uclm.esi.isoft2.a04.Persistance.DishDAO;
 
 import javax.swing.JLabel;
 import java.awt.FlowLayout;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Arrays;
+
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * 
- * @version 0.0.1
+ * @version 0.1.0
  */
 public class FoodItem extends JPanel {
 
@@ -26,8 +36,22 @@ public class FoodItem extends JPanel {
 	private JComboBox<String> cbxName;
 	private JLabel lblType;
 	private JLabel lblStatus;
+	private JButton btnDelete;
 	
-	public FoodItem() {
+	public FoodItem() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
+		this(false);
+	}
+	
+	public FoodItem(Food food) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
+		this(true);
+		this.food = (FoodImplementation) food;
+	}
+	
+	public FoodItem(boolean displayOnly) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
+		this(displayOnly, Food.FIRST_COURSE);
+	}
+	
+	public FoodItem(boolean displayOnly, int type) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
 		FlowLayout flowLayout = (FlowLayout) getLayout();
 		flowLayout.setVgap(15);
 		flowLayout.setHgap(15);
@@ -39,7 +63,6 @@ public class FoodItem extends JPanel {
 		add(lblType);
 		
 		cbxName = new JComboBox<>();
-		cbxName.setModel(new DefaultComboBoxModel());
 		add(cbxName);
 		
 		lblCost = new JLabel("Cost:");
@@ -54,25 +77,63 @@ public class FoodItem extends JPanel {
 		spQuantity = new JSpinner();
 		spQuantity.setModel(new SpinnerNumberModel(1, 1, null, 1));
 		panel.add(spQuantity);
+		
+		btnDelete = new JButton(displayOnly ? "Ready" : "Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				getParent().remove(FoodItem.this);
+				if (displayOnly)
+					// TODO send notification to waiter
+					return;
+			}
+		});
+		add(btnDelete);
+		
+		setDisplayOnly(displayOnly);
+
+		if (type == FoodImplementation.DRINK) {
+			this.food = new BeverageImplementation();
+			setListOfFood((new BeverageDAO()).readAllBeverages());
+		}
+		else {
+			this.food = new Dish();
+			setListOfFood((new DishDAO()).readAllDishes());
+		}
+
 		refresh();
 	}
 	
-	public FoodItem(int type) {
-		food = type == FoodImplementation.DRINK ? new BeverageImplementation() : new Dish();
-		refresh();
+	public void setDisplayOnly(boolean displayOnly) {
+		cbxName.setEnabled(!displayOnly);
+		spQuantity.setEnabled(!displayOnly);
+		btnDelete.setEnabled(!displayOnly);
 	}
 	
-	public FoodItem(Food food){
-		this.food = (FoodImplementation)food;
-		refresh();
+	public void setListOfFood(FoodImplementation[] listOfFood) {
+		String[] listOfNames = Arrays.stream(listOfFood).map((x) -> x.getName()).toArray(String[]::new);
+		cbxName.setModel(new DefaultComboBoxModel<String>(listOfNames));
 	}
 	
-	private void refresh() {
+	public void refresh() {
 		if (food == null)
 			return;
-		// TODO: fix missing status field
-		lblStatus.setText("Status: ");
+
 		String type = "";
+		String status = "";
+
+		switch (food.getStatus()) {
+		case Food.READY:
+			status = "READY";
+			break;
+		case Food.BEING_PREPARED:
+			status = "IN PREPARATION";
+			break;
+		case Food.DELIVERED:
+			status = "DELIVERED";
+			break;
+		}
+		lblStatus.setText("Status: " + status);
+
 		switch (food.getType()) {
 		case Food.DESSERT:
 			type = "Dessert";
@@ -91,7 +152,11 @@ public class FoodItem extends JPanel {
 			break;
 		}
 		lblType.setText("Type: " + type);
+
 		lblCost.setText("Cost: " + food.getCost());
 		spQuantity.setValue(food.getQuantity());
+		
+		if (cbxName.getModel().getSize() > 0)
+			cbxName.setSelectedItem(food.getName());
 	}
 }

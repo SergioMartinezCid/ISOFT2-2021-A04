@@ -9,12 +9,14 @@ import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.TabExpander;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 
 /**
  * JPanel for cook and barman
  * 
- * @version 0.0.1
+ * @version 0.1.0
  */
 public class JPanelFood extends JPanel implements Observer {
 	
@@ -25,8 +27,14 @@ public class JPanelFood extends JPanel implements Observer {
 
 	/**
 	 * Create the panel.
+	 * @throws ParseException 
+	 * @throws InvalidTypeException 
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	public JPanelFood(Waiter waiter, Table table) {
+	public JPanelFood(Waiter waiter, Table table) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
 		this.table = table;
 		this.waiter = waiter;
 		setLayout(new BorderLayout(0, 0));
@@ -39,6 +47,7 @@ public class JPanelFood extends JPanel implements Observer {
 		btnReady = new JButton("Ready");
 		btnReady.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// TODO send ready state for every FoodItem
 			}
 		});
 		add(btnReady, BorderLayout.EAST);
@@ -46,13 +55,11 @@ public class JPanelFood extends JPanel implements Observer {
 		displayOrder();
 	}
 	
-	private void displayOrder() {
+	private void displayOrder() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
 		OrderImplementation order = new OrderImplementation(waiter, table);
 		for(Food food : order.getFood())
 			scrollPane.add(new FoodItem(food));
 	}
-	
-	
 	
 	public void update() {
 		// TODO - implement
