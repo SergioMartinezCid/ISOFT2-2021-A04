@@ -278,7 +278,7 @@ public class IU_Booking extends JPanel {
 						int resp = JOptionPane.showConfirmDialog(null, "The next Booking will be created\n-Client: " + txtClient.getText() +"\n-Date: " + strDate+"\n-Turn: " + turn+"\n-Seats: " + cbSeats.getSelectedItem()+"\nIs it correct?",
 					            "Carefull!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 						if (resp == JOptionPane.YES_OPTION) {
-							switch ("ll") {
+							switch ((String)cbSeats.getSelectedItem()) {
 							case "2":
 								tB.bookTable(date, turn, 2, txtClient.getText());
 								break;
@@ -299,15 +299,19 @@ public class IU_Booking extends JPanel {
 						JOptionPane.showMessageDialog(null, "There is no available table for the selected turn and guests", "Booking Error",
 								JOptionPane.ERROR_MESSAGE);
 					}catch (SQLException x) {
+						x.printStackTrace();
 						JOptionPane.showMessageDialog(null, "SQLException error", "Booking Error",
 								JOptionPane.ERROR_MESSAGE);
 					}catch (IllegalAccessException il){
+						il.printStackTrace();
 						JOptionPane.showMessageDialog(null, "IllegalAccessException error", "Booking Error",
 								JOptionPane.ERROR_MESSAGE);
 					}catch (ClassNotFoundException clnf) {
+						clnf.printStackTrace();
 						JOptionPane.showMessageDialog(null, "ClassNotFoundException error", "Booking Error",
 								JOptionPane.ERROR_MESSAGE);
 					}catch (InstantiationException inst) {
+						inst.printStackTrace();
 						JOptionPane.showMessageDialog(null, "InstantiationException error", "Booking Error",
 								JOptionPane.ERROR_MESSAGE);
 					}

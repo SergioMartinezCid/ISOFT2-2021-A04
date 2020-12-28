@@ -83,13 +83,17 @@ public class IU_BookingsList extends JPanel {
 		//listModel.addElement(new Booking(new TableImplementation(5), new Date(), Booking.TURN.L2));
 		//listModel.addElement(new Booking(new TableImplementation(7), new Date(), Booking.TURN.L3));
 		borrarLuego[0] = new Booking(new TableImplementation(1), new Date(), Booking.TURN.L1);
-		borrarLuego[1] = new Booking(new TableImplementation(2), changeToTomorrow(new Date()), Booking.TURN.L2);
-		borrarLuego[1].setClientID("Alfredo");
-		borrarLuego[2] = new Booking(new TableImplementation(7), changeToTomorrow(new Date()), Booking.TURN.L2);
-		borrarLuego[2].setClientID("Manolo");
+		borrarLuego[0].setClientID("Alfredo1");
+		borrarLuego[1] = new Booking(new TableImplementation(2), new Date(), Booking.TURN.L2);
+		borrarLuego[1].setClientID("Alfredo2");
+		borrarLuego[2] = new Booking(new TableImplementation(7), new Date(), Booking.TURN.L3);
+		borrarLuego[2].setClientID("Manolo3");
 		borrarLuego[3] = new Booking(new TableImplementation(4), new Date(), Booking.TURN.D1);
+		borrarLuego[3].setClientID("Alfredo4");
 		borrarLuego[4] = new Booking(new TableImplementation(5), new Date(), Booking.TURN.D2);
+		borrarLuego[4].setClientID("Alfredo5");
 		borrarLuego[5] = new Booking(new TableImplementation(6), new Date(), Booking.TURN.D3);
+		borrarLuego[5].setClientID("Alfredo6");
 		
 		
 		tt1 = new TimerTask() {
@@ -99,14 +103,18 @@ public class IU_BookingsList extends JPanel {
 		    		try {
 		    			tb.cancelBooking((Booking)listModel.get(i));
 		    		} catch (SQLException x) {
+		    			x.printStackTrace();
 		    			JOptionPane.showMessageDialog(null, "SQLException error", "Booking Error", JOptionPane.ERROR_MESSAGE);
 		    		} catch (IllegalAccessException il) {
+		    			il.printStackTrace();
 		    			JOptionPane.showMessageDialog(null, "IllegalAccessException error", "Booking Error",
 		    					JOptionPane.ERROR_MESSAGE);
 		    		} catch (ClassNotFoundException clnf) {
+		    			clnf.printStackTrace();
 		    			JOptionPane.showMessageDialog(null, "ClassNotFoundException error", "Booking Error",
 		    					JOptionPane.ERROR_MESSAGE);
 		    		} catch (InstantiationException inst) {
+		    			inst.printStackTrace();
 		    			JOptionPane.showMessageDialog(null, "InstantiationException error", "Booking Error",
 		    					JOptionPane.ERROR_MESSAGE);
 		    		} catch (InsuficientTimeElapsedException e) {
