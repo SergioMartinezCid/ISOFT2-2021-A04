@@ -3,21 +3,41 @@ package es.uclm.esi.isoft2.a04.Persistance;
 import java.sql.*;
 import java.util.Vector;
 
+
 /**
- * @version 0.1.2
+ * @version 1.1.2
  *
  */
 public class Broker {
 
-	final static String DBSCHEMA = "A04dbservice";
-	final static String DBUSER = "A04";
-	final static String DBPASS = "@ISoft2.2020#";
+	final String DBSCHEMA = "A04dbservice";
+	final String DBUSER = "A04";
+	final String DBPASS = "@ISoft2.2020#";
 
-	private static final String unformatedString = "jdbc:mysql://172.20.48.70:3306/" + DBSCHEMA
-			+ "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC?user="
-			+ DBUSER + "&password=" + DBPASS;
-	protected static Connection connection;
-	protected static Broker instance;
+	final String unformatedString = "jdbc:mysql://172.20.48.70:3306/"+ DBSCHEMA +"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	Connection connection = null;
+	static Broker instance;
+	
+	public Connection getConnection() {
+		
+		Connection connection = null;
+		
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = (Connection) DriverManager.getConnection(unformatedString, DBUSER, DBPASS);
+			System.out.println("Successfull databese connection");
+			
+		}catch(Exception e) {
+			
+			System.out.println(e);
+			
+		}
+		
+		
+		return connection;
+		
+	}
 
 	/**
 	 * @throws InstantiationException
@@ -56,7 +76,7 @@ public class Broker {
 		Vector<Object> aux;
 		Vector<Vector<Object>> result = new Vector<Vector<Object>>();
 
-		connection = DriverManager.getConnection(unformatedString);
+		connection = (Connection) DriverManager.getConnection(unformatedString, DBUSER, DBPASS);
 		statement = connection.createStatement();
 		result_set = statement.executeQuery(sql);
 
@@ -75,14 +95,14 @@ public class Broker {
 
 	/**
 	 * @param sql The sql instance for modifying the database
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws SQLException
 	 */
 	public int update(String sql) throws SQLException {
 
 		int update = 0;
 
-		connection = DriverManager.getConnection(unformatedString);
+		connection = (Connection) DriverManager.getConnection(unformatedString, DBUSER, DBPASS);
 		PreparedStatement prepared_statement = connection.prepareStatement(sql);
 		update = prepared_statement.executeUpdate();
 

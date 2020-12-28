@@ -248,10 +248,8 @@ public class IU_Booking extends JPanel {
 				break;
 			case "22:30":
 				turn = Booking.TURN.D3;
-				//aux.setHours(22);
-				//aux.setMinutes(30);
-				aux.setHours(23);
-				aux.setMinutes(59);
+				aux.setHours(22);
+				aux.setMinutes(30);
 				break;
 			}			
 		}

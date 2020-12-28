@@ -60,21 +60,25 @@ public class TableBooking {
 		int i = 0, j;
 		boolean isValid;
 		while (foundTable == null && i < tables.length) {
-			if (tables[i].getSeats() != seats)
+			if (tables[i].getSeats() != seats) {
+				i++;
 				continue;
+			}
 			if (tables[i].getState() != Table.FREE) {
+				i++;
 				continue;
 			}
 			isValid = true;
 			for (j = 0; j < bookings.length && isValid; j++) {
 				isValid = !(bookings[j].getTable().getID() == tables[i].getID()
-						&& bookings[j].getDate().toInstant().truncatedTo(ChronoUnit.DAYS)
-								.equals(date.toInstant().truncatedTo(ChronoUnit.DAYS))
+						&& bookings[j].getDate().equals(date)
 						&& bookings[j].getTurn() == turn);
 			}
 			if (isValid) {
 				foundTable = (TableImplementation) tables[i];
+				System.out.println(foundTable);
 			}
+			i++;
 		}
 		return foundTable;
 	}
@@ -89,8 +93,8 @@ public class TableBooking {
 	 * @throws SQLException
 	 */
 	public WaiterImplementation assignWaiter(TableImplementation table) throws NumberFormatException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		WaiterImplementation waiter = new WaiterImplementation(5);
 
-		WaiterImplementation waiter = new WaiterImplementation();
 		waiter = Arrays.stream((WaiterImplementation[]) waiter.readAll()) // Get the waiter with less assigned tables
 				.reduce((w1, w2) -> w1.getAssignedTables().size() < w2.getAssignedTables().size() ? w1 : w2).get();
 
@@ -110,9 +114,7 @@ public class TableBooking {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void cancelBooking(Booking booking) throws InsuficientTimeElapsedException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		if (((new Date()).getTime() - booking.getDate().getTime()) < 20*60*1000) 
-			throw new InsuficientTimeElapsedException();
+	public void cancelBooking(Booking booking) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		booking.delete();
 		booking.getTable().setState(Table.FREE);
 		booking.getTable().update();

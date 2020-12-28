@@ -115,4 +115,8 @@ public class TableImplementation implements Table {
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.tableDAO.deleteOrder(this);
 	}
+	
+	public String toString() {
+		return "Id:"+this.id+ " / Seats: "+ this.seatsNumber+" / State: " +this.state;
+	}
 }

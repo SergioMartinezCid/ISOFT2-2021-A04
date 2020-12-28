@@ -56,8 +56,8 @@ public class WaiterDAO {
 
 		Vector<Vector<Object>> query_result_waiter, query_result_table = new Vector<Vector<Object>>();
 		String sql_waiter = "SELECT Name FROM Waiter WHERE WaiterId =" + waiter.getID() + ";";
-		String sql_table = "SELECT TableId FROM Order WHERE State <> 'PAYED' AND WaiterId = " + waiter.getID()
-				+ "ORDER BY Datetime ASC;";
+		String sql_table = "SELECT TableId FROM OrderRestaurant WHERE State <> 'PAYED' AND WaiterId = " + waiter.getID()
+				+ ";";
 		TableImplementation auxTable;
 		query_result_waiter = Broker.getBroker().read(sql_waiter);
 		query_result_table = Broker.getBroker().read(sql_table);
@@ -108,14 +108,14 @@ public class WaiterDAO {
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		String sql_assigned_table_read, sql_assigned_table_write;
 
-		String sql_waiter = "UPDATE Waiter SET Name = " + waiter.getName() + " WHERE WaiterID =" + waiter.getID();
+		String sql_waiter = "UPDATE Waiter SET Name = '" + waiter.getName() + "' WHERE WaiterID =" + waiter.getID();
 		int modifiedRows = Broker.getBroker().update(sql_waiter);
 
 		for (int i = 0; i < waiter.getAssignedTables().size(); i++) {
-			sql_assigned_table_read = "SELECT COUNT(*) FROM Order WHERE WaiterId = " + waiter.getID()
+			sql_assigned_table_read = "SELECT COUNT(*) FROM OrderRestaurant WHERE WaiterId = " + waiter.getID()
 					+ " AND TableId = " + waiter.getAssignedTables().get(i).getID() + " AND State <> 'PAYED';";
 			if (Integer.valueOf(Broker.getBroker().read(sql_assigned_table_read).get(0).get(0).toString()) == 0) {
-				sql_assigned_table_write = "INSERT INTO Order (WaiterId, TableId, State, DateTime) VALUES ("
+				sql_assigned_table_write = "INSERT INTO OrderRestaurant (WaiterId, TableId, State, DateTime) VALUES ("
 						+ waiter.getID() + ", " + waiter.getAssignedTables().get(i).getID() + ", 'OPEN', NOW());";
 				modifiedRows += Broker.getBroker().update(sql_assigned_table_write);
 			}
@@ -134,7 +134,7 @@ public class WaiterDAO {
 	public int deleteWaiter(WaiterImplementation waiter)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
-		String sql_order = "DELETE FROM Order WHERE WaiterId = " + waiter.getID();
+		String sql_order = "DELETE FROM OrderRestaurant WHERE WaiterId = " + waiter.getID();
 		String sql_waiter = "DELETE FROM Waiter WHERE WaiterId =" + waiter.getID();
 		return Broker.getBroker().update(sql_order) + Broker.getBroker().update(sql_waiter);
 

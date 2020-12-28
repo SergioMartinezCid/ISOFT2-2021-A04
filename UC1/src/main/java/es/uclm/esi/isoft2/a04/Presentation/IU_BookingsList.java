@@ -35,9 +35,9 @@ public class IU_BookingsList extends JPanel {
 	private JPanel pnlAssign;
 	private JButton btnAssignWaiter;
 	private JList lstBookings;
-	private DefaultListModel listModel;
+	private DefaultListModel<Booking> listModel;
 	private Timer bookingTimeout = new Timer();
-	private TimerTask tt1;
+	private TimerTask tl1, tl2, tl3, td1, td2, td3;
 	private TableBooking tb = new TableBooking();
 	
 	private Booking [] borrarLuego = new Booking[6];
@@ -54,7 +54,7 @@ public class IU_BookingsList extends JPanel {
 		scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
 
-		listModel = new DefaultListModel();
+		listModel = new DefaultListModel<Booking>();
 		lstBookings = new JList<Booking>();
 		lstBookings.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lstBookings.addListSelectionListener(new LstBookingsListSelectionListener());
@@ -79,105 +79,137 @@ public class IU_BookingsList extends JPanel {
 		pnlTurn.add(lblTurn);
 		cbTurn.setModel(new DefaultComboBoxModel(new String[] {"Select turn...", "Lunch 13:00", "Lunch 14:00", "Lunch 15:00", "Dinner 20:30", "Dinner 21:30", "Dinner 22:30"}));
 		pnlTurn.add(cbTurn);
-		
-		//listModel.addElement(new Booking(new TableImplementation(5), new Date(), Booking.TURN.L2));
-		//listModel.addElement(new Booking(new TableImplementation(7), new Date(), Booking.TURN.L3));
-		borrarLuego[0] = new Booking(new TableImplementation(1), new Date(), Booking.TURN.L1);
-		borrarLuego[0].setClientID("Alfredo1");
-		borrarLuego[1] = new Booking(new TableImplementation(2), new Date(), Booking.TURN.L2);
-		borrarLuego[1].setClientID("Alfredo2");
-		borrarLuego[2] = new Booking(new TableImplementation(7), new Date(), Booking.TURN.L3);
-		borrarLuego[2].setClientID("Manolo3");
-		borrarLuego[3] = new Booking(new TableImplementation(4), new Date(), Booking.TURN.D1);
-		borrarLuego[3].setClientID("Alfredo4");
-		borrarLuego[4] = new Booking(new TableImplementation(5), new Date(), Booking.TURN.D2);
-		borrarLuego[4].setClientID("Alfredo5");
-		borrarLuego[5] = new Booking(new TableImplementation(6), new Date(), Booking.TURN.D3);
-		borrarLuego[5].setClientID("Alfredo6");
-		
-		
-		tt1 = new TimerTask() {
+		/*tl1 = new TimerTask() {
 			public void run() {
-				//Cancell the bookings
-		    	for(int i=0; i<listModel.size(); i++) {
-		    		try {
-		    			tb.cancelBooking((Booking)listModel.get(i));
-		    		} catch (SQLException x) {
-		    			x.printStackTrace();
-		    			JOptionPane.showMessageDialog(null, "SQLException error", "Booking Error", JOptionPane.ERROR_MESSAGE);
-		    		} catch (IllegalAccessException il) {
-		    			il.printStackTrace();
-		    			JOptionPane.showMessageDialog(null, "IllegalAccessException error", "Booking Error",
-		    					JOptionPane.ERROR_MESSAGE);
-		    		} catch (ClassNotFoundException clnf) {
-		    			clnf.printStackTrace();
-		    			JOptionPane.showMessageDialog(null, "ClassNotFoundException error", "Booking Error",
-		    					JOptionPane.ERROR_MESSAGE);
-		    		} catch (InstantiationException inst) {
-		    			inst.printStackTrace();
-		    			JOptionPane.showMessageDialog(null, "InstantiationException error", "Booking Error",
-		    					JOptionPane.ERROR_MESSAGE);
-		    		} catch (InsuficientTimeElapsedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		    	}
-		    	//Schedule timer for tomorrow
-		    	scheduleTimer();
+				cancelBookings(Booking.TURN.L1);
 			};
 		};
-		scheduleTimer();
-
+		tl2 = new TimerTask() {
+			public void run() {
+				cancelBookings(Booking.TURN.L2);
+			};
+		};
+		tl3 = new TimerTask() {
+			public void run() {
+				cancelBookings(Booking.TURN.L3);
+			};
+		};
+		td1 = new TimerTask() {
+			public void run() {
+				cancelBookings(Booking.TURN.D1);
+			};
+		};
+		td2 = new TimerTask() {
+			public void run() {
+				cancelBookings(Booking.TURN.D2);
+			};
+		};
+		td3 = new TimerTask() {
+			public void run() {
+				cancelBookings(Booking.TURN.D3);
+			};
+		};*/
+		scheduleTimers(Booking.TURN.L1);
+		scheduleTimers(Booking.TURN.L2);
+		scheduleTimers(Booking.TURN.L3);
+		scheduleTimers(Booking.TURN.D1);
+		scheduleTimers(Booking.TURN.D2);
+		scheduleTimers(Booking.TURN.D3);
 	}
 	
-	public void scheduleTimer() {
+	public void scheduleTimers(Booking.TURN t) {
 		Date time = new Date(),now = new Date();
-		
-		time.setHours(13);
-		time.setMinutes(20);
-		time.setSeconds(00);
-		if(now.after(time)) {
-			time.setHours(14);
-			if(now.after(time)) {
-				time.setHours(15);
-				if(now.after(time)) {
-					time.setHours(20);
-					time.setMinutes(50);
-					if(now.after(time)) {
-						time.setHours(21);
-						if(now.after(time)) {
-							time.setHours(22);
-							if(now.after(time)) {
-								time = changeToTomorrow(time);
-								time.setHours(13);
-								time.setMinutes(20);
-								bookingTimeout.schedule(tt1, time);
-							}else {
-								bookingTimeout.schedule(tt1, time);
-							}
-						}else {
-							bookingTimeout.schedule(tt1, time);
-						}
-					}else {
-						bookingTimeout.schedule(tt1, time);
-					}
-				}else {
-					bookingTimeout.schedule(tt1, time);
-				}
-			}else {
-				bookingTimeout.schedule(tt1, time);
-			}
-		}else {
-			bookingTimeout.schedule(tt1, time);
+		tl1 = new TimerTask() {
+			public void run() {
+				cancelBookings(t);
+			};
+		};
+		Calendar c = Calendar.getInstance();
+		c.setTime(time);
+		c.set(Calendar.SECOND, 0);
+		System.out.println(t);
+		switch(t) {
+		case L1:
+			c.set(Calendar.HOUR_OF_DAY, 13);
+			c.set(Calendar.MINUTE, 20);
+			time = c.getTime();
+			if(now.after(time))
+				c.add(Calendar.DATE, 1);
+			break;
+		case L2:
+			c.set(Calendar.HOUR_OF_DAY, 14);
+			c.set(Calendar.MINUTE, 20);
+			time = c.getTime();
+			if(now.after(time))
+				c.add(Calendar.DATE, 1);
+			break;
+		case L3:
+			c.set(Calendar.HOUR_OF_DAY, 15);
+			c.set(Calendar.MINUTE, 20);
+			time = c.getTime();
+			if(now.after(time))
+				c.add(Calendar.DATE, 1);
+			break;
+		case D1:
+			c.set(Calendar.HOUR_OF_DAY, 20);
+			c.set(Calendar.MINUTE, 50);
+			time = c.getTime();
+			if(now.after(time))
+				c.add(Calendar.DATE, 1);
+			break;
+		case D2:
+			c.set(Calendar.HOUR_OF_DAY, 21);
+			c.set(Calendar.MINUTE, 50);
+			time = c.getTime();
+			if(now.after(time))
+				c.add(Calendar.DATE, 1);
+			break;
+		case D3:
+			c.set(Calendar.HOUR_OF_DAY, 22);
+			c.set(Calendar.MINUTE, 50);
+			time = c.getTime();
+			if(now.after(time))
+				c.add(Calendar.DATE, 1);
+			break;
 		}
+		time = c.getTime();
+		bookingTimeout.schedule(tl1, time, 1000*60*60*24);
+		System.out.println("Task scheduled at: " + time.getHours() + ":"+time.getMinutes());
+	}
+	
+	public void cancelBookings(Booking.TURN t) {
+		//Cancell the bookings
+    	while(!listModel.isEmpty()) {
+    		try {
+				if (((Booking) listModel.get(0)).getTurn().equals(t)) {
+					System.out.println("Removing:\n" + (Booking) listModel.get(0));
+					tb.cancelBooking((Booking) listModel.get(0));
+					listModel.removeElement((Booking) listModel.get(0));
+				}
+    		} catch (SQLException x) {
+    			x.printStackTrace();
+    			JOptionPane.showMessageDialog(null, "SQLException error", "Booking Error", JOptionPane.ERROR_MESSAGE);
+    		} catch (IllegalAccessException il) {
+    			il.printStackTrace();
+    			JOptionPane.showMessageDialog(null, "IllegalAccessException error", "Booking Error",
+    					JOptionPane.ERROR_MESSAGE);
+    		} catch (ClassNotFoundException clnf) {
+    			clnf.printStackTrace();
+    			JOptionPane.showMessageDialog(null, "ClassNotFoundException error", "Booking Error",
+    					JOptionPane.ERROR_MESSAGE);
+    		} catch (InstantiationException inst) {
+    			inst.printStackTrace();
+    			JOptionPane.showMessageDialog(null, "InstantiationException error", "Booking Error",
+    					JOptionPane.ERROR_MESSAGE);
+    		}
+    	}
 	}
 	
 	public void updateList(Booking.TURN turn, Date date) {
 		Booking b = new Booking();
 		listModel.clear();
-		//try {
-			//Booking[] list = b.readAll();
-			Booking[] list = borrarLuego; //-------------------------------------------------------------------------
+		try {
+			Booking[] list = b.readAll();
 			for(int i=0; i<list.length; i++) {
 				if((list[i].getDate().getYear() == date.getYear())&& (list[i].getDate().getMonth() == date.getMonth()) && (list[i].getDate().getDay() == date.getDay())) {	//Get the bookings for today
 					if(list[i].getTurn() == turn && !list[i].getClientID().equals("")) {	//Get the bookings of the current turn
@@ -186,7 +218,7 @@ public class IU_BookingsList extends JPanel {
 				}	
 			}
 			// To do: Set the proper error messages for each exception
-		/*} catch (SQLException x) {
+		} catch (SQLException x) {
 			JOptionPane.showMessageDialog(null, "SQLException error", "Booking Error", JOptionPane.ERROR_MESSAGE);
 		} catch (IllegalAccessException il) {
 			JOptionPane.showMessageDialog(null, "IllegalAccessException error", "Booking Error",
@@ -197,43 +229,46 @@ public class IU_BookingsList extends JPanel {
 		} catch (InstantiationException inst) {
 			JOptionPane.showMessageDialog(null, "InstantiationException error", "Booking Error",
 					JOptionPane.ERROR_MESSAGE);
-		}*/
+		}
 	}
 	private class LstBookingsListSelectionListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent e) {
 			try {
 				Booking.TURN t = ((Booking) lstBookings.getSelectedValue()).getTurn();
 				Date aux = (Date) ((Booking) lstBookings.getSelectedValue()).getDate().clone();
-				aux.setSeconds(0);
+				Calendar c = Calendar.getInstance();
+				c.setTime(aux);
+				c.set(Calendar.SECOND, 0);
 				switch(t) {
 				case L1:
-					aux.setHours(13);
-					aux.setMinutes(0);
+					c.set(Calendar.HOUR_OF_DAY, 13);
+					c.set(Calendar.MINUTE, 0);
 					break;
 				case L2:
-					aux.setHours(14);
-					aux.setMinutes(0);
+					c.set(Calendar.HOUR_OF_DAY, 14);
+					c.set(Calendar.MINUTE, 0);
 					break;
 				case L3:
-					aux.setHours(15);
-					aux.setMinutes(0);
+					c.set(Calendar.HOUR_OF_DAY, 15);
+					c.set(Calendar.MINUTE, 0);
 					break;
 				case D1:
-					aux.setHours(20);
-					aux.setMinutes(30);
+					c.set(Calendar.HOUR_OF_DAY, 20);
+					c.set(Calendar.MINUTE, 30);
 					break;
 				case D2:
-					aux.setHours(21);
-					aux.setMinutes(30);
+					c.set(Calendar.HOUR_OF_DAY, 21);
+					c.set(Calendar.MINUTE, 30);
 					break;
 				case D3:
-					aux.setHours(22);
-					aux.setMinutes(30);
+					c.set(Calendar.HOUR_OF_DAY, 22);
+					c.set(Calendar.MINUTE, 30);
 					break;
 				}
-				if(new Date().after(aux)) {
-					btnAssignWaiter.setEnabled(true);
-				}			
+				aux = c.getTime();
+				if(new Date().after(aux))
+				btnAssignWaiter.setEnabled(true);
+							
 			}catch(NullPointerException n) {
 				btnAssignWaiter.setEnabled(false);
 			}
@@ -244,8 +279,7 @@ public class IU_BookingsList extends JPanel {
 			try {
 				WaiterImplementation waiter;
 				waiter = tb.assignWaiter((TableImplementation) ((Booking) lstBookings.getSelectedValue()).getTable());
-				((Booking)lstBookings.getSelectedValue()).setClientID("");
-				//((Booking) lstBookings.getSelectedValue()).update();
+				tb.cancelBooking(((Booking) lstBookings.getSelectedValue()));
 				listModel.removeElement(lstBookings.getSelectedValue());
 				JOptionPane.showMessageDialog(null, "Table assigned to waiter '"+waiter.getName()+"'("+waiter.getID()+")", "Assignation",
 						JOptionPane.INFORMATION_MESSAGE);
@@ -267,46 +301,49 @@ public class IU_BookingsList extends JPanel {
 		}
 	}
 	private class CbTurnActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {   
 			Booking.TURN turn = null;
 			Date aux = new Date(), date = new Date();
+			Calendar c = Calendar.getInstance();
+			c.setTime(aux);
 			lstBookings.clearSelection();
-			aux.setSeconds(0);
+			c.set(Calendar.SECOND, 0);
 			switch ((String)cbTurn.getSelectedItem()) {
 			case "Lunch 13:00":
 				turn = Booking.TURN.L1;
-				aux.setHours(13);
-				aux.setMinutes(20);
+				c.set(Calendar.HOUR_OF_DAY, 13);
+				c.set(Calendar.MINUTE, 20);
 				break;
 			case "Lunch 14:00":
 				turn = Booking.TURN.L2;
-				aux.setHours(14);
-				aux.setMinutes(20);
+				c.set(Calendar.HOUR_OF_DAY, 14);
+				c.set(Calendar.MINUTE, 20);
 				break;
 			case "Lunch 15:00":
 				turn = Booking.TURN.L3;
-				aux.setHours(15);
-				aux.setMinutes(20);
+				c.set(Calendar.HOUR_OF_DAY, 15);
+				c.set(Calendar.MINUTE, 20);
 				break;
 			case "Dinner 20:30":
 				turn = Booking.TURN.D1;
-				aux.setHours(20);
-				aux.setMinutes(50);
+				c.set(Calendar.HOUR_OF_DAY, 20);
+				c.set(Calendar.MINUTE, 50);
 				break;
 			case "Dinner 21:30":
 				turn = Booking.TURN.D2;
-				aux.setHours(21);
-				aux.setMinutes(50);
+				c.set(Calendar.HOUR_OF_DAY, 21);
+				c.set(Calendar.MINUTE, 50);
 				break;
 			case "Dinner 22:30":
 				turn = Booking.TURN.D3;
-				aux.setHours(22);
-				aux.setMinutes(50);
+				c.set(Calendar.HOUR_OF_DAY, 22);
+				c.set(Calendar.MINUTE, 50);
 				break;
 			default:
 				listModel.clear();
 				return;
 			}
+			aux = c.getTime();
 			if(date.after(aux)) {
 				date = changeToTomorrow(date);
 			}

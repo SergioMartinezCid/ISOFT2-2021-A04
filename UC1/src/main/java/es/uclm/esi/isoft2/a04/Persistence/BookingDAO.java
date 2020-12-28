@@ -37,8 +37,8 @@ public class BookingDAO {
 		for (int i = 0; i < bookings.length; i++) {
 			tmpTable = new TableImplementation(Integer.parseInt(query_result.get(i).get(0).toString()));
 			tmpTable.read();
-			bookings[i] = new Booking(tmpTable, new Date(query_result.get(i).get(1).toString()),
-					Booking.TURN.valueOf(query_result.get(i).get(2).toString()));
+			bookings[i] = new Booking(tmpTable, (Date)query_result.get(i).get(1),
+					Booking.TURN.valueOf(query_result.get(i).get(2).toString().toUpperCase()));
 			bookings[i].setClientID(query_result.get(i).get(3).toString());
 
 		}
