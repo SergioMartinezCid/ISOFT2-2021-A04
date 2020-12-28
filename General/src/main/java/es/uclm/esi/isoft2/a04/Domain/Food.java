@@ -4,10 +4,14 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 /**
- * @version 0.1.0
+ * @version 0.1.1
  *
  */
 public interface Food {
+
+	static final int BEING_PREPARED = 0;
+	static final int READY = 1;
+	static final int DELIVERED = 2;
 
 	static int DRINK = 0;
 	static int STARTER = 1;
@@ -65,6 +69,16 @@ public interface Food {
 	 * @return the cost of this food
 	 */
 	float getCost();
+
+	/**
+	 * @param status the new status of this food
+	 */
+	void setStatus(int status);
+
+	/**
+	 * @return the status of this food
+	 */
+	int getStatus();
 
 	/**
 	 * @return All the foods in the database
