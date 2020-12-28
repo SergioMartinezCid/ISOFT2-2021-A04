@@ -56,7 +56,7 @@ public abstract class FoodImplementation implements Food {
 
 	@Override
 	public float getCost() {
-		return cost;
+		return cost * quantity;
 	}
 
 	@Override
