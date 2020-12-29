@@ -3,27 +3,31 @@ package es.uclm.esi.isoft2.a04.Presentation;
 import javax.swing.JPanel;
 
 import es.uclm.esi.isoft2.a04.Domain.*;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
 import javax.swing.JButton;
-import java.awt.GridBagConstraints;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
 /**
  * JPanel for Waiter
  * 
- * @version 0.1.0
+ * @version 0.2.0
  */
 public class JPanelOrder extends JPanel implements Observer {
 	
 	private static OrderControl orderCtl = new OrderControl();
+	public static OrderControl getOrderControl() {
+		return orderCtl;
+	}
+	
+	private ArrayList<FoodItem> contents = new ArrayList<>();
 	
 	private Table table;
 	private Waiter waiter;
@@ -54,7 +58,13 @@ public class JPanelOrder extends JPanel implements Observer {
 		btnCloseOrder = new JButton("Close order");
 		btnCloseOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: order.setFood(food);
+				try {
+					order.setState(Order.CLOSED);
+				} catch (InvalidStateException e) {
+					e.printStackTrace();
+				}
+				FoodImplementation[] lst = Arrays.stream(contents.toArray(FoodItem[]::new)).map(x -> x.getFood()).toArray(FoodImplementation[]::new);
+				order.setFood(lst);
 			}
 		});
 		add(btnCloseOrder, BorderLayout.SOUTH);
@@ -66,7 +76,9 @@ public class JPanelOrder extends JPanel implements Observer {
 		btnFood.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					scrollPane.add(new FoodItem(false));
+					FoodItem fi = new FoodItem(false);
+					contents.add(fi);
+					scrollPane.add(fi);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -78,7 +90,9 @@ public class JPanelOrder extends JPanel implements Observer {
 		btnBeverage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					scrollPane.add(new FoodItem(false, Food.DRINK));
+					FoodItem fi = new FoodItem(false, Food.DRINK);
+					contents.add(fi);
+					scrollPane.add(fi);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -94,9 +108,23 @@ public class JPanelOrder extends JPanel implements Observer {
 		add(scrollPane, BorderLayout.CENTER);
 	}
 
+	@Override
 	public void update() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		try {
+			order.read();
+			lblStatus.setText("Status: "+order.getState());
+			FoodImplementation[] fs = (FoodImplementation[])order.getFood();
+			for (int i = 0; i < fs.length; i++) {
+				if (i >= contents.size()) {
+					FoodItem fi = new FoodItem(fs[i]);
+					contents.add(fi);
+					scrollPane.add(fi);
+				}
+				else
+					contents.get(i).setFood(fs[i]);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-
 }

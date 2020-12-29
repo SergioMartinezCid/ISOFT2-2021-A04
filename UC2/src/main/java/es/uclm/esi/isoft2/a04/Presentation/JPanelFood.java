@@ -11,14 +11,22 @@ import javax.swing.text.TabExpander;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 /**
  * JPanel for cook and barman
  * 
- * @version 0.1.0
+ * @version 0.2.0
  */
 public class JPanelFood extends JPanel implements Observer {
+	
+	private static OrderControl orderCtl = new OrderControl();
+	public static OrderControl getOrderControl() {
+		return orderCtl;
+	}
+
+	private ArrayList<FoodItem> contents = new ArrayList<>();
 	
 	private Table table;
 	private Waiter waiter;
@@ -47,7 +55,10 @@ public class JPanelFood extends JPanel implements Observer {
 		btnReady = new JButton("Ready");
 		btnReady.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO send ready state for every FoodItem
+				OrderImplementation order = new OrderImplementation(waiter, table);
+				for (Food fi : order.getFood()) {
+					fi.setStatus(Food.READY);
+				}
 			}
 		});
 		add(btnReady, BorderLayout.EAST);
@@ -57,13 +68,19 @@ public class JPanelFood extends JPanel implements Observer {
 	
 	private void displayOrder() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
 		OrderImplementation order = new OrderImplementation(waiter, table);
-		for(Food food : order.getFood())
-			scrollPane.add(new FoodItem(food));
+		for(Food food : order.getFood()) {
+			FoodItem fi = new FoodItem(food);
+			contents.add(fi);
+			scrollPane.add(fi);
+		}
 	}
 	
 	public void update() {
-		// TODO - implement
-		throw new UnsupportedOperationException();
+		try {
+			displayOrder();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

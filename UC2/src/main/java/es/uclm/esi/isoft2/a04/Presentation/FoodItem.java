@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * 
- * @version 0.1.0
+ * @version 0.2.0
  */
 public class FoodItem extends JPanel {
 
@@ -83,8 +83,9 @@ public class FoodItem extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				getParent().remove(FoodItem.this);
 				if (displayOnly)
-					// TODO send notification to waiter
-					return;
+					JPanelOrder.getOrderControl().notifyMe();
+				else
+					JPanelFood.getOrderControl().notifyMe();
 			}
 		});
 		add(btnDelete);
@@ -101,6 +102,15 @@ public class FoodItem extends JPanel {
 		}
 
 		refresh();
+	}
+	
+	public void setFood(FoodImplementation food) {
+		this.food = food;
+		refresh();
+	}
+
+	public FoodImplementation getFood() {
+		return food;
 	}
 	
 	public void setDisplayOnly(boolean displayOnly) {
