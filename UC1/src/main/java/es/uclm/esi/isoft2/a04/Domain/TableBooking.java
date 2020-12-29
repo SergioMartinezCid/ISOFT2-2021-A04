@@ -76,7 +76,6 @@ public class TableBooking {
 			}
 			if (isValid) {
 				foundTable = (TableImplementation) tables[i];
-				System.out.println(foundTable);
 			}
 			i++;
 		}

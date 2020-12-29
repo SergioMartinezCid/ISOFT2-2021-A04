@@ -37,10 +37,9 @@ public class IU_BookingsList extends JPanel {
 	private JList lstBookings;
 	private DefaultListModel<Booking> listModel;
 	private Timer bookingTimeout = new Timer();
-	private TimerTask tl1, tl2, tl3, td1, td2, td3;
+	private TimerTask tt;
 	private TableBooking tb = new TableBooking();
 	
-	private Booking [] borrarLuego = new Booking[6];
 	private JPanel pnlTurn;
 	private JComboBox cbTurn;
 	private JLabel lblTurn;
@@ -79,47 +78,19 @@ public class IU_BookingsList extends JPanel {
 		pnlTurn.add(lblTurn);
 		cbTurn.setModel(new DefaultComboBoxModel(new String[] {"Select turn...", "Lunch 13:00", "Lunch 14:00", "Lunch 15:00", "Dinner 20:30", "Dinner 21:30", "Dinner 22:30"}));
 		pnlTurn.add(cbTurn);
-		/*tl1 = new TimerTask() {
-			public void run() {
-				cancelBookings(Booking.TURN.L1);
-			};
-		};
-		tl2 = new TimerTask() {
-			public void run() {
-				cancelBookings(Booking.TURN.L2);
-			};
-		};
-		tl3 = new TimerTask() {
-			public void run() {
-				cancelBookings(Booking.TURN.L3);
-			};
-		};
-		td1 = new TimerTask() {
-			public void run() {
-				cancelBookings(Booking.TURN.D1);
-			};
-		};
-		td2 = new TimerTask() {
-			public void run() {
-				cancelBookings(Booking.TURN.D2);
-			};
-		};
-		td3 = new TimerTask() {
-			public void run() {
-				cancelBookings(Booking.TURN.D3);
-			};
-		};*/
+		
 		scheduleTimers(Booking.TURN.L1);
 		scheduleTimers(Booking.TURN.L2);
 		scheduleTimers(Booking.TURN.L3);
 		scheduleTimers(Booking.TURN.D1);
 		scheduleTimers(Booking.TURN.D2);
 		scheduleTimers(Booking.TURN.D3);
+		
 	}
 	
 	public void scheduleTimers(Booking.TURN t) {
 		Date time = new Date(),now = new Date();
-		tl1 = new TimerTask() {
+		tt = new TimerTask() {
 			public void run() {
 				cancelBookings(t);
 			};
@@ -127,62 +98,48 @@ public class IU_BookingsList extends JPanel {
 		Calendar c = Calendar.getInstance();
 		c.setTime(time);
 		c.set(Calendar.SECOND, 0);
-		System.out.println(t);
 		switch(t) {
 		case L1:
 			c.set(Calendar.HOUR_OF_DAY, 13);
 			c.set(Calendar.MINUTE, 20);
-			time = c.getTime();
-			if(now.after(time))
-				c.add(Calendar.DATE, 1);
 			break;
 		case L2:
 			c.set(Calendar.HOUR_OF_DAY, 14);
 			c.set(Calendar.MINUTE, 20);
-			time = c.getTime();
-			if(now.after(time))
-				c.add(Calendar.DATE, 1);
 			break;
 		case L3:
 			c.set(Calendar.HOUR_OF_DAY, 15);
-			c.set(Calendar.MINUTE, 20);
-			time = c.getTime();
-			if(now.after(time))
-				c.add(Calendar.DATE, 1);
+			c.set(Calendar.MINUTE, 20);;
 			break;
 		case D1:
 			c.set(Calendar.HOUR_OF_DAY, 20);
 			c.set(Calendar.MINUTE, 50);
-			time = c.getTime();
-			if(now.after(time))
-				c.add(Calendar.DATE, 1);
 			break;
 		case D2:
 			c.set(Calendar.HOUR_OF_DAY, 21);
 			c.set(Calendar.MINUTE, 50);
-			time = c.getTime();
-			if(now.after(time))
-				c.add(Calendar.DATE, 1);
 			break;
 		case D3:
 			c.set(Calendar.HOUR_OF_DAY, 22);
 			c.set(Calendar.MINUTE, 50);
-			time = c.getTime();
-			if(now.after(time))
-				c.add(Calendar.DATE, 1);
 			break;
 		}
 		time = c.getTime();
-		bookingTimeout.schedule(tl1, time, 1000*60*60*24);
-		System.out.println("Task scheduled at: " + time.getHours() + ":"+time.getMinutes());
+		if(now.after(time))
+			c.add(Calendar.DATE, 1);
+		time = c.getTime();
+		bookingTimeout.scheduleAtFixedRate(tt, time, 1000*60*60*24);
+		System.out.println("Tasks scheduled at: " + time);
 	}
 	
 	public void cancelBookings(Booking.TURN t) {
 		//Cancell the bookings
     	while(!listModel.isEmpty()) {
     		try {
+    			cbTurn.setSelectedIndex(0);
+    			updateList(t, new Date());
 				if (((Booking) listModel.get(0)).getTurn().equals(t)) {
-					System.out.println("Removing:\n" + (Booking) listModel.get(0));
+					System.out.println("Canceling booking ---> " + (Booking) listModel.get(0));
 					tb.cancelBooking((Booking) listModel.get(0));
 					listModel.removeElement((Booking) listModel.get(0));
 				}
