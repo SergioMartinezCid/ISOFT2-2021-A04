@@ -66,10 +66,20 @@ public class PaymentControl {
 			throw new InvalidStateException();
 		if (isCash) {
 			order.setPaymentMethod("CASH");
+			System.out.println("Simulate cash payment");
 		} else {
 			order.setPaymentMethod(paymentMethod);
+			System.out.println("Simulate card payment");
 		}
 		return order.update();
+	}
+	
+	public static int startPreparation(Table table) throws InvalidStateException, NumberFormatException,
+			InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ParseException {
+		if (table.getState() != Table.PAYING)
+			throw new InvalidStateException();
+		table.setState(Table.IN_PREPARATION);
+		return table.update();
 	}
 
 	/**
