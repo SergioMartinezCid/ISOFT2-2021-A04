@@ -6,13 +6,17 @@ import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
 import es.uclm.esi.isoft2.a04.Domain.Beverage;
+import es.uclm.esi.isoft2.a04.Domain.Food;
 import es.uclm.esi.isoft2.a04.Domain.Ingredient;
 import es.uclm.esi.isoft2.a04.Domain.IngredientControl;
+import es.uclm.esi.isoft2.a04.Domain.InvalidTypeException;
+import es.uclm.esi.isoft2.a04.Domain.NotMatchingLenghtsException;
 
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -36,9 +40,11 @@ public class JPanelIngredients extends JPanel {
 	
 	private Ingredient[] ingredientList;
 	private Beverage[] beverageList;
+	private Food[] FoodList;
 	
 	private float[] amount_ingredients;
-	private float[] amount_drinks;
+	private int[] amount_drinks;
+	
 	private final ButtonGroup buttonGroupIngredients = new ButtonGroup();
 	private final ButtonGroup buttonGroupDrinks = new ButtonGroup();
 	
@@ -51,25 +57,125 @@ public class JPanelIngredients extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ParseException 
+	 * @throws InvalidTypeException 
 	 */
-	public JPanelIngredients(Ingredient[] ingredientList, Beverage[] beverageList) {
+	public JPanelIngredients(Ingredient ingredientdb, Food fooddb) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
 		
-		this.ingredientList = ingredientList; //Leer todos los ingredientes bases de datos
-		this.beverageList = beverageList; //Leer todas las bebidas de la base de datos
+
+		this.ingredientList = ingredientdb.readAll(); //Reed all the ingredients in the database
+		this.FoodList = fooddb.readAll(); //Reed all the drinks in the database
+		
+		for(int i = 0; i<FoodList.length; i++) {
+			if(FoodList[i].getType() == 0) {
+
+				this.beverageList[i] = (Beverage) FoodList[i];
+				
+			}
+		}
 		
 		designData();
 		
-		lblIngredientName.setText(ingredientList[0]);
-		lblDrink.setText(beverageList[0]);
+		lblIngredientName.setText(ingredientList[0].getName());
+		lblDrink.setText(beverageList[0].getName());
 		
 		
-		//addActions();
+		addActions();
 		
 
 	}
 	private void addActions() {
 		
+		btnAddAmountDish.addActionListener(new AddDishAmountActionListener());
+		btnAddAmountDrinks.addActionListener(new AddDrinkAmountActionListener());
+		
 	}
+	public class AddDrinkAmountActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			
+			int amount_d = 0;
+			
+			ingredient_control_drinks = new IngredientControl();
+			
+			if(index_ingredients == beverageList.length) {
+				
+				lblIngredientName.setText("No more drinks in the database");
+				try {
+					ingredient_control_drinks.updateBeveragesFromForecast(beverageList, amount_drinks);
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
+						| NotMatchingLenghtsException | SQLException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			else {
+				
+				if(rdbtnUnitsDrink1.isSelected()) {
+					amount_d = 5;
+				}
+				else if (rdbtnUnitsDrinks2.isSelected()) {
+					amount_d = 10;
+				}
+				else {
+					amount_d = 15;
+				}
+				
+				amount_drinks[index_drinks] = amount_d;
+				lblIngredientName.setText(beverageList[index_drinks].getName());
+				
+				index_drinks = index_drinks + 1;
+				
+			}
+			
+		}
+	}
+	
+	public class AddDishAmountActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			
+			float amount_i= 0;
+			
+			ingredient_control_ingredients = new IngredientControl();
+			
+			if(index_ingredients == ingredientList.length) {
+				
+				lblIngredientName.setText("No more ingredients in the database");
+				try {
+					ingredient_control_ingredients.updateIngredientsFromForecast(ingredientList, amount_ingredients);
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
+						| NotMatchingLenghtsException | SQLException e) {
+
+					e.printStackTrace();
+				}
+				
+				
+			}
+			else {
+				
+				if(rdbtnUnitsDish1.isSelected()) {
+					amount_i = 5;
+				}
+				else if (rdbtnUnitsDish2.isSelected()) {
+					amount_i = 10;
+				}
+				else {
+					amount_i = 15;
+				}
+				
+				amount_ingredients[index_ingredients] = amount_i;
+				lblIngredientName.setText(ingredientList[index_ingredients].getName());
+				
+				index_ingredients = index_ingredients + 1;
+				
+			}
+			
+		}
+	}
+	
 	private void designData() {
 		
 		//Layout data
@@ -108,41 +214,6 @@ public class JPanelIngredients extends JPanel {
 		add(lblAmountInUnits);
 		
 		btnAddAmountDish = new JButton("Add Amount");
-		btnAddAmountDish.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				float amount_i= 0;
-				
-				ingredient_control_ingredients = new IngredientControl();
-				
-				if(index_ingredients == this.ingredientList.length) {
-					
-					lblIngredientName.setText("No more ingredients in the database");
-					ingredient_control_ingredients.updateIngredientsFromForecast(ingredientList, amount_ingredients);
-					
-					
-				}
-				else {
-					
-					if(rdbtnUnitsDish1.isSelected()) {
-						amount_i = 5;
-					}
-					else if (rdbtnUnitsDish2.isSelected()) {
-						amount_i = 10;
-					}
-					else {
-						amount_i = 15;
-					}
-					
-					amount_ingredients[index_ingredients] = amount_i;
-					lblIngredientName.setText(ingredientList[index_ingredients]);
-					
-					index_ingredients = index_ingredients + 1;
-					
-				}
-				
-			}
-		});
 		btnAddAmountDish.setBounds(252, 148, 95, 35);
 		add(btnAddAmountDish);
 		
@@ -171,41 +242,7 @@ public class JPanelIngredients extends JPanel {
 		add(rdbtnUnitsDrinks3);
 		
 		btnAddAmountDrinks = new JButton("Add Amount");
-		btnAddAmountDrinks.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				float amount_d = 0;
-				
-				ingredient_control_drinks = new IngredientControl();
-				
-				if(index_ingredients == this.beverageList.length) {
-					
-					lblIngredientName.setText("No more drinks in the database");
-					ingredient_control_drinks.updateIngredientsFromForecast(this.beverageList, amount_ingredients);
-					
-					
-				}
-				else {
-					
-					if(rdbtnUnitsDrink1.isSelected()) {
-						amount_d = 5;
-					}
-					else if (rdbtnUnitsDrinks2.isSelected()) {
-						amount_d = 10;
-					}
-					else {
-						amount_d = 15;
-					}
-					
-					amount_drinks[index_drinks] = amount_d;
-					lblIngredientName.setText(this.beverageList[index_drinks]);
-					
-					index_drinks = index_drinks + 1;
-					
-				}
-					
-			}
-		});
+		
 		btnAddAmountDrinks.setBounds(252, 291, 103, 35);
 		add(btnAddAmountDrinks);
 		
