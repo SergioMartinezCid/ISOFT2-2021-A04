@@ -9,10 +9,6 @@ import java.text.ParseException;
  */
 public interface Food {
 
-	static final int BEING_PREPARED = 0;
-	static final int READY = 1;
-	static final int DELIVERED = 2;
-
 	static int DRINK = 0;
 	static int STARTER = 1;
 	static int FIRST_COURSE = 2;
@@ -40,6 +36,10 @@ public interface Food {
 	 */
 	int getID();
 
+	/**
+	 * @return the quantity of the food
+	 */
+	int getQuantity();
 	/**
 	 * @param name the name of the food
 	 */
@@ -69,16 +69,6 @@ public interface Food {
 	 * @return the cost of this food
 	 */
 	float getCost();
-
-	/**
-	 * @param status the new status of this food
-	 */
-	void setStatus(int status);
-
-	/**
-	 * @return the status of this food
-	 */
-	int getStatus();
 
 	/**
 	 * @return All the foods in the database

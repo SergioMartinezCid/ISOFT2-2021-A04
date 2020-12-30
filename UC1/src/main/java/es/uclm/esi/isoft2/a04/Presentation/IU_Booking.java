@@ -221,13 +221,13 @@ public class IU_Booking extends JPanel {
 				if(buttonGroup.getSelection()!=null) {
 					switch (chSeats.getSelectedItem()) {
 					case "2":
-						tB.bookTable(turn,2,txtClient.getText());
+						//tB.bookTable(turn,2,txtClient.getText());
 						break;
 					case "4":
-						tB.bookTable(turn,4,txtClient.getText());
+						//tB.bookTable(turn,4,txtClient.getText());
 						break;
 					case "6":
-						tB.bookTable(turn,6,txtClient.getText());
+						//tB.bookTable(turn,6,txtClient.getText());
 						break;
 					default:
 						System.out.println(chSeats.getSelectedItem());
