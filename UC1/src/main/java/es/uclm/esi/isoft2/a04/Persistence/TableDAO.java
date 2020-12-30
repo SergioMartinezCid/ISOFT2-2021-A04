@@ -185,5 +185,22 @@ public class TableDAO {
 				+ Broker.getBroker().update(sql_table);
 
 	}
+	public TableImplementation[] readAllTablesForCity(String City)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+		Vector<Vector<Object>> query_result = new Vector<Vector<Object>>();
 
+		TableImplementation[] tables;
+
+		String sql = "SELECT " +City+ " FROM Table;";
+
+		query_result = Broker.getBroker().read(sql);
+
+		tables = new TableImplementation[query_result.size()];
+
+		for (int i = 0; i < query_result.size(); i++) {
+			tables[i] = new TableImplementation(Integer.valueOf(query_result.get(i).get(0).toString()));
+			tables[i].read();
+		}
+		return tables;
+	}
 }
