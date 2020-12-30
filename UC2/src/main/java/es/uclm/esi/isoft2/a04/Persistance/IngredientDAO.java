@@ -25,7 +25,6 @@ public class IngredientDAO {
 		IngredientImplementation[] ingredients = new IngredientImplementation[query_result.size()];
 		for (int i = 0; i < query_result.size(); i++) {
 			ingredients[i] = new IngredientImplementation(Integer.valueOf(query_result.get(i).get(0).toString()));
-			//readIngredient(ingredients[i]);
 			ingredients[i].read();
 		}
 		return ingredients;
