@@ -49,13 +49,13 @@ public class TableImplementation implements Table {
 	}
 	
 	@Override
-	public HashMap<Date, Integer> getStateHistory() {
-		return stateHistory;
+	public void setStateHistory(HashMap<Date, Integer> stateHistory) {
+		this.stateHistory = stateHistory;
 	}
 
 	@Override
-	public void setStateHistory(HashMap<Date, Integer> stateHistory) {
-		this.stateHistory = stateHistory;
+	public HashMap<Date, Integer> getStateHistory() {
+		return stateHistory;
 	}
 
 	@Override
@@ -121,7 +121,8 @@ public class TableImplementation implements Table {
 	}
 
 	@Override
-	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			NumberFormatException, ParseException {
 		return this.tableDAO.updateTable(this);
 	}
 
@@ -129,8 +130,8 @@ public class TableImplementation implements Table {
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.tableDAO.deleteOrder(this);
 	}
-	
+  
 	public String toString() {
-		return "Id:"+this.id+ " / Seats: "+ this.seatsNumber+" / State: " +this.state;
+		return "Id:" + this.id + " / Seats: " + this.getSeats() + " / State: " + this.state;
 	}
 }

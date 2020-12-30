@@ -6,7 +6,7 @@ import java.text.ParseException;
 import es.uclm.esi.isoft2.a04.Persistance.DishDAO;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class Dish extends FoodImplementation {
@@ -73,7 +73,11 @@ public class Dish extends FoodImplementation {
 
 	@Override
 	public void setIngredients(Ingredient[] ingredients) {
-		this.ingredients = (IngredientImplementation[]) ingredients;
+		IngredientImplementation[] aux = new IngredientImplementation[ingredients.length];
+		for(int i=0; i<aux.length ;i++) {
+			aux[i] = (IngredientImplementation) ingredients[i];
+		}
+		this.ingredients = aux;
 	}
 
 	@Override

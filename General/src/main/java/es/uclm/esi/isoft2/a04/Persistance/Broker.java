@@ -88,7 +88,6 @@ public class Broker {
 			}
 			result.add(aux);
 		}
-		
 		//connection.close();
 
 		return result;

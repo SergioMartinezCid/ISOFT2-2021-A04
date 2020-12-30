@@ -46,7 +46,7 @@ public class TableDAO {
 		}
 		return tables;
 	}
-
+	
 	private void updateStateHistory(TableImplementation table)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 		Vector<Vector<Object>> query_result_statetimes = Broker.getBroker()
@@ -65,6 +65,8 @@ public class TableDAO {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ParseException
+	 * @throws NumberFormatException
 	 */
 	public void readTable(TableImplementation table)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
