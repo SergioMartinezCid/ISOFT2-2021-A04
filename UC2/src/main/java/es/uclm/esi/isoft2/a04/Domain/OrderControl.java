@@ -1,81 +1,54 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
-import es.uclm.esi.isoft2.a04.Persistance.Broker;
-
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
- * UI Order controller implementation
+ * @version 0.1.0
  *
- * @version 0.0.1
  */
 public class OrderControl implements Subject {
 
 	private ArrayList<Observer> observers = new ArrayList<>();
 
-	/**
-	 * 
-	 * @param o
-	 */
+	public OrderImplementation getCurrentOrder(Waiter currentWaiter, Table currentTable)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ParseException,
+			InvalidStateException, InvalidTypeException {
+		OrderImplementation orderdb = new OrderImplementation(currentWaiter, currentTable);
+
+		return (OrderImplementation) Arrays.stream(orderdb.readAll())
+				.filter(order -> order.getWaiter().getID() == currentWaiter.getID()
+						&& order.getTable().getID() == currentTable.getID())
+				.reduce((mostRecentOrder, nextOrder) -> mostRecentOrder.getDatetime().before(nextOrder.getDatetime())
+						? nextOrder
+						: mostRecentOrder)
+				.get();
+	}
+
+	public void closeOrder(OrderImplementation order) throws InvalidStateException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		order.setState(OrderImplementation.CLOSED);
+		order.update();
+		notifyMe();
+	}
+	
+	
+
+	@Override
 	public void attach(Observer o) {
 		observers.add(o);
 	}
 
-	/**
-	 * 
-	 * @param o
-	 */
+	@Override
 	public void detach(Observer o) {
 		observers.remove(o);
 	}
 
-	public void notifySubject() {
-		// TODO notify all?
-		for (Observer o : observers) {
-			o.update();
-		}
-	}
-
-	/**
-	 * 
-	 * @param id
-	 * @param waiter
-	 * @param table
-	 */
-	public OrderImplementation createOrder(int id, Waiter waiter, Table table) {
-		// TODO create new order in database using Broker?
-		/*String query = "INSERT INTO ";
-		int result = Broker.getBroker().update(query);
-		*/
-		return new OrderImplementation(id, waiter, table);
-	}
-
-	/**
-	 * 
-	 * @param order
-	 * @param state
-	 */
-	public void setState(OrderImplementation order, int state) {
-		order.setState(state);
-	}
-
-	/**
-	 * 
-	 * @param order
-	 * @param food
-	 */
-	public void setReady(OrderImplementation order, FoodImplementation food) {
-		Food[] fs = order.getFood();
-		for (Food f : fs) {
-			if (food == f)
-				((FoodImplementation)f).setReady(food.isReady());
-		}
-	}
-
 	@Override
 	public void notifyMe() {
-		// TODO Auto-generated method stub
-		notifySubject();
+		for (Observer o : observers)
+			o.update();
 	}
 
 }

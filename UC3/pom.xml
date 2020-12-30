@@ -8,16 +8,16 @@
   <artifactId>UC3</artifactId>
   <name>UC3</name>
   <dependencies>
-		<dependency>
-			<groupId>es.uclm.esi.isoft2.a04</groupId>
-			<artifactId>General</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+	<dependency>
+		<groupId>es.uclm.esi.isoft2.a04</groupId>
+		<artifactId>General</artifactId>
+		<version>0.2.2</version>
+	</dependency>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.13</version>
+		<scope>test</scope>
+	</dependency>
+</dependencies>
 </project>

@@ -2,6 +2,7 @@ package es.uclm.esi.isoft2.a04.Persistence;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
@@ -9,7 +10,7 @@ import es.uclm.esi.isoft2.a04.Domain.*;
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class BookingDAO {
@@ -21,9 +22,11 @@ public class BookingDAO {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ParseException
+	 * @throws NumberFormatException
 	 */
-	public Booking[] readAllBookings()
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	public Booking[] readAllBookings() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
+			SQLException, NumberFormatException, ParseException {
 
 		Vector<Vector<Object>> query_result = new Vector<Vector<Object>>();
 		Booking[] bookings;
@@ -37,8 +40,8 @@ public class BookingDAO {
 		for (int i = 0; i < bookings.length; i++) {
 			tmpTable = new TableImplementation(Integer.parseInt(query_result.get(i).get(0).toString()));
 			tmpTable.read();
-			bookings[i] = new Booking(tmpTable, new Date(query_result.get(i).get(1).toString()),
-					Booking.TURN.valueOf(query_result.get(i).get(2).toString()));
+			bookings[i] = new Booking(tmpTable, (Date)query_result.get(i).get(1),
+					Booking.TURN.valueOf(query_result.get(i).get(2).toString().toUpperCase()));
 			bookings[i].setClientID(query_result.get(i).get(3).toString());
 
 		}
@@ -58,7 +61,8 @@ public class BookingDAO {
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Vector<Vector<Object>> query_result;
 		String sql = "SELECT Client FROM Booking WHERE TableId = " + booking.getTable().getID() + " AND Date = '"
-				+ this.mysqlDateSDF.format(booking.getDate()) + "' AND Turn = '" + booking.getTurn().toString() + "';";
+				+ BookingDAO.mysqlDateSDF.format(booking.getDate()) + "' AND Turn = '" + booking.getTurn().toString()
+				+ "';";
 		query_result = Broker.getBroker().read(sql);
 		for (int i = 0; i < query_result.size(); i++) {
 			booking.setClientID(query_result.get(i).get(0).toString());
@@ -67,7 +71,7 @@ public class BookingDAO {
 
 	/**
 	 * @param booking The Booking instance to be created
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -77,14 +81,14 @@ public class BookingDAO {
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
 		String sql = "INSERT INTO Booking VALUES (" + booking.getTable().getID() + ", '"
-				+ this.mysqlDateSDF.format(booking.getDate()) + "', '" + booking.getTurn().toString() + "', '"
+				+ BookingDAO.mysqlDateSDF.format(booking.getDate()) + "', '" + booking.getTurn().toString() + "', '"
 				+ booking.getClientID() + "')";
 		return Broker.getBroker().update(sql);
 	}
 
 	/**
 	 * @param booking The Booking instance to be updated
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -94,7 +98,7 @@ public class BookingDAO {
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
 		String sql = "UPDATE Booking SET Client = '" + booking.getClientID() + "' WHERE TableId = "
-				+ booking.getTable().getID() + " AND Date = '" + this.mysqlDateSDF.format(booking.getDate())
+				+ booking.getTable().getID() + " AND Date = '" + BookingDAO.mysqlDateSDF.format(booking.getDate())
 				+ "' AND Turn = '" + booking.getTurn().toString() + "';";
 		return Broker.getBroker().update(sql);
 
@@ -102,7 +106,7 @@ public class BookingDAO {
 
 	/**
 	 * @param booking The Booking instance to be deleted
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -112,7 +116,8 @@ public class BookingDAO {
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
 		String sql = "DELETE FROM Booking WHERE TableId = " + booking.getTable().getID() + " AND Date = '"
-				+ this.mysqlDateSDF.format(booking.getDate()) + "' AND Turn = '" + booking.getTurn().toString() + "';";
+				+ BookingDAO.mysqlDateSDF.format(booking.getDate()) + "' AND Turn = '" + booking.getTurn().toString()
+				+ "';";
 		return Broker.getBroker().update(sql);
 
 	}

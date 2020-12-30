@@ -2,86 +2,39 @@ package es.uclm.esi.isoft2.a04.Domain;
 
 import es.uclm.esi.isoft2.a04.Persistance.OrderDAO;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
- * Order interface implementation
+ * @version 0.1.0
  *
- * @version 0.0.1
  */
 public class OrderImplementation implements Order {
 
-	private static OrderDAO orderDAO;
-
-	public static final int OPEN = 0;
-	public static final int CLOSED = 1;
-	public static final int PAYED = 2;
-
+	private int id;
 	private int state;
 	private Date datetime;
-	
-	private int id;
+	private String paymentMethod;
 	private Waiter waiter;
 	private Table table;
-	
-	private Food[] food;
+	private FoodImplementation[] food;
+
+	private OrderDAO orderDAO;
 
 	/**
 	 * 
-	 * @param id
-	 * @param waiter
-	 * @param table
 	 */
-	public OrderImplementation(int id, Waiter waiter, Table table) {
+	public OrderImplementation(Waiter waiterdb, Table tabledb) {
+		orderDAO = new OrderDAO(waiterdb, tabledb);
+	}
+
+	/**
+	 * @param id The id of the order in the database
+	 */
+	public OrderImplementation(Waiter waiterdb, Table tabledb, int id) {
+		this(waiterdb, tabledb);
 		this.id = id;
-		this.setWaiter(waiter);
-		this.setTable(table);
-	}
-
-	/**
-	 * @return the datetime
-	 */
-	@Override
-	public Date getDatetime() {
-		return datetime;
-	}
-
-	/**
-	 * @param datetime the datetime to set
-	 */
-	@Override
-	public void setDatetime(Date datetime) {
-		this.datetime = datetime;
-	}
-
-	/**
-	 * @return the waiter
-	 */
-	@Override
-	public Waiter getWaiter() {
-		return waiter;
-	}
-
-	/**
-	 * @param waiter the waiter to set
-	 */
-	private void setWaiter(Waiter waiter) {
-		this.waiter = waiter;
-	}
-
-	/**
-	 * @return the table
-	 */
-	@Override
-	public Table getTable() {
-		return table;
-	}
-
-	/**
-	 * @param table the table to set
-	 */
-	private void setTable(Table table) {
-		this.table = table;
 	}
 
 	@Override
@@ -89,36 +42,30 @@ public class OrderImplementation implements Order {
 		return this.id;
 	}
 
+	/**
+	 * @param id The new id of the order
+	 */
+	public void setID(int id) {
+		this.id = id;
+	}
+
 	@Override
 	public Food[] getFood() {
 		return this.food;
 	}
 
-	/**
-	 * 
-	 * @param food
-	 */
 	@Override
 	public void setFood(Food[] food) {
-		this.food = food;
+		this.food = (FoodImplementation[]) food;
 	}
 
 	@Override
 	public float getCost() {
 		float cost = 0.0f;
-		for (Food f : this.food) {
-			cost += f.getCost();
+		for (FoodImplementation food : (FoodImplementation[]) this.getFood()) {
+			cost += food.getCost() * food.getQuantity();
 		}
 		return cost;
-	}
-
-	/**
-	 * 
-	 * @param state
-	 */
-	@Override
-	public void setState(int state) {
-		this.state = state;
 	}
 
 	@Override
@@ -127,71 +74,81 @@ public class OrderImplementation implements Order {
 	}
 
 	@Override
-	public int create() {
-		try {
-			return orderDAO.createOrder(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
+	public void setState(int state) throws InvalidStateException {
+		if (state != OrderImplementation.OPEN && state != OrderImplementation.CLOSED
+				&& state != OrderImplementation.PAYED)
+			throw new InvalidStateException();
+		this.state = state;
 	}
 
 	@Override
-	public int update() {
-		try {
-			return orderDAO.updateOrder(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
+	public Date getDatetime() {
+		return datetime;
 	}
 
 	@Override
-	public void readAll() {
-		try {
-			orderDAO.readAllOrders();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void setDatetime(Date datetime) {
+		this.datetime = datetime;
 	}
 
 	@Override
-	public int read() {
-		try {
-			orderDAO.readOrder(this);
-			return 0;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
+	public Waiter getWaiter() {
+		return waiter;
+	}
+
+	/**
+	 * @param waiter The new waiter of the order
+	 */
+	public void setWaiter(Waiter waiter) {
+		this.waiter = waiter;
 	}
 
 	@Override
-	public int delete() {
-		try {
-			return orderDAO.deleteOrder(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
+	public Table getTable() {
+		return table;
+	}
+
+	/**
+	 * @param table The new table of the order
+	 */
+	public void setTable(Table table) {
+		this.table = table;
+	}
+	
+	@Override
+	public String getPaymentMethod() {
+		return this.paymentMethod;
+	}
+	
+	@Override
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 	@Override
-	public void readAll() {
-		// TODO Auto-generated method stub
-		
+	public Order[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
+			SQLException, ParseException, InvalidStateException, InvalidTypeException {
+		return (Order[]) orderDAO.readAllOrders();
 	}
 
 	@Override
-	public int read() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			ParseException, InvalidStateException, InvalidTypeException {
+		orderDAO.readOrder(this);
 	}
 
 	@Override
-	public int delete() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return orderDAO.createOrder(this);
 	}
 
+	@Override
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return orderDAO.updateOrder(this);
+	}
+
+	@Override
+	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		return orderDAO.deleteOrder(this);
+	}
 }

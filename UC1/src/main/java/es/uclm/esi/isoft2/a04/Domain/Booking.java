@@ -1,11 +1,14 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import es.uclm.esi.isoft2.a04.Persistence.BookingDAO;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class Booking {
@@ -101,9 +104,11 @@ public class Booking {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ParseException
+	 * @throws NumberFormatException
 	 */
-	public Booking[] readAll()
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	public Booking[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
+			SQLException, NumberFormatException, ParseException {
 		return this.bookingDAO.readAllBookings();
 	}
 
@@ -118,7 +123,7 @@ public class Booking {
 	}
 
 	/**
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -129,7 +134,7 @@ public class Booking {
 	}
 
 	/**
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -140,7 +145,7 @@ public class Booking {
 	}
 
 	/**
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -148,5 +153,12 @@ public class Booking {
 	 */
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.bookingDAO.deleteBooking(this);
+	}
+	
+	public String toString() {
+		Date date = this.getDate();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+		String strDate = dateFormat.format(date); 
+		return "Table: " + this.getTable().getID() + " / Turn: " + this.getTurn() + " / Date: " + strDate + " / Client: " + this.getClientID();
 	}
 }
