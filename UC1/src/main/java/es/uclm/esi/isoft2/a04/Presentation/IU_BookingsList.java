@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -14,6 +15,7 @@ import javax.swing.JScrollPane;
 
 import es.uclm.esi.isoft2.a04.Domain.Booking;
 import es.uclm.esi.isoft2.a04.Domain.InsuficientTimeElapsedException;
+import es.uclm.esi.isoft2.a04.Domain.InvalidStateException;
 import es.uclm.esi.isoft2.a04.Domain.Table;
 import es.uclm.esi.isoft2.a04.Domain.TableBooking;
 import es.uclm.esi.isoft2.a04.Domain.TableImplementation;
@@ -100,7 +102,13 @@ public class IU_BookingsList extends JPanel {
 		Date time = new Date(),now = new Date();
 		tt = new TimerTask() {
 			public void run() {
-				cancelBookings(t);
+				try {
+					cancelBookings(t);
+				} catch (NumberFormatException | InsuficientTimeElapsedException | ParseException
+						| InvalidStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			};
 		};
 		Calendar c = Calendar.getInstance();
@@ -143,8 +151,12 @@ public class IU_BookingsList extends JPanel {
 	/**
 	 * Cancel the bookings of the turn t
 	 * @param t
+	 * @throws InvalidStateException 
+	 * @throws ParseException 
+	 * @throws InsuficientTimeElapsedException 
+	 * @throws NumberFormatException 
 	 */
-	public void cancelBookings(Booking.TURN t) {
+	public void cancelBookings(Booking.TURN t) throws NumberFormatException, InsuficientTimeElapsedException, ParseException, InvalidStateException {
 		//Cancell the bookings
     	while(!listModel.isEmpty()) {
     		try {
@@ -178,8 +190,10 @@ public class IU_BookingsList extends JPanel {
 	 * Update the list with the Bookings of the selected turn and Date
 	 * @param turn
 	 * @param date
+	 * @throws ParseException 
+	 * @throws NumberFormatException 
 	 */
-	public void updateList(Booking.TURN turn, Date date) {
+	public void updateList(Booking.TURN turn, Date date) throws NumberFormatException, ParseException {
 		Booking b = new Booking();
 		listModel.clear();
 		try {
@@ -271,6 +285,15 @@ public class IU_BookingsList extends JPanel {
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InvalidStateException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InsuficientTimeElapsedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 	}
@@ -321,7 +344,12 @@ public class IU_BookingsList extends JPanel {
 			if(date.after(aux)) {
 				date = changeToTomorrow(date);
 			}
-			updateList(turn, date);
+			try {
+				updateList(turn, date);
+			} catch (NumberFormatException | ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 	

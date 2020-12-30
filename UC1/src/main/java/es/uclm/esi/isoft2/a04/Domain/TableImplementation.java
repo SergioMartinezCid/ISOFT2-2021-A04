@@ -134,6 +134,6 @@ public class TableImplementation implements Table {
 	}
   
 	public String toString() {
-		return "Id:" + this.id + " / Seats: " + this.getSeats() + " / State: " + this.state;
+		return "Id:"+this.id+ " / Seats: "+ this.getSeats()+" / State: " +this.state;
 	}
 }
