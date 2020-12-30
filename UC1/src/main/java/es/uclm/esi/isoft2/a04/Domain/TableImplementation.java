@@ -7,7 +7,7 @@ import java.util.HashMap;
 import es.uclm.esi.isoft2.a04.Persistence.TableDAO;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class TableImplementation implements Table {
@@ -126,5 +126,9 @@ public class TableImplementation implements Table {
 	@Override
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.tableDAO.deleteOrder(this);
+	}
+	
+	public String toString() {
+		return "Id:"+this.id+ " / Seats: "+ this.seatsNumber+" / State: " +this.state;
 	}
 }
