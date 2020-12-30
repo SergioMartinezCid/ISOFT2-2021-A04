@@ -18,7 +18,7 @@ public class User {
 	private int userId;
 	private String username;
 	private String password;
-	private USERTYPE type;
+	private String type;
 	private WaiterImplementation waiter;
 
 	private UserDAO userDAO;
@@ -83,15 +83,15 @@ public class User {
 	/**
 	 * @return The type of this user
 	 */
-	public USERTYPE getType() {
+	public String getType() {
 		return type;
 	}
 
 	/**
-	 * @param userType The type of this user
+	 * @param stringa The type of this user
 	 */
-	public void setType(USERTYPE userType) {
-		this.type = userType;
+	public void setType(String stringa) {
+		this.type = stringa;
 	}
 
 	/**

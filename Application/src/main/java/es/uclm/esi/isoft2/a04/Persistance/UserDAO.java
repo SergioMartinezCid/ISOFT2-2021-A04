@@ -48,12 +48,12 @@ public class UserDAO {
 	public void readUser(User user) throws InstantiationException, IllegalAccessException, ClassNotFoundException,
 			SQLException, NumberFormatException, ParseException {
 		Vector<Vector<Object>> query_result = Broker.getBroker()
-				.read("SELECT Username, Password, Type, WaiterId FROM User WHERE UserId = " + user.getID() + "';");
+				.read("SELECT Username, Password, Type, WaiterId FROM User WHERE UserId = '" + user.getID() + "';");
 		WaiterImplementation auxWaiter = null;
 		for (int i = 0; i < query_result.size(); i++) {
 			user.setUsername(query_result.get(i).get(0).toString());
 			user.setPassword(query_result.get(i).get(1).toString());
-			user.setType(User.USERTYPE.valueOf(query_result.get(i).get(2).toString()));
+			user.setType(query_result.get(i).get(2).toString());
 			if (query_result.get(i).get(3) != null) {
 				auxWaiter = new WaiterImplementation(Integer.valueOf(query_result.get(i).get(3).toString()));
 				auxWaiter.read();

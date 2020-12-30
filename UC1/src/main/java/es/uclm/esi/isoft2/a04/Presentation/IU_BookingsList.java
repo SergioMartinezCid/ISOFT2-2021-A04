@@ -104,16 +104,8 @@ public class IU_BookingsList extends JPanel {
 			public void run() {
 				try {
 					cancelBookings(t);
-				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InsuficientTimeElapsedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvalidStateException e) {
+				} catch (NumberFormatException | InsuficientTimeElapsedException | ParseException
+						| InvalidStateException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -198,8 +190,10 @@ public class IU_BookingsList extends JPanel {
 	 * Update the list with the Bookings of the selected turn and Date
 	 * @param turn
 	 * @param date
+	 * @throws ParseException 
+	 * @throws NumberFormatException 
 	 */
-	public void updateList(Booking.TURN turn, Date date) {
+	public void updateList(Booking.TURN turn, Date date) throws NumberFormatException, ParseException {
 		Booking b = new Booking();
 		listModel.clear();
 		try {
@@ -350,7 +344,12 @@ public class IU_BookingsList extends JPanel {
 			if(date.after(aux)) {
 				date = changeToTomorrow(date);
 			}
-			updateList(turn, date);
+			try {
+				updateList(turn, date);
+			} catch (NumberFormatException | ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 	
