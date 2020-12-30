@@ -127,4 +127,8 @@ public class TableImplementation implements Table {
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.tableDAO.deleteOrder(this);
 	}
+	public Table[] readAllForCity(String City)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+		return this.tableDAO.readAllTablesForCity(City);
+	}
 }
