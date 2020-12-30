@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class BookingDAOTest {
 			);
 	
 	@Test
-	public void testReadAllBookings() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	public void testReadAllBookings() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 		assertEquals(Booking.class, tester.readAllBookings().getClass());
 	}
 
