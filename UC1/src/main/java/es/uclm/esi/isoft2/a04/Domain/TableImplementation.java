@@ -129,6 +129,6 @@ public class TableImplementation implements Table {
 	}
 	
 	public String toString() {
-		return "Id:"+this.id+ " / Seats: "+ this.seatsNumber+" / State: " +this.state;
+		return "Id:"+this.id+ " / Seats: "+ this.seats+" / State: " +this.state;
 	}
 }

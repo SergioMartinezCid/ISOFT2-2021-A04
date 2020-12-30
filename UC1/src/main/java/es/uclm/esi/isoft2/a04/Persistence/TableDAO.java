@@ -55,10 +55,59 @@ public class TableDAO {
 				.read("SELECT StartTime, State FROM StateTimes WHERE TableId = " + table.getID() + ";");
 		HashMap<Date, Integer> stateHistory = new HashMap<>();
 		for (int i = 0; i < query_result_statetimes.size(); i++) {
-			stateHistory.put(TableDAO.mysqlDateTimeSDF.parse(query_result_statetimes.get(i).get(0).toString()),
-					Integer.valueOf(query_result_statetimes.get(i).get(0).toString()));
+			
+				
+			stateHistory.put(TableDAO.mysqlDateTimeSDF.parse(query_result_statetimes.get(i).get(0).toString()), 
+					stateConversion(query_result_statetimes.get(i).get(0).toString().toUpperCase(), table));
 		}
 		table.setStateHistory(stateHistory);
+	}
+	
+	private int stateConversion(String query, TableImplementation table) {
+		
+		int state = 0;
+		
+		switch (query) {
+		case "FREE":
+			table.setState(Table.FREE);
+			state = 0;
+			break;
+		case "RESERVED":
+			table.setState(Table.RESERVED);
+			state = 1;
+			break;
+		case "BUSY":
+			table.setState(Table.BUSY);
+			state = 2;
+			break;
+		case "ASKING":
+			table.setState(Table.ASKING);
+			state = 3;
+			break;
+		case "WAITING_FOR_FOOD":
+			table.setState(Table.WAITING_FOR_FOOD);
+			state = 4;
+			break;
+		case "SERVED":
+			table.setState(Table.SERVED);
+			state = 5;
+			break;
+		case "WAITING_FOR_BILL":
+			table.setState(Table.WAITING_FOR_BILL);
+			state = 6;
+			break;
+		case "PAYING":
+			table.setState(Table.PAYING);
+			state = 7;
+			break;
+		case "IN_PREPARATION":
+			table.setState(Table.IN_PREPARATION);
+			state = 8;
+			break;
+		}
+		
+		return state;
+		
 	}
 
 	/**
@@ -87,35 +136,9 @@ public class TableDAO {
 		}
 
 		for (int i = 0; i < query_result_state.size(); i++) {
-			switch (query_result_state.get(i).get(0).toString().toUpperCase()) {
-			case "FREE":
-				table.setState(Table.FREE);
-				break;
-			case "RESERVED":
-				table.setState(Table.RESERVED);
-				break;
-			case "BUSY":
-				table.setState(Table.BUSY);
-				break;
-			case "ASKING":
-				table.setState(Table.ASKING);
-				break;
-			case "WAITING_FOR_FOOD":
-				table.setState(Table.WAITING_FOR_FOOD);
-				break;
-			case "SERVED":
-				table.setState(Table.SERVED);
-				break;
-			case "WAITING_FOR_BILL":
-				table.setState(Table.WAITING_FOR_BILL);
-				break;
-			case "PAYING":
-				table.setState(Table.PAYING);
-				break;
-			case "IN_PREPARATION":
-				table.setState(Table.IN_PREPARATION);
-				break;
-			}
+			
+			stateConversion(query_result_state.get(i).get(0).toString().toUpperCase(), table);
+			
 		}
 		updateStateHistory(table);
 	}
