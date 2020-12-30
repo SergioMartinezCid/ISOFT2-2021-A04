@@ -172,22 +172,33 @@ public class JPanelIngredients extends JPanel {
 			threshold = Integer.parseInt(txtInputValue.getText());
 			try {
 				ingredients_under_threshold = ingredient_control_threshold.getIngredientsBelowThreshold(ingredientdb, threshold);
+				
+				if (ingredients_under_threshold == null) {
+					textAreaIngredients.setText("No ingredients");
+					//System.out.println("No ingredients");
+				}
+				else {
+					
+					for(int i = 0; i<ingredients_under_threshold.length; i++) {
+						if(ingredients_under_threshold[i] == null) {
+							ingredients_list = ingredients_list + "";
+						}
+						else {
+							ingredients_list = ingredients_list+"\n"+ingredients_under_threshold[i].getName();
+							
+						}
+						//System.out.println(ingredients_under_threshold[i]);
+					}
+					textAreaIngredients.setText(ingredients_list);
+					
+				}
+				
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException
 					| InvalidTypeException | ParseException e) {
 
 				e.printStackTrace();
 			}
 			
-			if (ingredients_under_threshold == null) {
-				textAreaIngredients.setText("No ingredients");
-				//System.out.println("No ingredients");
-			}
-			
-			for(int i = 0; i<ingredients_under_threshold.length; i++) {
-				ingredients_list = ingredients_under_threshold[i].getName()+"\n";
-				//System.out.println(ingredients_under_threshold[i]);
-			}
-			textAreaIngredients.setText(ingredients_list);
 		}
 	}
 	/**
