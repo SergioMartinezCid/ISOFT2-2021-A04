@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import es.uclm.esi.isoft2.a04.Persistence.WaiterDAO;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class WaiterImplementation implements Waiter {
@@ -88,8 +88,7 @@ public class WaiterImplementation implements Waiter {
 	}
 
 	@Override
-	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
-			NumberFormatException, ParseException {
+	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 		this.waiterDAO.readWaiter(this);
 	}
 
@@ -120,7 +119,7 @@ public class WaiterImplementation implements Waiter {
 
 	@Override
 	public void notifyMe() {
-		for (Observer o : this.observers) {
+		for(Observer o: this.observers) {
 			o.notify();
 		}
 	}

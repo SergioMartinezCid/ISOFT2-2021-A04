@@ -1,24 +1,26 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.util.Arrays;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
+
+import es.uclm.esi.isoft2.a04.Persistance.Broker;
 import es.uclm.esi.isoft2.a04.Persistence.TableDAO;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class TableImplementation implements Table {
 
 	private int id;
-	private int seats;
+	private int seatsNumber;
 	private int state;
 	private int restaurantID;
 	private String city;
 	private HashMap<Date, Integer> stateHistory;
-	
 	private TableDAO tableDAO;
 
 	/**
@@ -45,25 +47,20 @@ public class TableImplementation implements Table {
 	public int getState() {
 		return this.state;
 	}
-
+	
 	@Override
 	public HashMap<Date, Integer> getStateHistory() {
 		return stateHistory;
 	}
 
 	@Override
-	public void setStateHistory(HashMap<Date, Integer> stateHistory) {
-		this.stateHistory = stateHistory;
-	}
-
-	@Override
 	public void setSeats(int seatsNumber) {
-		this.seats = seatsNumber;
+		this.seatsNumber = seatsNumber;
 	}
 
 	@Override
 	public int getSeats() {
-		return this.seats;
+		return this.seatsNumber;
 	}
 
 	@Override
@@ -127,8 +124,14 @@ public class TableImplementation implements Table {
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.tableDAO.deleteOrder(this);
 	}
-	public Table[] readAllForCity(String City)
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
-		return this.tableDAO.readAllTablesForCity(City);
+	
+	public String toString() {
+		return "Id:"+this.id+ " / Seats: "+ this.seatsNumber+" / State: " +this.state;
+	}
+
+	@Override
+	public void setStateHistory(HashMap<Date, Integer> stateHistory) {
+		// TODO Auto-generated method stub
+		
 	}
 }

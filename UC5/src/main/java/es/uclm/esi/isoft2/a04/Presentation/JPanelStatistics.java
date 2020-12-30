@@ -1,4 +1,4 @@
-package es.uclm.esi.isoft2.a04.Domain;
+package es.uclm.esi.isoft2.a04.Presentation;
 
 import javax.swing.JPanel;
 import java.awt.Label;
@@ -18,7 +18,7 @@ import es.uclm.esi.isoft2.a04.Domain.StatisticsControl;
 import es.uclm.esi.isoft2.a04.Domain.*;
 import java.awt.Cursor;
 
-public class JPanelStatisticsControl extends JPanel {
+public class JPanelStatistics extends JPanel {
 	private JTextField textPreparationTime;
 	private JTextField textAverageMeal;
 	private JTextField textTimeTable;
@@ -31,7 +31,7 @@ public class JPanelStatisticsControl extends JPanel {
 
 	public Table[] tables;
 	public TableImplementation tableImplementCombox;
-	public TableImplementation ResaurantTable;
+	public TableImplementation restaurantTable;
 	public TableImplementation tableImplementaitonCity;
 	public Table tableDBStatistics;
 	private StatisticsControl Control;
@@ -39,7 +39,7 @@ public class JPanelStatisticsControl extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public JPanelStatisticsControl() {
+	public JPanelStatistics() {
 		setLayout(null);
 
 		Label labelInsertNameCity = new Label("Insert City");
@@ -196,7 +196,7 @@ public class JPanelStatisticsControl extends JPanel {
 			}
 
 			else {
-				RestaurantTable = tableImplementaitonCity.readAllTablesForCity(textSearch.getText());
+				restaurantTable = tableImplementaitonCity.readAllTablesForCity(textSearch.getText());
 				for (int i = 0; i < RestaurantTable.length(); i++) {
 					tableDBStatistics = RestaurantTable[i];
 					try {

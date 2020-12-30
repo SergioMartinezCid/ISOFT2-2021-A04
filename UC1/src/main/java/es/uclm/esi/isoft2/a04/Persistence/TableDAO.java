@@ -18,7 +18,7 @@ import es.uclm.esi.isoft2.a04.Persistance.Broker;
  *
  */
 public class TableDAO {
-
+	
 	private static SimpleDateFormat mysqlDateTimeSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
@@ -36,7 +36,7 @@ public class TableDAO {
 
 		TableImplementation[] tables;
 
-		String sql = "SELECT TableId FROM Table;";
+		String sql = "SELECT TableId FROM TableRestaurant;";
 
 		query_result = Broker.getBroker().read(sql);
 
@@ -48,7 +48,7 @@ public class TableDAO {
 		}
 		return tables;
 	}
-
+	
 	private void updateStateHistory(TableImplementation table)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 		Vector<Vector<Object>> query_result_statetimes = Broker.getBroker()
@@ -67,13 +67,13 @@ public class TableDAO {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
-	 * @throws ParseException 
-	 * @throws NumberFormatException 
+	 * @throws ParseException
+	 * @throws NumberFormatException
 	 */
 	public void readTable(TableImplementation table)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 		Vector<Vector<Object>> query_result_table, query_result_state;
-		String sql_table = "SELECT t.TableId, t.RestaurantId, t.Seats, r.City FROM Table AS t, Restaurant AS r WHERE t.TableID ="
+		String sql_table = "SELECT t.TableId, t.RestaurantId, t.Seats, r.City FROM TableRestaurant AS t, Restaurant AS r WHERE t.TableID ="
 				+ table.getID() + " AND t.RestaurantId = r.RestaurantId;";
 		String sql_state = "SELECT State FROM StateTimes WHERE TableId = " + table.getID()
 				+ " ORDER BY StartTime DESC LIMIT 1;";
@@ -87,7 +87,7 @@ public class TableDAO {
 		}
 
 		for (int i = 0; i < query_result_state.size(); i++) {
-			switch (query_result_state.get(i).get(0).toString()) {
+			switch (query_result_state.get(i).get(0).toString().toUpperCase()) {
 			case "FREE":
 				table.setState(Table.FREE);
 				break;
@@ -134,9 +134,9 @@ public class TableDAO {
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 
 		Vector<Vector<Object>> query_result_id;
-		String sql_table = "INSERT INTO Table (RestaurantId, Seats) VALUES (" + table.getRestaurantID() + ", "
+		String sql_table = "INSERT INTO TableRestaurant (RestaurantId, Seats) VALUES (" + table.getRestaurantID() + ", "
 				+ table.getSeats() + ")";
-		String sql_state = "INSERT INTO StartTimes VALUES (NOW(), " + table.getID() + ", '" + table.getState() + "');";
+		String sql_state = "INSERT INTO StateTimes VALUES (NOW(), " + table.getID() + ", '" + table.getState() + "');";
 		String sql_getId = "SELECT LAST_INSERT_ID();";
 
 		int modifiedRows = Broker.getBroker().update(sql_table) + Broker.getBroker().update(sql_state);
@@ -161,9 +161,11 @@ public class TableDAO {
 	public int updateTable(TableImplementation table)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 
-		String sql_table = "UPDATE Table SET RestaurantId = " + table.getRestaurantID() + ", Seats = "
+		String sql_table = "UPDATE TableRestaurant SET RestaurantId = " + table.getRestaurantID() + ", Seats = "
 				+ table.getSeats() + " WHERE TableId = " + table.getID() + ";";
-		String sql_state = "INSERT INTO StartTimes VALUES (NOW(), " + table.getID() + ", '" + table.getState() + "');";
+		String sql_state = "INSERT INTO StateTimes VALUES ('"
+				+ DateTimeFormatter.ISO_DATE_TIME.format(OffsetDateTime.now()) + "', " + table.getID() + ", '"
+				+ (table.getState()+1) + "');";
 		updateStateHistory(table);
 		return Broker.getBroker().update(sql_table) + Broker.getBroker().update(sql_state);
 	}
@@ -178,29 +180,13 @@ public class TableDAO {
 	 */
 	public int deleteOrder(TableImplementation table)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+
+		String sql_orders = "DELETE FROM OrderRestaurant WHERE TableId = " + table.getID() + ";";
 		String sql_state = "DELETE FROM StateTimes WHERE TableId = " + table.getID() + ";";
 		String sql_booking = "DELETE FROM Booking WHERE TableId = " + table.getID() + ";";
-		String sql_table = "DELETE FROM Table WHERE TableId =" + table.getID() + ";";
-		return Broker.getBroker().update(sql_state) + Broker.getBroker().update(sql_booking)
-				+ Broker.getBroker().update(sql_table);
+		String sql_table = "DELETE FROM TableRestaurant WHERE TableId =" + table.getID() + ";";
+		return Broker.getBroker().update(sql_orders) + Broker.getBroker().update(sql_state) + Broker.getBroker().update(sql_booking) + Broker.getBroker().update(sql_table);
 
 	}
-	public TableImplementation[] readAllTablesForCity(String City)
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
-		Vector<Vector<Object>> query_result = new Vector<Vector<Object>>();
 
-		TableImplementation[] tables;
-
-		String sql = "SELECT " +City+ " FROM Table;";
-
-		query_result = Broker.getBroker().read(sql);
-
-		tables = new TableImplementation[query_result.size()];
-
-		for (int i = 0; i < query_result.size(); i++) {
-			tables[i] = new TableImplementation(Integer.valueOf(query_result.get(i).get(0).toString()));
-			tables[i].read();
-		}
-		return tables;
-	}
 }
