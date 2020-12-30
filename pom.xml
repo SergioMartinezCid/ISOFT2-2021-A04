@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>es.uclm.esi.isoft2.a04</groupId>
+  <artifactId>ISOFT2-2021-A04</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ISOFT2-2021-A04</name>
+  <modules>
+  	<module>General</module>
+  	<module>Application</module>
+  	<module>UC1</module>
+  	<module>UC2</module>
+  	<module>UC3</module>
+  	<module>UC4</module>
+  	<module>UC5</module>
+  </modules>
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+</project>
