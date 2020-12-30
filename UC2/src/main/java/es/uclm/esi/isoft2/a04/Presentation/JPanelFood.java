@@ -41,8 +41,9 @@ public class JPanelFood extends JPanel implements Observer {
 	 * @throws ClassNotFoundException 
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
+	 * @throws InvalidStateException 
 	 */
-	public JPanelFood(Waiter waiter, Table table) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
+	public JPanelFood(Waiter waiter, Table table) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException, InvalidStateException {
 		this.table = table;
 		this.waiter = waiter;
 		setLayout(new BorderLayout(0, 0));
@@ -66,8 +67,9 @@ public class JPanelFood extends JPanel implements Observer {
 		displayOrder();
 	}
 	
-	private void displayOrder() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
+	private void displayOrder() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException, InvalidStateException {
 		OrderImplementation order = new OrderImplementation(waiter, table);
+		order.read();
 		for(Food food : order.getFood()) {
 			FoodItem fi = new FoodItem(food);
 			contents.add(fi);
