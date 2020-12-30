@@ -6,7 +6,7 @@ import java.text.ParseException;
 import es.uclm.esi.isoft2.a04.Persistance.DishDAO;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class Dish extends FoodImplementation {

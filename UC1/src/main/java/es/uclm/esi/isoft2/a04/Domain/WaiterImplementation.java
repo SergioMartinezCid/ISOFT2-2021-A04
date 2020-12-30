@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import es.uclm.esi.isoft2.a04.Persistence.WaiterDAO;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class WaiterImplementation implements Waiter {

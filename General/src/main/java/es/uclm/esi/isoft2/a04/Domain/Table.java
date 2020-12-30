@@ -3,7 +3,7 @@ package es.uclm.esi.isoft2.a04.Domain;
 import java.sql.SQLException;
 
 /**
- * @version 0.1.0
+ * @version 0.1.1
  *
  */
 public interface Table {

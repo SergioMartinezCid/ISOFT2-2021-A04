@@ -5,10 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import es.uclm.esi.isoft2.a04.Domain.OrderImplementation;
-import es.uclm.esi.isoft2.a04.Domain.TableImplementation;
+//import es.uclm.esi.isoft2.a04.Domain.OrderImplementation;
+//import es.uclm.esi.isoft2.a04.Domain.TableImplementation;
 import es.uclm.esi.isoft2.a04.Domain.Waiter;
-import es.uclm.esi.isoft2.a04.Domain.WaiterImplementation;
+//import es.uclm.esi.isoft2.a04.Domain.WaiterImplementation;
 
 import java.awt.BorderLayout;
 
@@ -47,11 +47,12 @@ public class TestPanel {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		/*
 		WaiterImplementation waiter = new WaiterImplementation(1);
 		TableImplementation table = new TableImplementation();
 		OrderImplementation order = new OrderImplementation(waiter, table);
-		panel = new JPanelPayment(waiter, order);
+		panel = new JPanelPayment(waiter, order);*/
+		panel = new JPanelPayment(null, null);
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 	}
 

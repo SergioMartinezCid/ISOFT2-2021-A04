@@ -9,12 +9,12 @@
 	</parent>
 	<artifactId>UC2</artifactId>
 	<name>UC2</name>
-	<version>0.2.0</version>
+	<version>0.2.2</version>
 	<dependencies>
 		<dependency>
 			<groupId>es.uclm.esi.isoft2.a04</groupId>
 			<artifactId>General</artifactId>
-			<version>0.2.0</version>
+			<version>0.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
