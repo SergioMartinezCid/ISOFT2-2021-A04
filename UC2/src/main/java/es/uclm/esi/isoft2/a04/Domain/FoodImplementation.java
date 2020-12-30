@@ -3,10 +3,14 @@ package es.uclm.esi.isoft2.a04.Domain;
 import java.util.Date;
 
 /**
- * @version 0.1.1
+ * @version 0.1.2
  *
  */
 public abstract class FoodImplementation implements Food {
+	
+	public static final int BEING_PREPARED = 0;
+	public static final int READY = 1;
+	public static final int DELIVERED = 2;
 
 	private int id;
 	private String name;
@@ -127,7 +131,6 @@ public abstract class FoodImplementation implements Food {
 	/**
 	 * @param status the new status of this food
 	 */
-	@Override
 	public void setStatus(int status) {
 		this.status = status;
 	}
@@ -135,7 +138,6 @@ public abstract class FoodImplementation implements Food {
 	/**
 	 * @return the status of this food
 	 */
-	@Override
 	public int getStatus() {
 		return this.status;
 	}

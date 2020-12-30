@@ -2,20 +2,24 @@ package es.uclm.esi.isoft2.a04.Persistence;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 
 import es.uclm.esi.isoft2.a04.Domain.*;
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
 /**
- * @version 0.1.2
+ * @version 0.1.3
  *
  */
 public class TableDAO {
+	
+	private static SimpleDateFormat mysqlDateTimeSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
 	 * @return All the tables in the database
@@ -41,6 +45,18 @@ public class TableDAO {
 			tables[i].read();
 		}
 		return tables;
+	}
+
+	private void updateStateHistory(TableImplementation table)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+		Vector<Vector<Object>> query_result_statetimes = Broker.getBroker()
+				.read("SELECT StartTime, State FROM StateTimes WHERE TableId = " + table.getID() + ";");
+		HashMap<Date, Integer> stateHistory = new HashMap<>();
+		for (int i = 0; i < query_result_statetimes.size(); i++) {
+			stateHistory.put(TableDAO.mysqlDateTimeSDF.parse(query_result_statetimes.get(i).get(0).toString()),
+					Integer.valueOf(query_result_statetimes.get(i).get(0).toString()));
+		}
+		table.setStateHistory(stateHistory);
 	}
 
 	/**
@@ -131,9 +147,11 @@ public class TableDAO {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ParseException 
+	 * @throws NumberFormatException 
 	 */
 	public int updateTable(TableImplementation table)
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 
 		String sql_table = "UPDATE TableRestaurant SET RestaurantId = " + table.getRestaurantID() + ", Seats = "
 				+ table.getSeats() + " WHERE TableId = " + table.getID() + ";";

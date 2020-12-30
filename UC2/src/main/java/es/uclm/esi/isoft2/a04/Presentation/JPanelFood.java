@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 /**
  * JPanel for cook and barman
  * 
- * @version 0.2.0
+ * @version 0.2.1
  */
 public class JPanelFood extends JPanel implements Observer {
 	
@@ -57,7 +57,7 @@ public class JPanelFood extends JPanel implements Observer {
 			public void actionPerformed(ActionEvent arg0) {
 				OrderImplementation order = new OrderImplementation(waiter, table);
 				for (Food fi : order.getFood()) {
-					fi.setStatus(Food.READY);
+					((FoodImplementation) fi).setStatus(FoodImplementation.READY);
 				}
 			}
 		});

@@ -27,6 +27,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.ButtonGroup;
@@ -35,7 +36,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 /**
- * @version 0.1.2
+ * @version 0.1.3
  *
  */
 public class IU_Booking extends JPanel {
@@ -316,6 +317,12 @@ public class IU_Booking extends JPanel {
 						inst.printStackTrace();
 						JOptionPane.showMessageDialog(null, "InstantiationException error", "Booking Error",
 								JOptionPane.ERROR_MESSAGE);
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				} else {
 					lblInfo.setText("Turn not selected");

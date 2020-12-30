@@ -2,12 +2,15 @@ package es.uclm.esi.isoft2.a04.Domain;
 
 import java.util.Arrays;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
+
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 import es.uclm.esi.isoft2.a04.Persistence.TableDAO;
 
 /**
- * @version 0.1.2
+ * @version 0.1.3
  *
  */
 public class TableImplementation implements Table {
@@ -18,6 +21,7 @@ public class TableImplementation implements Table {
 	private int restaurantID;
 	private String city;
 	private TableDAO tableDAO;
+	private HashMap<Date, Integer> stateHistory;
 
 	/**
 	 * 
@@ -42,6 +46,16 @@ public class TableImplementation implements Table {
 	@Override
 	public int getState() {
 		return this.state;
+	}
+	
+	@Override
+	public HashMap<Date, Integer> getStateHistory() {
+		return stateHistory;
+	}
+
+	@Override
+	public void setStateHistory(HashMap<Date, Integer> stateHistory) {
+		this.stateHistory = stateHistory;
 	}
 
 	@Override
@@ -107,7 +121,7 @@ public class TableImplementation implements Table {
 	}
 
 	@Override
-	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 		return this.tableDAO.updateTable(this);
 	}
 

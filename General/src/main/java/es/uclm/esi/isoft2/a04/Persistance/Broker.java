@@ -5,7 +5,7 @@ import java.util.Vector;
 
 
 /**
- * @version 0.1.3
+ * @version 0.1.4
  *
  */
 public class Broker {
@@ -89,7 +89,7 @@ public class Broker {
 			result.add(aux);
 		}
 		
-		connection.close();
+		//connection.close();
 
 		return result;
 

@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * 
- * @version 0.2.0
+ * @version 0.2.1
  */
 public class FoodItem extends JPanel {
 
@@ -132,13 +132,13 @@ public class FoodItem extends JPanel {
 		String status = "";
 
 		switch (food.getStatus()) {
-		case Food.READY:
+		case FoodImplementation.READY:
 			status = "READY";
 			break;
-		case Food.BEING_PREPARED:
+		case FoodImplementation.BEING_PREPARED:
 			status = "IN PREPARATION";
 			break;
-		case Food.DELIVERED:
+		case FoodImplementation.DELIVERED:
 			status = "DELIVERED";
 			break;
 		}
