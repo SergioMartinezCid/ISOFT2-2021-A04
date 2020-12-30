@@ -56,7 +56,11 @@ public class OrderImplementation implements Order {
 
 	@Override
 	public void setFood(Food[] food) {
-		this.food = (FoodImplementation[]) food;
+		FoodImplementation[] aux = new FoodImplementation[food.length];
+		for(int i=0; i<aux.length ;i++) {
+			aux[i] = (FoodImplementation) food[i];
+		}
+		this.food = aux;
 	}
 
 	@Override
@@ -150,5 +154,9 @@ public class OrderImplementation implements Order {
 	@Override
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return orderDAO.deleteOrder(this);
+	}
+	
+	public String toString() {
+		return "Table: " + this.getTable().getID() + "\nOrder code: " + this.getID();
 	}
 }

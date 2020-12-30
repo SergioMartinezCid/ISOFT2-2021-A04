@@ -43,7 +43,7 @@ public class IngredientDAO {
 				.read("SELECT Name, InStorage FROM Ingredient WHERE IngredientId = " + ingredient.getID() + ";");
 		for (int i = 0; i < query_result_ingredient.size(); i++) {
 			ingredient.setName(query_result_ingredient.get(i).get(0).toString());
-			ingredient.setAmount(Integer.valueOf(query_result_ingredient.get(i).get(0).toString()));
+			ingredient.setAmount((Float)query_result_ingredient.get(i).get(1));
 		}
 
 		if (ingredient.getDish() != null) {

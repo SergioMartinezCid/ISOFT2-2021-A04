@@ -57,23 +57,23 @@ public class JPanelPayment extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public JPanelPayment(Waiter waiter, Order orderDB) {
+	public JPanelPayment(Waiter waiterDB, Order orderDB) {
 		setLayout(new BorderLayout(0, 0));
 		
 		splitPane = new JSplitPane();
 		add(splitPane, BorderLayout.CENTER);
 		
 		spList = new JScrollPane();
-		spList.setMaximumSize(new Dimension(100, 32767));
-		spList.setMinimumSize(new Dimension(100, 23));
+		spList.setMaximumSize(new Dimension(300, 32767));
+		spList.setMinimumSize(new Dimension(200, 23));
 		splitPane.setLeftComponent(spList);
 		
 		listModel = new DefaultListModel<Order>();
 		lstOrders = new JList<Order>();
 		lstOrders.addListSelectionListener(new LstOrdersListSelectionListener());
 		lstOrders.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		lstOrders.setMinimumSize(new Dimension(100, 0));
-		lstOrders.setMaximumSize(new Dimension(100, 0));
+		lstOrders.setMinimumSize(new Dimension(200, 0));
+		lstOrders.setMaximumSize(new Dimension(300, 0));
 		lstOrders.setModel(listModel);
 		spList.setViewportView(lstOrders);
 		
@@ -129,14 +129,16 @@ public class JPanelPayment extends JPanel {
 		gbc_btnPay.gridy = 3;
 		panel.add(btnPay, gbc_btnPay);
 
-		//updateOrdersList(waiter.getID(), orderDB);
+		updateOrdersList(waiterDB.getID(), orderDB);
 	}
 	
 	public void updateOrdersList(int waiterID, Order orderDB) {
 		listModel.clear();
 		try {
 			Order[] orders = orderDB.readAll();
+			System.out.println("WaiterID: "+waiterID);
 			for(int i=0; i<orders.length;i++) {
+				System.out.println("Id:"+orders[i].getID()+" / Waiter:"+orders[i].getWaiter().getID()+" / State:"+orders[i].getState());
 				if ((orders[i].getWaiter().getID()==waiterID)&&(orders[i].getState()==Order.CLOSED)) {
 					listModel.addElement(orders[i]);
 				}
@@ -173,26 +175,20 @@ public class JPanelPayment extends JPanel {
 				int method = JOptionPane.showOptionDialog(null, "Select payment method", "Payment method", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{"cash","credit card"}, 0);
 				System.out.println(method);
 				if(method!=-1) {
-					if (pc.startPayment(order) == 1) {
-						boolean cash = true;
-						String paymentM = "CASH";
-						if (method == 1) {
-							cash = false;
-							paymentM = "CREDIT CARD";
-						}
-						if(pc.makePayment(order, cash, paymentM)==1) {
-							listModel.removeElement(order);
-							txtAContent.setText("");
-							lblOrderCost.setText("€");
-							btnPay.setEnabled(false);
-							//Simulate that the preparation of the table lasts 15 minutes
-							prepareTable(order.getTable());
-						}else {
-							JOptionPane.showMessageDialog(null, "Error updating the payment", "ERROR", JOptionPane.ERROR_MESSAGE);
-						}
-					}else {
-						JOptionPane.showMessageDialog(null, "Error updating the order state 'PAYING'", "ERROR", JOptionPane.ERROR_MESSAGE);
+					pc.startPayment(order);
+					boolean cash = true;
+					String paymentM = "CASH";
+					if (method == 1) {
+						cash = false;
+						paymentM = "CREDIT CARD";
 					}
+					pc.makePayment(order, cash, paymentM);
+					listModel.removeElement(order);
+					txtAContent.setText("");
+					lblOrderCost.setText("€");
+					btnPay.setEnabled(false);
+					//Simulate that the preparation of the table lasts 15 minutes
+					prepareTable(order.getTable());
 				}else {
 					order.getTable().setState(Table.SERVED);
 					order.getTable().update();
@@ -274,13 +270,12 @@ public class JPanelPayment extends JPanel {
 				Food [] content = order.getFood();
 				String aux = "";
 				for(int i=0; i<content.length;i++) {
-					aux += content[i].getName() + " -> " + content[i].getCost() + "€\n"; 
+					aux += content[i].getName() + " (" + content[i].getCost() + "€) x"+ content[i].getQuantity(); 
 				}
 				txtAContent.setText(aux);
 				lblOrderCost.setText(order.getCost() + " €");
 				btnPay.setEnabled(true);
 			}catch(NullPointerException x) {
-				x.printStackTrace();
 			}
 		}
 	}

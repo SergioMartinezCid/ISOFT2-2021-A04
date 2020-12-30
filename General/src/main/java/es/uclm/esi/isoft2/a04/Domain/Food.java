@@ -37,6 +37,10 @@ public interface Food {
 	int getID();
 
 	/**
+	 * @return the quantity of the food
+	 */
+	int getQuantity();
+	/**
 	 * @param name the name of the food
 	 */
 	void setName(String name);

@@ -1,9 +1,6 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
 
 /**
  * @version 0.1.0
@@ -30,22 +27,18 @@ public interface Table {
 	int getSeats();
 
 	int getID();
-
+	
 	int getRestaurantID();
-
+	
 	String getCity();
-	
-	HashMap<Date, Integer> getStateHistory();
-	
-	void setStateHistory(HashMap<Date, Integer> stateHistory);
 
-	Table[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException;
+	Table[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
-	void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException;
+	void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
-	int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException;
+	int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
-	int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException;
+	int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
 	int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 }
