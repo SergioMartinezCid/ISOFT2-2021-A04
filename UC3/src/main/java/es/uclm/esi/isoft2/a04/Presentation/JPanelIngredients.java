@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
+import javax.swing.JTextArea;
 
 public class JPanelIngredients extends JPanel {
 	
@@ -37,10 +38,16 @@ public class JPanelIngredients extends JPanel {
 	private JRadioButton rdbtnUnitsDrinks2;
 	private JRadioButton rdbtnUnitsDrinks3;
 	private JButton btnAddAmountDrinks;
+	private JTextField txtInputValue;
+	private JButton btnCheckLimit;
+	private JLabel lblTitleLimit;
+	private JTextArea textAreaIngredients;
 	
 	private Ingredient[] ingredientList;
 	private Beverage[] beverageList;
-	private Food[] FoodList;
+
+	private Ingredient ingredientdb;
+
 	
 	private float[] amount_ingredients;
 	private int[] amount_drinks;
@@ -48,11 +55,14 @@ public class JPanelIngredients extends JPanel {
 	private final ButtonGroup buttonGroupIngredients = new ButtonGroup();
 	private final ButtonGroup buttonGroupDrinks = new ButtonGroup();
 	
-	private int index_ingredients = 1;
-	private int index_drinks = 1;
+	private int index_ingredients;
+	private int index_drinks;
 	
 	private IngredientControl ingredient_control_ingredients;
 	private IngredientControl ingredient_control_drinks;
+	private IngredientControl ingredient_control_threshold;
+
+
 	
 
 	/**
@@ -64,76 +74,127 @@ public class JPanelIngredients extends JPanel {
 	 * @throws ParseException 
 	 * @throws InvalidTypeException 
 	 */
-	public JPanelIngredients(Ingredient ingredientdb, Food fooddb) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
+	public JPanelIngredients(Ingredient ingredientdb, Beverage beveragedb) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
 		
+		this.ingredientdb = ingredientdb;
 
 		this.ingredientList = ingredientdb.readAll(); //Reed all the ingredients in the database
-		this.FoodList = fooddb.readAll(); //Reed all the drinks in the database
+		this.beverageList = (Beverage[]) beveragedb.readAll(); //Reed all the drinks in the database
 		
-		for(int i = 0; i<FoodList.length; i++) {
-			if(FoodList[i].getType() == 0) {
+		this.index_ingredients = 0;
+		this.index_drinks = 0;
+		
+		this.amount_ingredients = new float [this.ingredientList.length];
+		this.amount_drinks = new int [this.beverageList.length];
 
-				this.beverageList[i] = (Beverage) FoodList[i];
-				
-			}
-		}
 		
+		/**
+		for(int i = 0; i< ingredientList.length; i++) {
+			System.out.println(ingredientList[i].getName());
+		}
+		**/
+		
+		/**
+		for(int i = 0; i< beverageList.length; i++) {
+			System.out.println(beverageList[i].getID());
+		}
+		**/
+	
 		designData();
 		
-		lblIngredientName.setText(ingredientList[0].getName());
-		lblDrink.setText(beverageList[0].getName());
-		
+		initialData();
 		
 		addActions();
 		
 
 	}
+	/**
+	 * 
+	 * Method to save the new amount
+	 * 
+	 * @param index
+	 * @param new_amount
+	 */
+	private void AmountIngredient(int index, float new_amount) {
+		
+		this.amount_ingredients[index] = new_amount;
+		
+		
+	}
+	/**
+	 * 
+	 * Method to save the new amount
+	 * 
+	 * @param index
+	 * @param new_amount
+	 */
+	private void AmountDrinks(int index, int new_amount) {
+		
+		this.amount_drinks[index] = new_amount;
+		
+	
+	}
+	/**
+	 * 
+	 * Method to show the first ingredient or drink in the database
+	 * 
+	 */
+	private void initialData() {
+		
+		//First data for the ingredients and drinks
+		
+		lblIngredientName.setText(ingredientList[0].getName());
+		lblDrink.setText(beverageList[0].getName());
+			
+		
+	}
 	private void addActions() {
 		
 		btnAddAmountDish.addActionListener(new AddDishAmountActionListener());
 		btnAddAmountDrinks.addActionListener(new AddDrinkAmountActionListener());
+		btnCheckLimit.addActionListener(new checkIngredientsActionListener());
 		
 	}
-	public class AddDrinkAmountActionListener implements ActionListener {
+	/**
+	 * 
+	 * Method to see the limit of ingredients
+	 *
+	 */
+	public class checkIngredientsActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			
-			int amount_d = 0;
+			ingredient_control_threshold = new IngredientControl();
+			int threshold = 0;
+			Ingredient[] ingredients_under_threshold = null;
+			String ingredients_list = "";
 			
-			ingredient_control_drinks = new IngredientControl();
 			
-			if(index_ingredients == beverageList.length) {
-				
-				lblIngredientName.setText("No more drinks in the database");
-				try {
-					ingredient_control_drinks.updateBeveragesFromForecast(beverageList, amount_drinks);
-				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
-						| NotMatchingLenghtsException | SQLException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			else {
-				
-				if(rdbtnUnitsDrink1.isSelected()) {
-					amount_d = 5;
-				}
-				else if (rdbtnUnitsDrinks2.isSelected()) {
-					amount_d = 10;
-				}
-				else {
-					amount_d = 15;
-				}
-				
-				amount_drinks[index_drinks] = amount_d;
-				lblIngredientName.setText(beverageList[index_drinks].getName());
-				
-				index_drinks = index_drinks + 1;
-				
+			threshold = Integer.parseInt(txtInputValue.getText());
+			try {
+				ingredients_under_threshold = ingredient_control_threshold.getIngredientsBelowThreshold(ingredientdb, threshold);
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException
+					| InvalidTypeException | ParseException e) {
+
+				e.printStackTrace();
 			}
 			
+			if (ingredients_under_threshold == null) {
+				textAreaIngredients.setText("No ingredients");
+				//System.out.println("No ingredients");
+			}
+			
+			for(int i = 0; i<ingredients_under_threshold.length; i++) {
+				ingredients_list = ingredients_under_threshold[i].getName()+"\n";
+				//System.out.println(ingredients_under_threshold[i]);
+			}
+			textAreaIngredients.setText(ingredients_list);
 		}
 	}
-	
+	/**
+	 * 
+	 * Description: method to update the ingredients amount data
+	 *
+	 */
 	public class AddDishAmountActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			
@@ -144,8 +205,29 @@ public class JPanelIngredients extends JPanel {
 			if(index_ingredients == ingredientList.length) {
 				
 				lblIngredientName.setText("No more ingredients in the database");
+				btnAddAmountDish.enable(false);
+				
 				try {
+					
+					/**
+					for(int i = 0; i<amount_ingredients.length; i++) {
+						
+						System.out.println("Before the update"+ingredientList[i].getAmount());
+						
+					}
+					**/
+					
 					ingredient_control_ingredients.updateIngredientsFromForecast(ingredientList, amount_ingredients);
+					
+					/**
+					for(int i = 0; i<amount_ingredients.length; i++) {
+						
+						System.out.println("After the update"+ingredientList[i].getAmount());
+						
+					}
+					**/
+					
+					
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
 						| NotMatchingLenghtsException | SQLException e) {
 
@@ -162,20 +244,89 @@ public class JPanelIngredients extends JPanel {
 				else if (rdbtnUnitsDish2.isSelected()) {
 					amount_i = 10;
 				}
-				else {
+				else if (rdbtnUnitsDish3.isSelected()){
 					amount_i = 15;
 				}
+				else {
+					amount_i = 0;
+				}
 				
-				amount_ingredients[index_ingredients] = amount_i;
-				lblIngredientName.setText(ingredientList[index_ingredients].getName());
-				
+				AmountIngredient(index_ingredients, amount_i);
+
 				index_ingredients = index_ingredients + 1;
+
+				lblIngredientName.setText(ingredientList[index_ingredients-1].getName());
+
+			}
+		}
+	}
+	/**
+	 * 
+	 * Description: method to update the drinks amount data
+	 *
+	 */
+	public class AddDrinkAmountActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			
+			int amount_d = 0;
+			
+			ingredient_control_drinks = new IngredientControl();
+			
+			if(index_drinks == beverageList.length) {
+				
+				lblDrink.setText("No more drinks in the database");
+				btnAddAmountDrinks.enable(false);
+				
+				try {
+					
+					/**
+					for(int i = 0; i<amount_drinks.length; i++) {
+						
+						System.out.println("Before the update"+beverageList[i].getAmount());
+						
+					}
+					**/
+					
+					ingredient_control_drinks.updateBeveragesFromForecast(beverageList, amount_drinks);
+
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
+						| NotMatchingLenghtsException | SQLException e) {
+
+					e.printStackTrace();
+				}
+				
 				
 			}
-			
+			else {
+				
+				if(rdbtnUnitsDrink1.isSelected()) {
+					amount_d = 5;
+				}
+				else if (rdbtnUnitsDrinks2.isSelected()) {
+					amount_d = 10;
+				}
+				else if (rdbtnUnitsDrinks3.isSelected()){
+					amount_d = 15;
+				}
+				else {
+					amount_d = 0;
+				}
+				
+				AmountDrinks(index_drinks, amount_d);
+
+				index_drinks = index_drinks + 1;
+
+				lblDrink.setText(beverageList[index_drinks-1].getName());
+
+			}
 		}
 	}
 	
+	/**
+	 * 
+	 * Method that initialices the JPanel data
+	 * 
+	 */
 	private void designData() {
 		
 		//Layout data
@@ -214,7 +365,7 @@ public class JPanelIngredients extends JPanel {
 		add(lblAmountInUnits);
 		
 		btnAddAmountDish = new JButton("Add Amount");
-		btnAddAmountDish.setBounds(252, 148, 95, 35);
+		btnAddAmountDish.setBounds(252, 148, 122, 35);
 		add(btnAddAmountDish);
 		
 		lblDrink = new JLabel("");
@@ -243,8 +394,25 @@ public class JPanelIngredients extends JPanel {
 		
 		btnAddAmountDrinks = new JButton("Add Amount");
 		
-		btnAddAmountDrinks.setBounds(252, 291, 103, 35);
+		btnAddAmountDrinks.setBounds(252, 291, 122, 35);
 		add(btnAddAmountDrinks);
+		
+		txtInputValue = new JTextField();
+		txtInputValue.setBounds(662, 91, 43, 19);
+		add(txtInputValue);
+		txtInputValue.setColumns(10);
+		
+		btnCheckLimit = new JButton("Show");
+		btnCheckLimit.setBounds(747, 90, 85, 21);
+		add(btnCheckLimit);
+		
+		lblTitleLimit = new JLabel("Which Ingredients needs an update? Input the limit");
+		lblTitleLimit.setBounds(662, 38, 287, 35);
+		add(lblTitleLimit);
+		
+		textAreaIngredients = new JTextArea();
+		textAreaIngredients.setBounds(662, 175, 252, 112);
+		add(textAreaIngredients);
 		
 	}
 }

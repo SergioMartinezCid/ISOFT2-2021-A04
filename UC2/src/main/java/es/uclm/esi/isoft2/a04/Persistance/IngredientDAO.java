@@ -25,6 +25,7 @@ public class IngredientDAO {
 		IngredientImplementation[] ingredients = new IngredientImplementation[query_result.size()];
 		for (int i = 0; i < query_result.size(); i++) {
 			ingredients[i] = new IngredientImplementation(Integer.valueOf(query_result.get(i).get(0).toString()));
+			//readIngredient(ingredients[i]);
 			ingredients[i].read();
 		}
 		return ingredients;
@@ -43,7 +44,7 @@ public class IngredientDAO {
 				.read("SELECT Name, InStorage FROM Ingredient WHERE IngredientId = " + ingredient.getID() + ";");
 		for (int i = 0; i < query_result_ingredient.size(); i++) {
 			ingredient.setName(query_result_ingredient.get(i).get(0).toString());
-			ingredient.setAmount(Integer.valueOf(query_result_ingredient.get(i).get(0).toString()));
+			ingredient.setAmount(Float.valueOf(query_result_ingredient.get(i).get(1).toString()));
 		}
 
 		if (ingredient.getDish() != null) {
@@ -87,12 +88,14 @@ public class IngredientDAO {
 	 */
 	public int updateIngredient(IngredientImplementation ingredient)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		int modifiedRows = Broker.getBroker().update("UPDATE Ingredient SET Quantity=" + ingredient.getAmount() + ", "
+		int modifiedRows = Broker.getBroker().update("UPDATE Ingredient SET InStorage=" + ingredient.getAmount() + ", "
 				+ "Name='" + ingredient.getName() + "' WHERE IngredientId = " + ingredient.getID() + ";");
+		
 		if (ingredient.getDish() != null) {
 			modifiedRows += Broker.getBroker()
 					.update("UPDATE DishIngredients SET Quantity=" + ingredient.getQuantityRequired() + ";");
 		}
+		
 		return modifiedRows;
 	}
 
