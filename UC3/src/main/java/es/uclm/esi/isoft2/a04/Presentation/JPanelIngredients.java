@@ -49,7 +49,7 @@ public class JPanelIngredients extends JPanel {
 	}
 	private class BtnShowIngredientsActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			
+			/*
 			IngredientControl ingredient_control = new IngredientControl();
 			
 			try {
@@ -65,14 +65,14 @@ public class JPanelIngredients extends JPanel {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+			*/
 			
 			
 		}
 	}
 	private class BtnInsertIngredientsActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			
+			/*
 			String name = null;
 			float amount = 0;
 			int id = 0;
@@ -105,7 +105,7 @@ public class JPanelIngredients extends JPanel {
 				
 				ingredient_control.updateIngredientAmount(ingredient, amount);
 				
-			}
+			}*/
 	
 		}
 	}

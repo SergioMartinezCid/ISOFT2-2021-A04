@@ -9,6 +9,7 @@
 	</parent>
 	<artifactId>Application</artifactId>
 	<name>Application</name>
+	<version>0.1.0</version>
 	<dependencies>
 		<dependency>
 			<groupId>es.uclm.esi.isoft2.a04</groupId>
