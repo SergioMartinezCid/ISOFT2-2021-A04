@@ -36,6 +36,8 @@ public interface Table {
 	String getCity();
 	
 	HashMap<Date, Integer> getStateHistory();
+	
+	void setStateHistory(HashMap<Date, Integer> stateHistory);
 
 	Table[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException;
 

@@ -77,7 +77,7 @@ public class WaiterDAO {
 	 * Note: no table must have been assigned to waiter before executing this method
 	 * 
 	 * @param waiter The WaiterImplementation instance to be created
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -98,7 +98,7 @@ public class WaiterDAO {
 
 	/**
 	 * @param waiter The WaiterImplementation instance to be updated
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -125,7 +125,7 @@ public class WaiterDAO {
 
 	/**
 	 * @param waiter The WaiterImplementation instance to be deleted
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException

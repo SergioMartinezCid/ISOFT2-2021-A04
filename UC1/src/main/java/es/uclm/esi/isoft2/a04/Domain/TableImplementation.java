@@ -47,7 +47,12 @@ public class TableImplementation implements Table {
 	public int getState() {
 		return this.state;
 	}
-	
+
+	@Override
+	public void setStateHistory(HashMap<Date, Integer> stateHistory) {
+		this.stateHistory = stateHistory;
+	}
+
 	@Override
 	public HashMap<Date, Integer> getStateHistory() {
 		return stateHistory;
@@ -106,17 +111,20 @@ public class TableImplementation implements Table {
 	}
 
 	@Override
-	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			NumberFormatException, ParseException {
 		this.tableDAO.readTable(this);
 	}
 
 	@Override
-	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			NumberFormatException, ParseException {
 		return this.tableDAO.createTable(this);
 	}
 
 	@Override
-	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			NumberFormatException, ParseException {
 		return this.tableDAO.updateTable(this);
 	}
 
@@ -124,8 +132,8 @@ public class TableImplementation implements Table {
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.tableDAO.deleteOrder(this);
 	}
-	
+
 	public String toString() {
-		return "Id:"+this.id+ " / Seats: "+ this.seatsNumber+" / State: " +this.state;
+		return "Id:" + this.id + " / Seats: " + this.seatsNumber + " / State: " + this.state;
 	}
 }
