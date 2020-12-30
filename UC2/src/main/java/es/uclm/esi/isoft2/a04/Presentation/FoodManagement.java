@@ -13,7 +13,7 @@ import es.uclm.esi.isoft2.a04.Domain.*;
 
 /**
  * 
- * @version 0.0.1
+ * @version 0.0.2
  *
  */
 public class FoodManagement extends JFrame {
@@ -44,8 +44,9 @@ public class FoodManagement extends JFrame {
 	 * @throws ClassNotFoundException 
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
+	 * @throws InvalidStateException 
 	 */
-	public FoodManagement() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException {
+	public FoodManagement() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, InvalidTypeException, ParseException, InvalidStateException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanelFood(new WaiterImplementation(), new TableImplementation());

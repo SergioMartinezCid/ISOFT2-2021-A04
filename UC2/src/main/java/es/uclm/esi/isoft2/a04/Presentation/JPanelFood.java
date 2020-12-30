@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 /**
  * JPanel for cook and barman
  * 
- * @version 0.2.1
+ * @version 0.2.2
  */
 public class JPanelFood extends JPanel implements Observer {
 	
