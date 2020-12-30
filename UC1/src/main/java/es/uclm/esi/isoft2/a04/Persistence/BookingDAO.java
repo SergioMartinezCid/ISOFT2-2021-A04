@@ -2,7 +2,6 @@ package es.uclm.esi.isoft2.a04.Persistence;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
@@ -22,11 +21,9 @@ public class BookingDAO {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
-	 * @throws ParseException
-	 * @throws NumberFormatException
 	 */
-	public Booking[] readAllBookings() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
-			SQLException, NumberFormatException, ParseException {
+	public Booking[] readAllBookings()
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
 		Vector<Vector<Object>> query_result = new Vector<Vector<Object>>();
 		Booking[] bookings;
@@ -61,8 +58,7 @@ public class BookingDAO {
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Vector<Vector<Object>> query_result;
 		String sql = "SELECT Client FROM Booking WHERE TableId = " + booking.getTable().getID() + " AND Date = '"
-				+ BookingDAO.mysqlDateSDF.format(booking.getDate()) + "' AND Turn = '" + booking.getTurn().toString()
-				+ "';";
+				+ BookingDAO.mysqlDateSDF.format(booking.getDate()) + "' AND Turn = '" + booking.getTurn().toString() + "';";
 		query_result = Broker.getBroker().read(sql);
 		for (int i = 0; i < query_result.size(); i++) {
 			booking.setClientID(query_result.get(i).get(0).toString());
@@ -116,8 +112,7 @@ public class BookingDAO {
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
 		String sql = "DELETE FROM Booking WHERE TableId = " + booking.getTable().getID() + " AND Date = '"
-				+ BookingDAO.mysqlDateSDF.format(booking.getDate()) + "' AND Turn = '" + booking.getTurn().toString()
-				+ "';";
+				+ BookingDAO.mysqlDateSDF.format(booking.getDate()) + "' AND Turn = '" + booking.getTurn().toString() + "';";
 		return Broker.getBroker().update(sql);
 
 	}

@@ -1,12 +1,11 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import es.uclm.esi.isoft2.a04.Persistence.WaiterDAO;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class WaiterImplementation implements Waiter {
@@ -83,13 +82,12 @@ public class WaiterImplementation implements Waiter {
 
 	@Override
 	public Waiter[] readAll() throws NumberFormatException, InstantiationException, IllegalAccessException,
-			ClassNotFoundException, SQLException, ParseException {
+			ClassNotFoundException, SQLException {
 		return this.waiterDAO.readAllWaiters();
 	}
 
 	@Override
-	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
-			NumberFormatException, ParseException {
+	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.waiterDAO.readWaiter(this);
 	}
 
@@ -120,7 +118,7 @@ public class WaiterImplementation implements Waiter {
 
 	@Override
 	public void notifyMe() {
-		for (Observer o : this.observers) {
+		for(Observer o: this.observers) {
 			o.notify();
 		}
 	}

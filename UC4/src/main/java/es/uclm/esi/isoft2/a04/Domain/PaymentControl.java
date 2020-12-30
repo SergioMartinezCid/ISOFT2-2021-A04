@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class PaymentControl {
@@ -70,6 +70,14 @@ public class PaymentControl {
 			order.setPaymentMethod(paymentMethod);
 		}
 		return order.update();
+	}
+	
+	public static int startPreparation(Table table) throws InvalidStateException, NumberFormatException,
+			InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ParseException {
+		if (table.getState() != Table.PAYING)
+			throw new InvalidStateException();
+		table.setState(Table.IN_PREPARATION);
+		return table.update();
 	}
 
 	/**

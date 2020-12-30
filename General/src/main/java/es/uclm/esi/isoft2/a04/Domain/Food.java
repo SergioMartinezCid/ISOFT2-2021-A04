@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 /**
- * @version 0.1.0
+ * @version 0.1.1
  *
  */
 public interface Food {
@@ -36,6 +36,10 @@ public interface Food {
 	 */
 	int getID();
 
+	/**
+	 * @return the quantity of the food
+	 */
+	int getQuantity();
 	/**
 	 * @param name the name of the food
 	 */

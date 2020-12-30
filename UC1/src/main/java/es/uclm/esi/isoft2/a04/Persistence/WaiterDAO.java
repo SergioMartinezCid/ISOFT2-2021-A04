@@ -1,7 +1,6 @@
 package es.uclm.esi.isoft2.a04.Persistence;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Vector;
 
 import es.uclm.esi.isoft2.a04.Domain.Table;
@@ -22,10 +21,9 @@ public class WaiterDAO {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
-	 * @throws ParseException
 	 */
 	public WaiterImplementation[] readAllWaiters() throws NumberFormatException, InstantiationException,
-			IllegalAccessException, ClassNotFoundException, SQLException, ParseException {
+			IllegalAccessException, ClassNotFoundException, SQLException {
 
 		Vector<Vector<Object>> query_result = new Vector<Vector<Object>>();
 
@@ -52,11 +50,9 @@ public class WaiterDAO {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
-	 * @throws ParseException
-	 * @throws NumberFormatException
 	 */
-	public void readWaiter(WaiterImplementation waiter) throws InstantiationException, IllegalAccessException,
-			ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+	public void readWaiter(WaiterImplementation waiter)
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
 		Vector<Vector<Object>> query_result_waiter, query_result_table = new Vector<Vector<Object>>();
 		String sql_waiter = "SELECT Name FROM Waiter WHERE WaiterId =" + waiter.getID() + ";";

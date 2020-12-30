@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * @version 0.1.0
+ * @version 0.1.1
  *
  */
 public interface Table {
@@ -30,9 +30,9 @@ public interface Table {
 	int getSeats();
 
 	int getID();
-
+	
 	int getRestaurantID();
-
+	
 	String getCity();
 	
 	HashMap<Date, Integer> getStateHistory();
