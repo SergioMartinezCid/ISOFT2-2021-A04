@@ -12,7 +12,7 @@ import java.util.Vector;
 import es.uclm.esi.isoft2.a04.Domain.*;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class DishDAO {
@@ -45,7 +45,10 @@ public class DishDAO {
 	 */
 	private int getIntRepresentationOfType(String type) {
 		int intRepresentation = 0;
-		switch (type) {
+		switch (type.toUpperCase()) {
+		case "DRINKS":
+			intRepresentation = 0;
+			break;
 		case "STARTERS":
 			intRepresentation = 1;
 			break;
@@ -65,17 +68,19 @@ public class DishDAO {
 	private String getStringRepresentationOfType(int type) {
 		String stringRepresentation = null;
 		switch (type) {
+		case 0:
+			stringRepresentation = "drinks";
 		case 1:
-			stringRepresentation = "STARTERS";
+			stringRepresentation = "starters";
 			break;
 		case 2:
-			stringRepresentation = "FIRST_COURSE";
+			stringRepresentation = "first_course";
 			break;
 		case 3:
-			stringRepresentation = "SECOND_COURSE";
+			stringRepresentation = "second_course";
 			break;
 		case 4:
-			stringRepresentation = "DESSERT";
+			stringRepresentation = "dessert";
 			break;
 		}
 		return stringRepresentation;
@@ -99,16 +104,16 @@ public class DishDAO {
 			dish.setType(getIntRepresentationOfType(query_result_food.get(i).get(1).toString()));
 			dish.setCost(Float.valueOf(query_result_food.get(i).get(2).toString()));
 		}
-
+		
 		Vector<Vector<Object>> query_result_ingredient = Broker.getBroker()
 				.read("SELECT IngredientId FROM DishIngredients WHERE DishId = " + dish.getID() + ";");
-		ArrayList<Ingredient> ingredients = new ArrayList<>();
-		for (int i = 0; i < query_result_ingredient.size(); i++) {
-			ingredients.add(new IngredientImplementation(
-					Integer.valueOf(query_result_ingredient.get(i).get(0).toString()), dish));
-			ingredients.get(ingredients.size() - 1).read();
+
+		Ingredient[] ingredients = new Ingredient[query_result_ingredient.size()];
+		for(int i=0; i<ingredients.length; i++) {
+			ingredients[i] = new IngredientImplementation((Integer)query_result_ingredient.get(i).get(0), dish);
+			ingredients[i].read();
 		}
-		dish.setIngredients((Ingredient[]) ingredients.toArray());
+		dish.setIngredients(ingredients);
 
 		if (dish.getOrder() != null) {
 			Vector<Vector<Object>> query_result_order = Broker.getBroker()
@@ -166,7 +171,7 @@ public class DishDAO {
 	public int updateDish(Dish dish)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		int modifiedRows = Broker.getBroker()
-				.update("UPDATE Food SET Name='" + dish.getName() + ", Type='"
+				.update("UPDATE Food SET Name='" + dish.getName() + "', Type='"
 						+ getStringRepresentationOfType(dish.getType()) + "', Cost=" + dish.getCost()
 						+ " WHERE FoodId = " + dish.getID() + ";");
 

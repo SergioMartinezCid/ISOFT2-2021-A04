@@ -104,11 +104,9 @@ public class Booking {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
-	 * @throws ParseException
-	 * @throws NumberFormatException
 	 */
-	public Booking[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
-			SQLException, NumberFormatException, ParseException {
+	public Booking[] readAll()
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.bookingDAO.readAllBookings();
 	}
 

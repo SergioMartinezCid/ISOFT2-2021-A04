@@ -6,7 +6,7 @@ import java.util.Vector;
 import es.uclm.esi.isoft2.a04.Domain.*;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class IngredientDAO {
@@ -43,7 +43,7 @@ public class IngredientDAO {
 				.read("SELECT Name, InStorage FROM Ingredient WHERE IngredientId = " + ingredient.getID() + ";");
 		for (int i = 0; i < query_result_ingredient.size(); i++) {
 			ingredient.setName(query_result_ingredient.get(i).get(0).toString());
-			ingredient.setAmount(Integer.valueOf(query_result_ingredient.get(i).get(0).toString()));
+			ingredient.setAmount((Float)query_result_ingredient.get(i).get(1));
 		}
 
 		if (ingredient.getDish() != null) {
