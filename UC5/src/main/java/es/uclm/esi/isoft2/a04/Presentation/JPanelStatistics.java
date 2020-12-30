@@ -3,6 +3,10 @@ package es.uclm.esi.isoft2.a04.Presentation;
 import javax.swing.JPanel;
 import java.awt.Label;
 import javax.swing.JTextField;
+
+import es.uclm.esi.isoft2.a04.Domain.StatisticsControl;
+import es.uclm.esi.isoft2.a04.Domain.Table;
+
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -13,263 +17,392 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
-import es.uclm.esi.isoft2.a04.Domain.*;
 import java.awt.Cursor;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Font;
+import javax.swing.JLabel;
 
 /**
- * @version 0.1.1
+ * @version 0.1.2
  * @author Daniel
  *
  */
 public class JPanelStatistics extends JPanel {
-	private JTextField textPreparationTime;
-	private JTextField textAverageMeal;
-	private JTextField textTimeTable;
-	private JTextField textCommandTime;
-	private JTextField textSearch;
-	private JComboBox comboBoxOptionRestaurantCity;
-	private JComboBox<Table> comboBoxTables;
-	private Label labelInsertNameCity;
-	private Label labelChooseRestaurant;
-
-	public Table[] tables;
-	public TableImplementation tableImplementCombox;
-	public TableImplementation[] restaurantTable;
-	public TableImplementation tableImplementaitonCity;
-	public Table tableDBStatistics;
-	private StatisticsControl Control;
+	private JTextField txtDeliveryTime;
+	private JTextField txtMealPreparation;
+	private JTextField txtTablePreparation;
+	private JTextField txtCommandTime;
+	private JComboBox<String> cbOption;
+	private JComboBox<Integer> cbRestaurant;
+	private Label lblRestaurant;
+	private Label lblCity;
+	private JComboBox<String> cbCity;
+	private Label lblChooseOption;
+	private JButton btnCalculate;
+	private JButton btnClear;
+	
+	private StatisticsControl sc = new StatisticsControl();
+	private Table tableDB;
+	private JLabel lblSeats;
+	private JComboBox cbSeats;
 
 	/**
 	 * Create the panel.
 	 */
-	public JPanelStatistics() {
-		setLayout(null);
+	public JPanelStatistics(Table t) {
+		tableDB = t;
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] { 54, 135, 59, 96 };
+		gridBagLayout.rowHeights = new int[] { 21, 33, 21, 21, 21, 21, 25, 21, 21, 21, 33, 33, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 1.0, 1.0 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				Double.MIN_VALUE };
+		setLayout(gridBagLayout);
 
-		Label labelInsertNameCity = new Label("Insert City");
-		labelInsertNameCity.setEnabled(false);
-		labelInsertNameCity.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-		labelInsertNameCity.setBounds(49, 160, 152, 21);
-		add(labelInsertNameCity);
+		Label lblTitle = new Label("Statistics Results");
+		lblTitle.setFont(new Font("Dialog", Font.BOLD, 14));
+		GridBagConstraints gbc_lblTitle = new GridBagConstraints();
+		gbc_lblTitle.fill = GridBagConstraints.VERTICAL;
+		gbc_lblTitle.insets = new Insets(0, 0, 5, 0);
+		gbc_lblTitle.gridwidth = 5;
+		gbc_lblTitle.gridx = 0;
+		gbc_lblTitle.gridy = 0;
+		add(lblTitle, gbc_lblTitle);
 
-		Label labelResults = new Label("Results");
-		labelResults.setBounds(162, 193, 59, 21);
-		add(labelResults);
+		lblChooseOption = new Label("Choose Option:");
+		GridBagConstraints gbc_lblChooseOption = new GridBagConstraints();
+		gbc_lblChooseOption.anchor = GridBagConstraints.EAST;
+		gbc_lblChooseOption.fill = GridBagConstraints.VERTICAL;
+		gbc_lblChooseOption.insets = new Insets(0, 0, 5, 5);
+		gbc_lblChooseOption.gridx = 1;
+		gbc_lblChooseOption.gridy = 1;
+		add(lblChooseOption, gbc_lblChooseOption);
 
-		Label labelPreparationTIme = new Label("Preparation Time");
-		labelPreparationTIme.setBounds(50, 226, 104, 21);
-		add(labelPreparationTIme);
+		cbOption = new JComboBox();
+		cbOption.addItemListener(new CbOptionItemListener());
+		cbOption.setModel(new DefaultComboBoxModel(new String[] { "Select option...", "City", "Restaurant" }));
+		GridBagConstraints gbc_cbOption = new GridBagConstraints();
+		gbc_cbOption.fill = GridBagConstraints.BOTH;
+		gbc_cbOption.insets = new Insets(0, 0, 5, 5);
+		gbc_cbOption.gridx = 2;
+		gbc_cbOption.gridy = 1;
+		add(cbOption, gbc_cbOption);
 
-		Label labelAverageTime = new Label("Average Time Table:");
-		labelAverageTime.setBounds(49, 362, 135, 21);
-		add(labelAverageTime);
+		lblRestaurant = new Label("Choose Restaurant:");
+		lblRestaurant.setEnabled(false);
+		GridBagConstraints gbc_lblRestaurant = new GridBagConstraints();
+		gbc_lblRestaurant.anchor = GridBagConstraints.EAST;
+		gbc_lblRestaurant.fill = GridBagConstraints.VERTICAL;
+		gbc_lblRestaurant.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRestaurant.gridx = 1;
+		gbc_lblRestaurant.gridy = 2;
+		add(lblRestaurant, gbc_lblRestaurant);
 
-		Label labelAverageComandTime = new Label("Average Comand Time");
-		labelAverageComandTime.setBounds(49, 313, 152, 21);
-		add(labelAverageComandTime);
+		cbRestaurant = new JComboBox<Integer>();
+		cbRestaurant.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
+		cbRestaurant.setEnabled(false);
+		GridBagConstraints gbc_cbRestaurant = new GridBagConstraints();
+		gbc_cbRestaurant.fill = GridBagConstraints.BOTH;
+		gbc_cbRestaurant.insets = new Insets(0, 0, 5, 5);
+		gbc_cbRestaurant.gridx = 2;
+		gbc_cbRestaurant.gridy = 2;
+		add(cbRestaurant, gbc_cbRestaurant);
 
-		Label labelAverageMealPreparationTime = new Label("Average Meal preparation");
-		labelAverageMealPreparationTime.setBounds(49, 271, 152, 21);
-		add(labelAverageMealPreparationTime);
+		lblCity = new Label("Choose City:");
+		lblCity.setEnabled(false);
+		lblCity.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+		GridBagConstraints gbc_lblCity = new GridBagConstraints();
+		gbc_lblCity.anchor = GridBagConstraints.EAST;
+		gbc_lblCity.fill = GridBagConstraints.VERTICAL;
+		gbc_lblCity.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCity.gridx = 1;
+		gbc_lblCity.gridy = 3;
+		add(lblCity, gbc_lblCity);
 
-		textPreparationTime = new JTextField();
-		textPreparationTime.setBounds(222, 228, 96, 19);
-		add(textPreparationTime);
-		textPreparationTime.setColumns(10);
+		btnCalculate = new JButton("Calculate");
+		btnCalculate.setEnabled(false);
+		btnCalculate.addActionListener(new BtnCalculateActionListener());
 
-		textAverageMeal = new JTextField();
-		textAverageMeal.setBounds(222, 273, 96, 19);
-		add(textAverageMeal);
-		textAverageMeal.setColumns(10);
+		cbCity = new JComboBox();
+		cbCity.setModel(
+				new DefaultComboBoxModel(new String[] { "Madrid", "London", "Paris", "New York", "Barcelona" }));
+		cbCity.setEnabled(false);
+		GridBagConstraints gbc_cbCity = new GridBagConstraints();
+		gbc_cbCity.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbCity.insets = new Insets(0, 0, 5, 5);
+		gbc_cbCity.gridx = 2;
+		gbc_cbCity.gridy = 3;
+		add(cbCity, gbc_cbCity);
 
-		textTimeTable = new JTextField();
-		textTimeTable.setColumns(10);
-		textTimeTable.setBounds(222, 364, 96, 19);
-		add(textTimeTable);
+		lblSeats = new JLabel("Select Seats:");
+		lblSeats.setEnabled(false);
+		GridBagConstraints gbc_lblSeats = new GridBagConstraints();
+		gbc_lblSeats.anchor = GridBagConstraints.EAST;
+		gbc_lblSeats.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSeats.gridx = 1;
+		gbc_lblSeats.gridy = 4;
+		add(lblSeats, gbc_lblSeats);
+		
+		cbSeats = new JComboBox();
+		cbSeats.setEnabled(false);
+		cbSeats.setModel(new DefaultComboBoxModel(new String[] {"All", "2", "4", "6"}));
+		GridBagConstraints gbc_cbSeats = new GridBagConstraints();
+		gbc_cbSeats.insets = new Insets(0, 0, 5, 5);
+		gbc_cbSeats.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbSeats.gridx = 2;
+		gbc_cbSeats.gridy = 4;
+		add(cbSeats, gbc_cbSeats);
+		GridBagConstraints gbc_btnCalculate = new GridBagConstraints();
+		gbc_btnCalculate.gridwidth = 2;
+		gbc_btnCalculate.anchor = GridBagConstraints.NORTH;
+		gbc_btnCalculate.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCalculate.gridx = 1;
+		gbc_btnCalculate.gridy = 5;
+		add(btnCalculate, gbc_btnCalculate);
 
-		textCommandTime = new JTextField();
-		textCommandTime.setColumns(10);
-		textCommandTime.setBounds(222, 315, 96, 19);
-		add(textCommandTime);
+		Label lblResults = new Label("Results");
+		lblResults.setFont(new Font("Dialog", Font.BOLD, 14));
+		GridBagConstraints gbc_lblResults = new GridBagConstraints();
+		gbc_lblResults.anchor = GridBagConstraints.SOUTH;
+		gbc_lblResults.gridwidth = 4;
+		gbc_lblResults.insets = new Insets(0, 0, 5, 0);
+		gbc_lblResults.gridx = 0;
+		gbc_lblResults.gridy = 6;
+		add(lblResults, gbc_lblResults);
 
-		textSearch = new JTextField();
-		textSearch.setEnabled(false);
-		textSearch.setBounds(222, 160, 96, 19);
-		add(textSearch);
-		textSearch.setColumns(10);
+		Label labelAverageComandTime = new Label("Avg. Comand Time:");
+		GridBagConstraints gbc_labelAverageComandTime = new GridBagConstraints();
+		gbc_labelAverageComandTime.anchor = GridBagConstraints.EAST;
+		gbc_labelAverageComandTime.fill = GridBagConstraints.VERTICAL;
+		gbc_labelAverageComandTime.insets = new Insets(0, 0, 5, 5);
+		gbc_labelAverageComandTime.gridx = 1;
+		gbc_labelAverageComandTime.gridy = 7;
+		add(labelAverageComandTime, gbc_labelAverageComandTime);
 
-		comboBoxOptionRestaurantCity = new JComboBox();
-		comboBoxOptionRestaurantCity.setModel(new DefaultComboBoxModel(new String[] { "City", "Restaurant" }));
-		comboBoxOptionRestaurantCity.setBounds(222, 64, 29, 21);
-		add(comboBoxOptionRestaurantCity);
+		txtCommandTime = new JTextField();
+		txtCommandTime.setEditable(false);
+		txtCommandTime.setColumns(10);
+		GridBagConstraints gbc_txtCommandTime = new GridBagConstraints();
+		gbc_txtCommandTime.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtCommandTime.anchor = GridBagConstraints.SOUTH;
+		gbc_txtCommandTime.insets = new Insets(0, 0, 5, 5);
+		gbc_txtCommandTime.gridx = 2;
+		gbc_txtCommandTime.gridy = 7;
+		add(txtCommandTime, gbc_txtCommandTime);
 
-		Label labelChooseOption = new Label("Choose one option");
-		labelChooseOption.setBounds(49, 64, 130, 21);
-		add(labelChooseOption);
+		Label labelAverageMealPreparationTime = new Label("Avg. Meal preparation:");
+		GridBagConstraints gbc_labelAverageMealPreparationTime = new GridBagConstraints();
+		gbc_labelAverageMealPreparationTime.anchor = GridBagConstraints.EAST;
+		gbc_labelAverageMealPreparationTime.fill = GridBagConstraints.VERTICAL;
+		gbc_labelAverageMealPreparationTime.insets = new Insets(0, 0, 5, 5);
+		gbc_labelAverageMealPreparationTime.gridx = 1;
+		gbc_labelAverageMealPreparationTime.gridy = 8;
+		add(labelAverageMealPreparationTime, gbc_labelAverageMealPreparationTime);
 
-		Label labelTitleStatisticsResults = new Label("Statistics Results");
-		labelTitleStatisticsResults.setBounds(95, 10, 126, 21);
-		add(labelTitleStatisticsResults);
+		txtMealPreparation = new JTextField();
+		txtMealPreparation.setEditable(false);
+		GridBagConstraints gbc_txtMealPreparation = new GridBagConstraints();
+		gbc_txtMealPreparation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtMealPreparation.anchor = GridBagConstraints.SOUTH;
+		gbc_txtMealPreparation.insets = new Insets(0, 0, 5, 5);
+		gbc_txtMealPreparation.gridx = 2;
+		gbc_txtMealPreparation.gridy = 8;
+		add(txtMealPreparation, gbc_txtMealPreparation);
+		txtMealPreparation.setColumns(10);
 
-		JButton btnMakeStatistics = new JButton("Accept");
-		btnMakeStatistics.addActionListener(new BtnMakeStatisticsActionListener());
-		btnMakeStatistics.setBounds(50, 416, 85, 21);
-		add(btnMakeStatistics);
+		Label labelPreparationTIme = new Label("Avg. delivery:");
+		GridBagConstraints gbc_labelPreparationTIme = new GridBagConstraints();
+		gbc_labelPreparationTIme.anchor = GridBagConstraints.EAST;
+		gbc_labelPreparationTIme.fill = GridBagConstraints.VERTICAL;
+		gbc_labelPreparationTIme.insets = new Insets(0, 0, 5, 5);
+		gbc_labelPreparationTIme.gridx = 1;
+		gbc_labelPreparationTIme.gridy = 9;
+		add(labelPreparationTIme, gbc_labelPreparationTIme);
 
-		JButton btnDelete = new JButton("Delete");
-		btnDelete.addActionListener(new BtnDeleteActionListener());
-		btnDelete.setBounds(233, 416, 85, 21);
-		add(btnDelete);
+		txtDeliveryTime = new JTextField();
+		txtDeliveryTime.setEditable(false);
+		GridBagConstraints gbc_txtDeliveryTime = new GridBagConstraints();
+		gbc_txtDeliveryTime.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtDeliveryTime.anchor = GridBagConstraints.SOUTH;
+		gbc_txtDeliveryTime.insets = new Insets(0, 0, 5, 5);
+		gbc_txtDeliveryTime.gridx = 2;
+		gbc_txtDeliveryTime.gridy = 9;
+		add(txtDeliveryTime, gbc_txtDeliveryTime);
+		txtDeliveryTime.setColumns(10);
 
-		comboBoxTables = new JComboBox();
-		comboBoxTables.setModel(new DefaultComboBoxModel(new String[] { "", "City", "Restaurant" }));
-		comboBoxTables.setEnabled(false);
-		comboBoxTables.setBounds(222, 114, 29, 21);
-		add(comboBoxTables);
+		Label labelAverageTime = new Label("Avg.Table Preparation:");
+		GridBagConstraints gbc_labelAverageTime = new GridBagConstraints();
+		gbc_labelAverageTime.anchor = GridBagConstraints.EAST;
+		gbc_labelAverageTime.fill = GridBagConstraints.VERTICAL;
+		gbc_labelAverageTime.insets = new Insets(0, 0, 5, 5);
+		gbc_labelAverageTime.gridx = 1;
+		gbc_labelAverageTime.gridy = 10;
+		add(labelAverageTime, gbc_labelAverageTime);
 
-		Label labelChooseRestaurant = new Label("Choose one restaurant");
-		labelChooseRestaurant.setEnabled(false);
-		labelChooseRestaurant.setBounds(49, 114, 152, 21);
-		add(labelChooseRestaurant);
+		txtTablePreparation = new JTextField();
+		txtTablePreparation.setEditable(false);
+		txtTablePreparation.setColumns(10);
+		GridBagConstraints gbc_txtTablePreparation = new GridBagConstraints();
+		gbc_txtTablePreparation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTablePreparation.anchor = GridBagConstraints.SOUTH;
+		gbc_txtTablePreparation.insets = new Insets(0, 0, 5, 5);
+		gbc_txtTablePreparation.gridx = 2;
+		gbc_txtTablePreparation.gridy = 10;
+		add(txtTablePreparation, gbc_txtTablePreparation);
+
+		btnClear = new JButton("Clear");
+		btnClear.setEnabled(false);
+		btnClear.addActionListener(new BtnClearActionListener());
+		GridBagConstraints gbc_btnClear = new GridBagConstraints();
+		gbc_btnClear.insets = new Insets(0, 0, 0, 5);
+		gbc_btnClear.gridwidth = 2;
+		gbc_btnClear.anchor = GridBagConstraints.NORTH;
+		gbc_btnClear.gridx = 1;
+		gbc_btnClear.gridy = 11;
+		add(btnClear, gbc_btnClear);
 
 	}
 
-	private class TxtKeyListener extends KeyAdapter {
-		@Override
-		public void keyTyped(KeyEvent e) {
-			if (comboBoxOptionRestaurantCity.getSelectedItem() == "City") {
-				labelInsertNameCity.setEnabled(true);
-				textSearch.setEnabled(true);
-			} else {
-				labelInsertNameCity.setEnabled(false);
-				textSearch.setEnabled(false);
-			}
-		}
-	}
-
-	private class BtnDeleteActionListener implements ActionListener {
+	private class BtnClearActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			textPreparationTime.setText("");
-			textAverageMeal.setText("");
-			textTimeTable.setText("");
-			textCommandTime.setText("");
-			textSearch.setText("");
+			txtDeliveryTime.setText("");
+			txtMealPreparation.setText("");
+			txtTablePreparation.setText("");
+			txtCommandTime.setText("");
+			btnClear.setEnabled(false);
+			cbOption.setSelectedIndex(0);
 		}
 	}
 
-	private class TxtKeyCombox extends KeyAdapter {
-		@Override
-		public void keyTyped(KeyEvent e) {
-			if (comboBoxOptionRestaurantCity.getSelectedItem() == "restaurant") {
-				try {
-					tables = tableImplementCombox.readAll();
-				} catch (NumberFormatException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InstantiationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IllegalAccessException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				for (int i = 0; i < tables.length; i++) {
-					comboBoxTables.addItem(tables[i]);
-				}
-			} else {
-				comboBoxTables.setEnabled(false);
-			}
-		}
-	}
 
-	private class BtnMakeStatisticsActionListener implements ActionListener {
+
+	private class BtnCalculateActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			double Preparation = 0;
-			double Mealtime = 0;
-			double Tabletime = 0;
-			double Commandtime = 0;
-
-			if (comboBoxOptionRestaurantCity.getSelectedItem() == "restaurant") {
-				tableDBStatistics = (Table) comboBoxTables.getSelectedItem();
-
-				try {
-					textPreparationTime.setText(String.valueOf(Control.getAverageTablePreparationTime(tableDBStatistics,
-							tableDBStatistics.getSeats(), tableDBStatistics.getID(), textSearch.getText())));
-
-					textAverageMeal.setText(String.valueOf(Control.getAverageMealPreparationTime(tableDBStatistics,
-							tableDBStatistics.getSeats(), tableDBStatistics.getID(), textSearch.getText())));
-					textTimeTable.setText(String.valueOf(Control.getAverageCheckDeliveryTime(tableDBStatistics,
-							tableDBStatistics.getSeats(), tableDBStatistics.getID(), textSearch.getText())));
-					textCommandTime.setText(String.valueOf(Control.getAverageCommandTime(tableDBStatistics,
-							tableDBStatistics.getSeats(), tableDBStatistics.getID(), textSearch.getText())));
-				} catch (NumberFormatException | InstantiationException | IllegalAccessException
-						| ClassNotFoundException | SQLException | ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
+			double CommandTime = 0,MealTime = 0, DeliveryTime = 0, TableTime = 0;
+			String option = (String)cbOption.getSelectedItem();
+			int seats;
+			switch((String)cbSeats.getSelectedItem()) {
+			case "2":
+				seats = 2;
+				break;
+			case "4":
+				seats = 4;
+				break;
+			case "6":
+				seats = 6;
+				break;
+			default:
+				seats = -1;
 			}
-
-			else {
-				restaurantTable = readAllTablesFromCity(textSearch.getText());
-				for (int i = 0; i < restaurantTable.length; i++) {
-					tableDBStatistics = restaurantTable[i];
-					try {
-						Preparation += Control.getAverageTablePreparationTime(tableDBStatistics,
-								tableDBStatistics.getSeats(), tableDBStatistics.getID(), textSearch.getText());
-						Mealtime += Control.getAverageMealPreparationTime(tableDBStatistics,
-								tableDBStatistics.getSeats(), tableDBStatistics.getID(), textSearch.getText());
-						Tabletime += Control.getAverageCheckDeliveryTime(tableDBStatistics,
-								tableDBStatistics.getSeats(), tableDBStatistics.getID(), textSearch.getText());
-						Commandtime += Control.getAverageCommandTime(tableDBStatistics, tableDBStatistics.getSeats(),
-								tableDBStatistics.getID(), textSearch.getText());
-
-					} catch (NumberFormatException | InstantiationException | IllegalAccessException
-							| ClassNotFoundException | SQLException | ParseException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
+			try {
+				switch (option) {
+				case "City":
+					System.out.println(tableDB + "\n"+ seats+ "\n"+(String) cbCity.getSelectedItem());
+					CommandTime = sc.getAverageCommandTime(tableDB, seats, -1, (String) cbCity.getSelectedItem());
+					MealTime = sc.getAverageMealPreparationTime(tableDB, seats, -1, (String) cbCity.getSelectedItem());
+					DeliveryTime = sc.getAverageCheckDeliveryTime(tableDB, seats, -1,
+							(String) cbCity.getSelectedItem());
+					TableTime = sc.getAverageTablePreparationTime(tableDB, seats, -1,
+							(String) cbCity.getSelectedItem());
+					break;
+				case "Restaurant":
+					System.out.println(tableDB + "\n"+ seats+ "\n"+Integer.parseInt((String) cbRestaurant.getSelectedItem()));
+					CommandTime = sc.getAverageCommandTime(tableDB, seats,
+							Integer.parseInt((String) cbRestaurant.getSelectedItem()), null);
+					MealTime = sc.getAverageMealPreparationTime(tableDB, seats,
+							Integer.parseInt((String) cbRestaurant.getSelectedItem()), null);
+					DeliveryTime = sc.getAverageCheckDeliveryTime(tableDB, seats,
+							Integer.parseInt((String) cbRestaurant.getSelectedItem()), null);
+					TableTime = sc.getAverageTablePreparationTime(tableDB, seats,
+							Integer.parseInt((String) cbRestaurant.getSelectedItem()), null);
+					break;
+				default:
+					// Should never happen
 				}
-				textPreparationTime.setText(String.valueOf(Preparation/restaurantTable.length));
-				textAverageMeal.setText(String.valueOf(Mealtime/restaurantTable.length));
-				textTimeTable.setText(String.valueOf(Tabletime/restaurantTable.length));
-				textCommandTime.setText(String.valueOf(Commandtime/restaurantTable.length));
-
+			} catch (NumberFormatException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InstantiationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IllegalAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+			try {
+				txtCommandTime.setText((CommandTime / 1000) + " s");
+			} catch (ArithmeticException x) {
+				txtCommandTime.setText("*No registered times*");
+			}
+			try {
+				txtMealPreparation.setText((MealTime/1000) + " s");
+			}catch(ArithmeticException x) {
+				txtMealPreparation.setText("*No registered times*");
+			}
+			try {
+				txtDeliveryTime.setText((DeliveryTime/1000) + " s");
+			}catch(ArithmeticException x) {
+				txtDeliveryTime.setText("*No registered times*");
+			}
+			try {
+				txtTablePreparation.setText((TableTime/1000) + " s");
+			}catch(ArithmeticException x) {
+				txtTablePreparation.setText("*No registered times*");
+			}
+			btnClear.setEnabled(true);
 		}
 	}
 	
-	public TableImplementation[] readAllTablesFromCity(String city) {
-		TableImplementation[] tables = null;
-		ArrayList<TableImplementation> aux = new ArrayList<TableImplementation>();
-		try {
-			tables = (TableImplementation[]) new TableImplementation().readAll();
-			for(int i=0; i<tables.length ; i++) {
-				if(tables[i].getCity().equals(city)) {
-					aux.add(tables[i]);
-				}
+	private class CbOptionItemListener implements ItemListener {
+		public void itemStateChanged(ItemEvent e) {
+			switch ((String) cbOption.getSelectedItem()) {
+			case "City":
+				lblCity.setEnabled(true);
+				cbCity.setEnabled(true);
+				btnCalculate.setEnabled(true);
+				lblRestaurant.setEnabled(false);
+				cbRestaurant.setEnabled(false);
+				lblSeats.setEnabled(true);
+				cbSeats.setEnabled(true);
+				break;
+			case "Restaurant":
+				lblRestaurant.setEnabled(true);
+				cbRestaurant.setEnabled(true);
+				btnCalculate.setEnabled(true);
+				lblCity.setEnabled(false);
+				cbCity.setEnabled(false);
+				lblSeats.setEnabled(true);
+				cbSeats.setEnabled(true);
+				break;
+			default:
+				lblRestaurant.setEnabled(false);
+				cbRestaurant.setEnabled(false);
+				btnCalculate.setEnabled(false);
+				lblCity.setEnabled(false);
+				cbCity.setEnabled(false);
+				lblSeats.setEnabled(false);
+				cbSeats.setEnabled(false);
 			}
-			tables = new TableImplementation[aux.size()];
-			for(int i=0; i<aux.size();i++) {
-				tables[i] = aux.get(i);
-			}
-		} catch (NumberFormatException | InstantiationException | IllegalAccessException | ClassNotFoundException
-				| SQLException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		return tables;
 	}
 }

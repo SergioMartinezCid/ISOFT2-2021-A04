@@ -56,7 +56,7 @@ public class TableDAO {
 		HashMap<Date, Integer> stateHistory = new HashMap<>();
 		for (int i = 0; i < query_result_statetimes.size(); i++) {
 			stateHistory.put(TableDAO.mysqlDateTimeSDF.parse(query_result_statetimes.get(i).get(0).toString()),
-					Integer.valueOf(query_result_statetimes.get(i).get(0).toString()));
+					getIntegerValue((String)query_result_statetimes.get(i).get(1)));
 		}
 		table.setStateHistory(stateHistory);
 	}
@@ -189,4 +189,37 @@ public class TableDAO {
 
 	}
 
+	private int getIntegerValue(String s) {
+		int r = 0;
+		switch (s.toUpperCase()) {
+		case "FREE":
+			r = Table.FREE;
+			break;
+		case "RESERVED":
+			r = Table.RESERVED;
+			break;
+		case "BUSY":
+			r = Table.BUSY;
+			break;
+		case "ASKING":
+			r = Table.ASKING;
+			break;
+		case "WAITING_FOR_FOOD":
+			r = Table.WAITING_FOR_FOOD;
+			break;
+		case "SERVED":
+			r = Table.SERVED;
+			break;
+		case "WAITING_FOR_BILL":
+			r = Table.WAITING_FOR_BILL;
+			break;
+		case "PAYING":
+			r = Table.PAYING;
+			break;
+		case "IN_PREPARATION":
+			r = Table.IN_PREPARATION;
+			break;
+		}
+		return r;
+	}
 }

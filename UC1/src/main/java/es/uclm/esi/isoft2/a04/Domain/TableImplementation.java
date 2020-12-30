@@ -131,7 +131,6 @@ public class TableImplementation implements Table {
 
 	@Override
 	public void setStateHistory(HashMap<Date, Integer> stateHistory) {
-		// TODO Auto-generated method stub
-		
+		this.stateHistory = stateHistory;
 	}
 }
