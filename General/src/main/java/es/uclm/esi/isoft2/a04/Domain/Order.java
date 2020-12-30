@@ -1,12 +1,18 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
- * @version 0.1.0
+ * @version 0.2.0
  *
  */
 public interface Order {
+
+	public static final int OPEN = 0;
+	public static final int CLOSED = 1;
+	public static final int PAYED = 2;
 
 	/**
 	 * @return The id of the order
@@ -35,8 +41,9 @@ public interface Order {
 
 	/**
 	 * @param state The new state of the order
+	 * @throws InvalidStateException
 	 */
-	void setState(int state);
+	void setState(int state) throws InvalidStateException;
 
 	/**
 	 * @return The date of the order
@@ -47,6 +54,16 @@ public interface Order {
 	 * @param datetime The new time of the order
 	 */
 	void setDatetime(Date datetime);
+	
+	/**
+	 * @return The payment method (either "CASH" or the name of the credit card used
+	 */
+	String getPaymentMethod();
+	
+	/**
+	 * @param paymentMethod The payment method (either "CASH" or the name of the credit card used
+	 */
+	void setPaymentMethod(String paymentMethod);
 
 	/**
 	 * @return The waiter attending this order
@@ -60,26 +77,54 @@ public interface Order {
 
 	/**
 	 * @return All the orders in the database
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws InvalidStateException
+	 * @throws ParseException
+	 * @throws InvalidTypeException
 	 */
-	Order[] readAll();
+	Order[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			ParseException, InvalidStateException, InvalidTypeException;
 
 	/**
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws InvalidStateException
+	 * @throws ParseException
+	 * @throws InvalidTypeException
 	 * 
 	 */
-	void read();
+	void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			ParseException, InvalidStateException, InvalidTypeException;
 
 	/**
 	 * @return Number of modified lines in the database
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws SQLException
 	 */
-	int create();
+	int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
 	/**
 	 * @return Number of modified lines in the database
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	int update();
+	int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
 	/**
 	 * @return Number of modified lines in the database
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	int delete();
+	int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 }

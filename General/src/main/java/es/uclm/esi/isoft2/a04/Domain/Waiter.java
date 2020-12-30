@@ -1,6 +1,7 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 
 /**
  * @version 0.2.0
@@ -20,18 +21,22 @@ public interface Waiter extends Subject {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 * @throws NumberFormatException
+	 * @throws ParseException
 	 */
 	Waiter[] readAll() throws NumberFormatException, InstantiationException, IllegalAccessException,
-			ClassNotFoundException, SQLException;
+			ClassNotFoundException, SQLException, ParseException;
 
 	/**
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
+	 * @throws ParseException
+	 * @throws NumberFormatException
 	 * 
 	 */
-	void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
+	void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
+			NumberFormatException, ParseException;
 
 	/**
 	 * @return Number of modified lines in the database

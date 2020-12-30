@@ -1,6 +1,7 @@
 package es.uclm.esi.isoft2.a04.Persistence;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Vector;
 
 import es.uclm.esi.isoft2.a04.Domain.Table;
@@ -21,9 +22,10 @@ public class WaiterDAO {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ParseException
 	 */
 	public WaiterImplementation[] readAllWaiters() throws NumberFormatException, InstantiationException,
-			IllegalAccessException, ClassNotFoundException, SQLException {
+			IllegalAccessException, ClassNotFoundException, SQLException, ParseException {
 
 		Vector<Vector<Object>> query_result = new Vector<Vector<Object>>();
 
@@ -50,9 +52,11 @@ public class WaiterDAO {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ParseException
+	 * @throws NumberFormatException
 	 */
-	public void readWaiter(WaiterImplementation waiter)
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	public void readWaiter(WaiterImplementation waiter) throws InstantiationException, IllegalAccessException,
+			ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 
 		Vector<Vector<Object>> query_result_waiter, query_result_table = new Vector<Vector<Object>>();
 		String sql_waiter = "SELECT Name FROM Waiter WHERE WaiterId =" + waiter.getID() + ";";
@@ -77,7 +81,7 @@ public class WaiterDAO {
 	 * Note: no table must have been assigned to waiter before executing this method
 	 * 
 	 * @param waiter The WaiterImplementation instance to be created
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -98,7 +102,7 @@ public class WaiterDAO {
 
 	/**
 	 * @param waiter The WaiterImplementation instance to be updated
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -125,7 +129,7 @@ public class WaiterDAO {
 
 	/**
 	 * @param waiter The WaiterImplementation instance to be deleted
-	 * @return The number of modified columns
+	 * @return The number of modified rows
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
