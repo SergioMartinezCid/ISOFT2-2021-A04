@@ -26,7 +26,7 @@ public class TableBookingTest {
 		//assertThrows(SQLException.class, () -> tester.bookTable(date, turn, 3, clientID));
 
 	}
-	
+	/**
 	@Test
 	public void testFindTable() {
 		assertThrows(Exception.class, () -> tester.findTable(3, date, turn));
@@ -36,6 +36,7 @@ public class TableBookingTest {
 			e.printStackTrace();
 		}
 	}
+	**/
 	/*
 	@Test
 	public void testAssignWaiter() {
