@@ -34,6 +34,10 @@ import java.awt.BorderLayout;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+/**
+ * @version 0.1.2
+ *
+ */
 public class IU_Booking extends JPanel {
 	private JPanel contentPane;
 	private JLabel lblClient;

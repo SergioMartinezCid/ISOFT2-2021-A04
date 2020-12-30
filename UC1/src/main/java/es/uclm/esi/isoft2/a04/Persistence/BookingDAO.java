@@ -9,7 +9,7 @@ import es.uclm.esi.isoft2.a04.Domain.*;
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class BookingDAO {

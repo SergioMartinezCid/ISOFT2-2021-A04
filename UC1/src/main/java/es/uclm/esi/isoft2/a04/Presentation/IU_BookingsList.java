@@ -30,6 +30,10 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 
+/**
+ * @version 0.1.2
+ *
+ */
 public class IU_BookingsList extends JPanel {
 	private JScrollPane scrollPane;
 	private JPanel pnlAssign;
@@ -88,6 +92,10 @@ public class IU_BookingsList extends JPanel {
 		
 	}
 	
+	/***
+	 * Schedule the needed timers
+	 * @param t
+	 */
 	public void scheduleTimers(Booking.TURN t) {
 		Date time = new Date(),now = new Date();
 		tt = new TimerTask() {
@@ -132,6 +140,10 @@ public class IU_BookingsList extends JPanel {
 		System.out.println("Tasks scheduled at: " + time);
 	}
 	
+	/**
+	 * Cancel the bookings of the turn t
+	 * @param t
+	 */
 	public void cancelBookings(Booking.TURN t) {
 		//Cancell the bookings
     	while(!listModel.isEmpty()) {
@@ -162,6 +174,11 @@ public class IU_BookingsList extends JPanel {
     	}
 	}
 	
+	/**
+	 * Update the list with the Bookings of the selected turn and Date
+	 * @param turn
+	 * @param date
+	 */
 	public void updateList(Booking.TURN turn, Date date) {
 		Booking b = new Booking();
 		listModel.clear();

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class TableBooking {

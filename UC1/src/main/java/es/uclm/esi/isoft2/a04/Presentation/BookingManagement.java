@@ -16,6 +16,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.BevelBorder;
 
+/**
+ * @version 0.2.0
+ *
+ */
 public class BookingManagement {
 
 	private JFrame frame;
