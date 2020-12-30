@@ -12,12 +12,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
-import es.uclm.esi.isoft2.a04.Domain.StatisticsControl;
+
 import es.uclm.esi.isoft2.a04.Domain.*;
 import java.awt.Cursor;
 
+/**
+ * @version 0.1.1
+ * @author Daniel
+ *
+ */
 public class JPanelStatistics extends JPanel {
 	private JTextField textPreparationTime;
 	private JTextField textAverageMeal;
@@ -31,7 +37,7 @@ public class JPanelStatistics extends JPanel {
 
 	public Table[] tables;
 	public TableImplementation tableImplementCombox;
-	public TableImplementation restaurantTable;
+	public TableImplementation[] restaurantTable;
 	public TableImplementation tableImplementaitonCity;
 	public Table tableDBStatistics;
 	private StatisticsControl Control;
@@ -157,7 +163,27 @@ public class JPanelStatistics extends JPanel {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			if (comboBoxOptionRestaurantCity.getSelectedItem() == "restaurant") {
-				tables = tableImplementCombox.readAll();
+				try {
+					tables = tableImplementCombox.readAll();
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InstantiationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				for (int i = 0; i < tables.length; i++) {
 					comboBoxTables.addItem(tables[i]);
 				}
@@ -196,9 +222,9 @@ public class JPanelStatistics extends JPanel {
 			}
 
 			else {
-				restaurantTable = tableImplementaitonCity.readAllTablesForCity(textSearch.getText());
-				for (int i = 0; i < RestaurantTable.length(); i++) {
-					tableDBStatistics = RestaurantTable[i];
+				restaurantTable = readAllTablesFromCity(textSearch.getText());
+				for (int i = 0; i < restaurantTable.length; i++) {
+					tableDBStatistics = restaurantTable[i];
 					try {
 						Preparation += Control.getAverageTablePreparationTime(tableDBStatistics,
 								tableDBStatistics.getSeats(), tableDBStatistics.getID(), textSearch.getText());
@@ -216,12 +242,34 @@ public class JPanelStatistics extends JPanel {
 					}
 
 				}
-				textPreparationTime.setText(String.valueOf(Preparation/RestaurantTable.length()));
-				textAverageMeal.setText(String.valueOf(Mealtime/RestaurantTable.length()));
-				textTimeTable.setText(String.valueOf(Tabletime/RestaurantTable.length()));
-				textCommandTime.setText(String.valueOf(Commandtime/RestaurantTable.length()));
+				textPreparationTime.setText(String.valueOf(Preparation/restaurantTable.length));
+				textAverageMeal.setText(String.valueOf(Mealtime/restaurantTable.length));
+				textTimeTable.setText(String.valueOf(Tabletime/restaurantTable.length));
+				textCommandTime.setText(String.valueOf(Commandtime/restaurantTable.length));
 
 			}
 		}
+	}
+	
+	public TableImplementation[] readAllTablesFromCity(String city) {
+		TableImplementation[] tables = null;
+		ArrayList<TableImplementation> aux = new ArrayList<TableImplementation>();
+		try {
+			tables = (TableImplementation[]) new TableImplementation().readAll();
+			for(int i=0; i<tables.length ; i++) {
+				if(tables[i].getCity().equals(city)) {
+					aux.add(tables[i]);
+				}
+			}
+			tables = new TableImplementation[aux.size()];
+			for(int i=0; i<aux.size();i++) {
+				tables[i] = aux.get(i);
+			}
+		} catch (NumberFormatException | InstantiationException | IllegalAccessException | ClassNotFoundException
+				| SQLException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tables;
 	}
 }
