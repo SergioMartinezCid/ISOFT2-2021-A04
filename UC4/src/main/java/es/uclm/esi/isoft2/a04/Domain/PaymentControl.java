@@ -66,10 +66,8 @@ public class PaymentControl {
 			throw new InvalidStateException();
 		if (isCash) {
 			order.setPaymentMethod("CASH");
-			System.out.println("Simulate cash payment");
 		} else {
 			order.setPaymentMethod(paymentMethod);
-			System.out.println("Simulate card payment");
 		}
 		return order.update();
 	}

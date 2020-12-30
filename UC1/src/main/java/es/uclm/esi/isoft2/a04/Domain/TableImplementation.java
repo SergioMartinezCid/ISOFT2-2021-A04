@@ -2,7 +2,10 @@ package es.uclm.esi.isoft2.a04.Domain;
 
 import java.util.Arrays;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
+
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 import es.uclm.esi.isoft2.a04.Persistence.TableDAO;
 
@@ -17,6 +20,7 @@ public class TableImplementation implements Table {
 	private int state;
 	private int restaurantID;
 	private String city;
+	private HashMap<Date, Integer> stateHistory;
 	private TableDAO tableDAO;
 
 	/**
@@ -42,6 +46,11 @@ public class TableImplementation implements Table {
 	@Override
 	public int getState() {
 		return this.state;
+	}
+	
+	@Override
+	public HashMap<Date, Integer> getStateHistory() {
+		return stateHistory;
 	}
 
 	@Override
@@ -97,17 +106,17 @@ public class TableImplementation implements Table {
 	}
 
 	@Override
-	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 		this.tableDAO.readTable(this);
 	}
 
 	@Override
-	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 		return this.tableDAO.createTable(this);
 	}
 
 	@Override
-	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+	public int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
 		return this.tableDAO.updateTable(this);
 	}
 
