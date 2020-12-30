@@ -50,11 +50,11 @@ public class BeverageDAO {
 				.read("SELECT Name, Cost FROM Food WHERE FoodId = " + beverage.getID() + ";");
 		for (int i = 0; i < query_result_food.size(); i++) {
 			beverage.setName(query_result_food.get(i).get(0).toString());
-			beverage.setCost(Float.valueOf(query_result_food.get(i).get(2).toString()));
+			beverage.setCost(Float.valueOf(query_result_food.get(i).get(1).toString()));
 		}
 
 		Vector<Vector<Object>> query_result_drink = Broker.getBroker()
-				.read("SELECT inStorage FROM Drink WHERE FoodId = " + beverage.getID() + ";");
+				.read("SELECT InStorage FROM Drink WHERE FoodId = " + beverage.getID() + ";");
 		for (int i = 0; i < query_result_drink.size(); i++) {
 			beverage.setAmount(Float.valueOf(query_result_drink.get(i).get(0).toString()));
 		}
@@ -106,11 +106,11 @@ public class BeverageDAO {
 	 */
 	public int updateBeverage(BeverageImplementation beverage)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		int modifiedRows = Broker.getBroker().update("UPDATE Food SET Name='" + beverage.getName() + ", Cost="
+		int modifiedRows = Broker.getBroker().update("UPDATE Food SET Name='" + beverage.getName() + "', Cost="
 				+ beverage.getCost() + " WHERE FoodId = " + beverage.getID() + ";");
 
 		modifiedRows += Broker.getBroker().update(
-				"UPDATE Drink SET InStorage = " + beverage.getAmount() + " WHERE FoodId = " + beverage.getID() + ";");
+				"UPDATE Drink SET InStorage ='" + beverage.getAmount() + "' WHERE FoodId = " + beverage.getID() + ";");
 
 		if (beverage.getOrder() != null) {
 			modifiedRows += Broker.getBroker()

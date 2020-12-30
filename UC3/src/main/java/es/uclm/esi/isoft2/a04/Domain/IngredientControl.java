@@ -78,7 +78,16 @@ public class IngredientControl {
 	public Ingredient[] getIngredientsBelowThreshold(Ingredient ingredientdb, int threshold)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
 			InvalidTypeException, ParseException {
-		return (Ingredient[]) Arrays.stream(ingredientdb.readAll())
-				.filter(ingredient -> ingredient.getAmount() < threshold).toArray();
+		
+		Ingredient[] ingredient_check = ingredientdb.readAll();
+		Ingredient[] ingredient_list_threshold = new Ingredient[ingredient_check.length];
+		
+		for(int i = 0; i<ingredient_check.length; i++) {
+			if (ingredient_check[i].getAmount() < threshold) {
+				ingredient_list_threshold[i] = ingredient_check[i];
+			}
+		}
+		
+		return ingredient_list_threshold;
 	}
 }
