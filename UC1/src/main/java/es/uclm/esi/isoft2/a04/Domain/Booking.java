@@ -1,12 +1,14 @@
 package es.uclm.esi.isoft2.a04.Domain;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import es.uclm.esi.isoft2.a04.Persistence.BookingDAO;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class Booking {
@@ -151,5 +153,12 @@ public class Booking {
 	 */
 	public int delete() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.bookingDAO.deleteBooking(this);
+	}
+	
+	public String toString() {
+		Date date = this.getDate();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+		String strDate = dateFormat.format(date); 
+		return "Table: " + this.getTable().getID() + " / Turn: " + this.getTurn() + " / Date: " + strDate + " / Client: " + this.getClientID();
 	}
 }
