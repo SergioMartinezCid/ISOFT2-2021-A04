@@ -11,8 +11,13 @@
 	<dependency>
 		<groupId>es.uclm.esi.isoft2.a04</groupId>
 		<artifactId>General</artifactId>
-		<version>0.2.2</version>
+		<version>0.2.3</version>
 	</dependency>
+	<dependency>
+			<groupId>es.uclm.esi.isoft2.a04</groupId>
+			<artifactId>UC2</artifactId>
+			<version>0.2.0</version>
+		</dependency>
 	<dependency>
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>
