@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class TableBooking {
@@ -64,22 +64,25 @@ public class TableBooking {
 		TableImplementation foundTable = null;
 		int i = 0, j;
 		boolean isValid;
-		while (foundTable != null && i < tables.length) {
-			if (tables[i].getSeats() != seats)
+		while (foundTable == null && i < tables.length) {
+			if (tables[i].getSeats() != seats) {
+				i++;
 				continue;
+			}
 			if (tables[i].getState() != Table.FREE) {
+				i++;
 				continue;
 			}
 			isValid = true;
 			for (j = 0; j < bookings.length && isValid; j++) {
 				isValid = !(bookings[j].getTable().getID() == tables[i].getID()
-						&& bookings[j].getDate().toInstant().truncatedTo(ChronoUnit.DAYS)
-								.equals(date.toInstant().truncatedTo(ChronoUnit.DAYS))
+						&& bookings[j].getDate().equals(date)
 						&& bookings[j].getTurn() == turn);
 			}
 			if (isValid) {
 				foundTable = (TableImplementation) tables[i];
 			}
+			i++;
 		}
 		return foundTable;
 	}

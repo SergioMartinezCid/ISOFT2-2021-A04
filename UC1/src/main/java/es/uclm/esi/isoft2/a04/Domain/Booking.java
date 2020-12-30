@@ -3,11 +3,12 @@ package es.uclm.esi.isoft2.a04.Domain;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import es.uclm.esi.isoft2.a04.Persistence.BookingDAO;
 
 /**
- * @version 0.1.2
+ * @version 0.1.3
  *
  */
 public class Booking {

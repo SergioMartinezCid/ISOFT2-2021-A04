@@ -12,7 +12,7 @@ import es.uclm.esi.isoft2.a04.Domain.*;
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public class TableDAO {
@@ -137,10 +137,10 @@ public class TableDAO {
 
 		String sql_table = "UPDATE TableRestaurant SET RestaurantId = " + table.getRestaurantID() + ", Seats = "
 				+ table.getSeats() + " WHERE TableId = " + table.getID() + ";";
-		String sql_state = "INSERT INTO StateTimes VALUES ('"
-				+ DateTimeFormatter.ISO_DATE_TIME.format(OffsetDateTime.now()) + "', " + table.getID() + ", '"
-				+ (table.getState()+1) + "');";
-		return Broker.getBroker().update(sql_table) + Broker.getBroker().update(sql_state);
+		String sql_state = "INSERT INTO StartTimes VALUES (NOW(), " + table.getID() + ", '" + (table.getState() + 1) + "');";
+		int modifiedRows = Broker.getBroker().update(sql_table) + Broker.getBroker().update(sql_state);
+    updateStateHistory(table);
+    return modifiedRows;
 	}
 
 	/**
@@ -153,13 +153,11 @@ public class TableDAO {
 	 */
 	public int deleteOrder(TableImplementation table)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-
 		String sql_orders = "DELETE FROM OrderRestaurant WHERE TableId = " + table.getID() + ";";
 		String sql_state = "DELETE FROM StateTimes WHERE TableId = " + table.getID() + ";";
 		String sql_booking = "DELETE FROM Booking WHERE TableId = " + table.getID() + ";";
 		String sql_table = "DELETE FROM TableRestaurant WHERE TableId =" + table.getID() + ";";
 		return Broker.getBroker().update(sql_orders) + Broker.getBroker().update(sql_state) + Broker.getBroker().update(sql_booking) + Broker.getBroker().update(sql_table);
-
 	}
 
 }
