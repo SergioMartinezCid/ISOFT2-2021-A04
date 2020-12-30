@@ -3,10 +3,11 @@ package es.uclm.esi.isoft2.a04.Domain;
 import java.util.Date;
 
 /**
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 public abstract class FoodImplementation implements Food {
+	
 	public static final int BEING_PREPARED = 0;
 	public static final int READY = 1;
 	public static final int DELIVERED = 2;
@@ -14,6 +15,7 @@ public abstract class FoodImplementation implements Food {
 	private int id;
 	private String name;
 	private float cost;
+	private int status;
 
 	private OrderImplementation order;
 	private int quantity;
@@ -58,7 +60,7 @@ public abstract class FoodImplementation implements Food {
 
 	@Override
 	public float getCost() {
-		return cost;
+		return cost * quantity;
 	}
 
 	@Override
@@ -124,5 +126,19 @@ public abstract class FoodImplementation implements Food {
 	 */
 	public void setTimeDelivered(Date timeDelivered) {
 		this.timeDelivered = timeDelivered;
+	}
+
+	/**
+	 * @param status the new status of this food
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	/**
+	 * @return the status of this food
+	 */
+	public int getStatus() {
+		return this.status;
 	}
 }

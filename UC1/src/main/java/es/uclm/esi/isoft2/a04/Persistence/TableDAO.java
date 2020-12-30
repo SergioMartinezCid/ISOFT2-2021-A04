@@ -14,7 +14,7 @@ import es.uclm.esi.isoft2.a04.Domain.*;
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
 /**
- * @version 0.1.2
+ * @version 0.1.3
  *
  */
 public class TableDAO {
@@ -118,7 +118,7 @@ public class TableDAO {
 	 * @throws NumberFormatException
 	 */
 	public void readTable(TableImplementation table)
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Vector<Vector<Object>> query_result_table, query_result_state;
 		String sql_table = "SELECT t.TableId, t.RestaurantId, t.Seats, r.City FROM TableRestaurant AS t, Restaurant AS r WHERE t.TableID ="
 				+ table.getID() + " AND t.RestaurantId = r.RestaurantId;";
@@ -138,21 +138,18 @@ public class TableDAO {
 			stateConversion(query_result_state.get(i).get(0).toString().toUpperCase(), table);
 			
 		}
-		updateStateHistory(table);
 	}
 
 	/**
 	 * @param table The TableImplementation instance to be created
-	 * @return The number of modified rows
+	 * @return The number of modified columns
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
-	 * @throws ParseException 
-	 * @throws NumberFormatException 
 	 */
 	public int createTable(TableImplementation table)
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException {
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
 		Vector<Vector<Object>> query_result_id;
 		String sql_table = "INSERT INTO TableRestaurant (RestaurantId, Seats) VALUES (" + table.getRestaurantID() + ", "
@@ -165,13 +162,12 @@ public class TableDAO {
 		for (int i = 0; i < query_result_id.size(); i++) {
 			table.setID(Integer.valueOf(query_result_id.get(i).get(0).toString()));
 		}
-		updateStateHistory(table);
 		return modifiedRows;
 	}
 
 	/**
 	 * @param table The {@link TableImplementation} instance to be updated
-	 * @return The number of modified rows
+	 * @return The number of modified columns
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -192,7 +188,7 @@ public class TableDAO {
 
 	/**
 	 * @param table The {@link TableImplementation} instance to be deleted
-	 * @return The number of modified rows
+	 * @return The number of modified columns
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException

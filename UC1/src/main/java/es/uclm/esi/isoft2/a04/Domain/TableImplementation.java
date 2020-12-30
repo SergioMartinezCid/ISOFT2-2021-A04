@@ -10,7 +10,7 @@ import es.uclm.esi.isoft2.a04.Persistance.Broker;
 import es.uclm.esi.isoft2.a04.Persistence.TableDAO;
 
 /**
- * @version 0.1.2
+ * @version 0.1.3
  *
  */
 public class TableImplementation implements Table {
@@ -20,8 +20,8 @@ public class TableImplementation implements Table {
 	private int state;
 	private int restaurantID;
 	private String city;
-	private HashMap<Date, Integer> stateHistory;
 	private TableDAO tableDAO;
+	private HashMap<Date, Integer> stateHistory;
 
 	/**
 	 * 
@@ -47,7 +47,7 @@ public class TableImplementation implements Table {
 	public int getState() {
 		return this.state;
 	}
-
+	
 	@Override
 	public void setStateHistory(HashMap<Date, Integer> stateHistory) {
 		this.stateHistory = stateHistory;
@@ -111,14 +111,12 @@ public class TableImplementation implements Table {
 	}
 
 	@Override
-	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
-			NumberFormatException, ParseException {
+	public void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		this.tableDAO.readTable(this);
 	}
 
 	@Override
-	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException,
-			NumberFormatException, ParseException {
+	public int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		return this.tableDAO.createTable(this);
 	}
 

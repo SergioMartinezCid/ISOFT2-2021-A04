@@ -9,7 +9,7 @@ import es.uclm.esi.isoft2.a04.Domain.WaiterImplementation;
 import es.uclm.esi.isoft2.a04.Persistance.Broker;
 
 /**
- * @version 0.1.2
+ * @version 0.1.3
  *
  */
 public class WaiterDAO {
@@ -77,7 +77,7 @@ public class WaiterDAO {
 	 * Note: no table must have been assigned to waiter before executing this method
 	 * 
 	 * @param waiter The WaiterImplementation instance to be created
-	 * @return The number of modified rows
+	 * @return The number of modified columns
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -98,7 +98,7 @@ public class WaiterDAO {
 
 	/**
 	 * @param waiter The WaiterImplementation instance to be updated
-	 * @return The number of modified rows
+	 * @return The number of modified columns
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -125,7 +125,7 @@ public class WaiterDAO {
 
 	/**
 	 * @param waiter The WaiterImplementation instance to be deleted
-	 * @return The number of modified rows
+	 * @return The number of modified columns
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException

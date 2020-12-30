@@ -8,7 +8,7 @@ import java.util.Date;
 import es.uclm.esi.isoft2.a04.Persistence.BookingDAO;
 
 /**
- * @version 0.1.2
+ * @version 0.1.3
  *
  */
 public class Booking {
@@ -121,7 +121,7 @@ public class Booking {
 	}
 
 	/**
-	 * @return The number of modified rows
+	 * @return The number of modified columns
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -132,7 +132,7 @@ public class Booking {
 	}
 
 	/**
-	 * @return The number of modified rows
+	 * @return The number of modified columns
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
@@ -143,7 +143,7 @@ public class Booking {
 	}
 
 	/**
-	 * @return The number of modified rows
+	 * @return The number of modified columns
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException

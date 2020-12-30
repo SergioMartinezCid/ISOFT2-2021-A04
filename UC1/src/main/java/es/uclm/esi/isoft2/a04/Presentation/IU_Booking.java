@@ -36,7 +36,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 /**
- * @version 0.1.2
+ * @version 0.1.3
  *
  */
 public class IU_Booking extends JPanel {

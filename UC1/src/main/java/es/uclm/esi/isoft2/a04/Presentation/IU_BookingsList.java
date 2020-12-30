@@ -33,7 +33,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 
 /**
- * @version 0.1.2
+ * @version 0.1.3
  *
  */
 public class IU_BookingsList extends JPanel {

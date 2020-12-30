@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * @version 0.1.1
+ * @version 0.1.2
  *
  */
 public interface Table {
@@ -34,16 +34,16 @@ public interface Table {
 	int getRestaurantID();
 	
 	String getCity();
-	
+
 	HashMap<Date, Integer> getStateHistory();
 	
 	void setStateHistory(HashMap<Date, Integer> stateHistory);
+	
+	Table[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
-	Table[] readAll() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException;
+	void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
-	void read() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException;
-
-	int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException;
+	int create() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException;
 
 	int update() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, NumberFormatException, ParseException;
 
